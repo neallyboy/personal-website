@@ -4,6 +4,7 @@ import "./globals.css";
 import styles from './layout.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import data from '../data/data.json';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +21,12 @@ export const metadata: Metadata = {
   description: "Personal website of Neal Miran",
 };
 
+type NavLink = {
+  href: string;
+  text: string;
+  icon?: string;
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,26 +39,12 @@ export default function RootLayout({
       >
         <nav className={styles.nav}>
           <div className={styles.navContent}>
-            <Link href="/" className={styles.navLink}>
-              <Image 
-                src="/home.svg" 
-                alt="" 
-                width={20} 
-                height={20} 
-                className={styles.navIcon}
-              />
-              Home
-            </Link>
-            <Link href="/projects" className={styles.navLink}>
-              <Image 
-                src="/projects.svg" 
-                alt="" 
-                width={20} 
-                height={20} 
-                className={styles.navIcon}
-              />
-              Projects
-            </Link>
+            {data.navLinks.map((link: NavLink) => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                {link.icon && <Image src={link.icon} alt="" width={20} height={20} className={styles.navIcon} />}
+                {link.text}
+              </Link>
+            ))}
           </div>
         </nav>
         {children}

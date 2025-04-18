@@ -56,5 +56,22 @@
     "school": "University Name",
     "location": "City, State",
     "graduationYear": "2021"
-  }
+  },
+  "navLinks": [
+    {
+      "href": "/home",
+      "text": "Home",
+      "icon": "/home.svg"
+    },
+    {
+      "href": "/projects",
+      "text": "Projects",
+      "icon": "/projects.svg"
+    },
+    {
+      "href": "/about",
+      "text": "About",
+      "icon": "/globe.svg"
+    }
+  ]
 }
