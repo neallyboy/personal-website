@@ -1,0 +1,60 @@
+{
+  "personalInfo": {
+    "name": "Neal Miran",
+    "title": "Software Engineer",
+    "location": "New York, NY",
+    "email": "nealmiran@gmail.com",
+    "linkedin": "https://linkedin.com/",
+    "about": "I'm a software engineer with experience in full-stack development, specializing in TypeScript, React, and Node.js."
+  },
+  "experience": [
+    {
+      "title": "Software Engineer",
+      "company": "Current Company",
+      "location": "New York, NY",
+      "startDate": "2023",
+      "endDate": "Present",
+      "achievements": [
+        "Led development of key features resulting in 40% increase in user engagement",
+        "Architected and implemented scalable solutions using React and Node.js",
+        "Mentored junior developers and conducted code reviews"
+      ]
+    },
+    {
+      "title": "Software Developer",
+      "company": "Previous Company",
+      "location": "New York, NY",
+      "startDate": "2021",
+      "endDate": "2023",
+      "achievements": [
+        "Developed and maintained multiple web applications",
+        "Collaborated with cross-functional teams to deliver projects on time",
+        "Implemented automated testing reducing bugs by 30%"
+      ]
+    }
+  ],
+  "skills": [
+    "TypeScript",
+    "React",
+    "Node.js",
+    "Python",
+    "SQL",
+    "AWS",
+    "Git",
+    "Docker"
+  ],
+  "projects": [
+    {
+      "title": "Personal Website",
+      "description": "A modern, responsive personal website built with Next.js and TypeScript.",
+      "technologies": ["Next.js", "TypeScript", "React"],
+      "link": "https://github.com/yourusername/personal-website"
+    }
+  ],
+  "education": {
+    "degree": "Bachelor of Science in Computer Science",
+    "school": "University Name",
+    "location": "City, State",
+    "graduationYear": "2021"
+  }
+}
