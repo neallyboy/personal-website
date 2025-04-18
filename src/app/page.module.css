@@ -15,7 +15,7 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-  margin: 0 auto 24px; /* Increased bottom margin to match other sections */
+  margin: 0 auto 24px;
   max-width: 800px;
   padding: 32px 24px;
   width: 100%;
@@ -50,7 +50,7 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-  margin: 0 auto 24px; /* Increased bottom margin for consistent spacing */
+  margin: 0 auto 40px;
   max-width: 800px;
   padding: 24px;
   width: 100%;
@@ -64,23 +64,27 @@
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   text-transform: uppercase;
+  text-align: left;
 }
 
 .text {
   font-size: 16px;
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.9);
-  margin: 0 0 16px; /* Consistent spacing after text blocks */
+  margin: 0 0 16px;
+  text-align: left;
 }
 
 .list {
-  margin: 12px 0 0;
+  list-style-type: disc;
+  list-style-position: outside;
+  margin: 12px 0 16px;
   padding-left: 20px;
-  margin-bottom: 16px; /* Consistent spacing after text blocks */
 }
 
 .listItem {
   margin-bottom: 10px;
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .jobTitle {
@@ -110,10 +114,6 @@
 
 .link:hover {
   text-decoration: underline;
-}
-
-.projects {
-  margin-bottom: 2rem;
 }
 
 .contact {
@@ -157,35 +157,4 @@
   font-size: 16px;
   color: rgba(0, 0, 0, 0.9);
   margin: 0 0 4px;
-}
-
-/* Removed unnecessary whitespace and ensured consistent alignment */
-
-.section, .hero {
-  margin: 0 auto 24px;
-  padding: 24px;
-}
-
-.sectionTitle, .text, .list {
-  margin: 0;
-  padding: 0;
-}
-
-/* Added spacing between sections and ensured left alignment */
-
-.section {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 40px;
-  padding: 20px;
-}
-
-.sectionTitle {
-  text-align: left;
-  margin-bottom: 16px; /* Consistent spacing after section titles */
-}
-
-.text, .list {
-  text-align: left;
-  margin-bottom: 16px; /* Consistent spacing after text blocks */
 }

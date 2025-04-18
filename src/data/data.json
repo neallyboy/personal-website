@@ -59,7 +59,7 @@
   },
   "navLinks": [
     {
-      "href": "/home",
+      "href": "/",
       "text": "Home",
       "icon": "/home.svg"
     },

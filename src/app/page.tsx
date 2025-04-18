@@ -1,13 +1,14 @@
 import styles from './page.module.css';
+import data from '../data/data.json';
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1 className={styles.name}>Neal Miran</h1>
-          <h2 className={styles.title}>Team Lead, DevOps at Oxford Properties Group</h2>
-          <p className={styles.location}>Richmond Hill, Ontario, Canada</p>
+          <h1 className={styles.name}>{data.personalInfo.name}</h1>
+          <h2 className={styles.title}>{data.personalInfo.title}</h2>
+          <p className={styles.location}>{data.personalInfo.location}</p>
         </div>
       </section>
 
@@ -21,39 +22,27 @@ export default function Home() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>TECHNICAL SKILLS</h2>
+        <h2 className={styles.sectionTitle}>SKILLS</h2>
         <p className={styles.text}>
-          HTML • CSS • JavaScript • React • jQuery • JSON • PostgreSQL • Oracle • DB2 • Teradata • 
-          Microsoft SQL Server • NodeJS • ExpressJS • npm • Webpack • Babel • Bootstrap • Material-UI • 
-          RESTful API • Git • GitHub • Git Lab • Python • Selenium • Unix/Linux • PowerApps • Power Automate • 
-          Azure DevOps • JIRA • ServiceNow • SSIS • Web Development
+          {data.skills.join(' • ')}
         </p>
       </section>
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>EXPERIENCE</h2>
         <div className={styles.experienceList}>
-          <div className={styles.experienceItem}>
-            <h3 className={styles.jobTitle}>Team Lead, DevOps</h3>
-            <p className={styles.company}>Oxford Properties Group</p>
-            <p className={styles.period}>December 2022 - Present</p>
-            <ul className={styles.list}>
-              <li className={styles.listItem}>Design, build, and support cloud or on-premises environments for digital products to be stable and scalable</li>
-              <li className={styles.listItem}>Monitor and enhance on-premises SSIS packages, Azure Data Factory pipelines and Boomi processes</li>
-              <li className={styles.listItem}>Managing and maintaining public facing websites using Site Generator in Agility CMS</li>
-            </ul>
-          </div>
-
-          <div className={styles.experienceItem}>
-            <h3 className={styles.jobTitle}>Integration Developer</h3>
-            <p className={styles.company}>Oxford Properties Group</p>
-            <p className={styles.period}>February 2021 - December 2022</p>
-            <ul className={styles.list}>
-              <li className={styles.listItem}>Developing and maintaining upstream and downstream integrations related to internal legacy applications</li>
-              <li className={styles.listItem}>Work closely with SRE team for production deployment in ServiceNow</li>
-              <li className={styles.listItem}>Create and maintain documentation of updated or new processes</li>
-            </ul>
-          </div>
+          {data.experience.map((exp, index) => (
+            <div key={index} className={styles.experienceItem}>
+              <h3 className={styles.jobTitle}>{exp.title}</h3>
+              <p className={styles.company}>{exp.company}</p>
+              <p className={styles.period}>{exp.startDate} - {exp.endDate}</p>
+              <ul className={styles.list}>
+                {exp.achievements.map((achievement, i) => (
+                  <li key={i} className={styles.listItem}>{achievement}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -61,15 +50,9 @@ export default function Home() {
         <h2 className={styles.sectionTitle}>EDUCATION</h2>
         <div className={styles.educationList}>
           <div className={styles.educationItem}>
-            <h3 className={styles.schoolName}>York University</h3>
-            <p className={styles.degree}>Certificate, Full Stack Developer</p>
-            <p className={styles.period}>2019 - 2020</p>
-          </div>
-
-          <div className={styles.educationItem}>
-            <h3 className={styles.schoolName}>Ryerson University</h3>
-            <p className={styles.degree}>Bachelor of Commerce - BCom, Information Technology Management</p>
-            <p className={styles.period}>2004 - 2008</p>
+            <h3 className={styles.schoolName}>{data.education.school}</h3>
+            <p className={styles.degree}>{data.education.degree}</p>
+            <p className={styles.period}>{data.education.graduationYear}</p>
           </div>
         </div>
       </section>
@@ -77,9 +60,9 @@ export default function Home() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>CONTACT</h2>
         <div className={styles.contact}>
-          <p className={styles.text}>Email: neal.miran@gmail.com</p>
+          <p className={styles.text}>Email: {data.personalInfo.email}</p>
           <p className={styles.text}>
-            LinkedIn: <a href="https://www.linkedin.com/in/nealmiran" className={styles.link}>www.linkedin.com/in/nealmiran</a>
+            LinkedIn: <a href={data.personalInfo.linkedin} className={styles.link}>{data.personalInfo.linkedin.replace('https://', '')}</a>
           </p>
         </div>
       </section>
