@@ -51,12 +51,14 @@
       "link": "https://github.com/yourusername/personal-website"
     }
   ],
-  "education": {
-    "degree": "Bachelor of Science in Computer Science",
-    "school": "University Name",
-    "location": "City, State",
-    "graduationYear": "2021"
-  },
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",
+      "school": "University Name",
+      "location": "City, State",
+      "graduationYear": "2021"
+    }
+  ],
   "navLinks": [
     {
       "href": "/",

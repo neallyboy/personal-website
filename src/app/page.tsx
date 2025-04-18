@@ -48,11 +48,13 @@ export default function Home() {
       <section className="w-full max-w-3xl bg-white rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08)] mb-10 p-6">
         <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-black/[0.08] uppercase text-text-primary">EDUCATION</h2>
         <div className="flex flex-col gap-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-1 text-text-primary">{data.education.school}</h3>
-            <p className="text-base mb-1 text-text-primary">{data.education.degree}</p>
-            <p className="text-sm text-text-secondary">{data.education.graduationYear}</p>
-          </div>
+          {data.education.map((edu, index) => (
+            <div key={index}>
+              <h3 className="text-lg font-semibold mb-1 text-text-primary">{edu.school}</h3>
+              <p className="text-base mb-1 text-text-primary">{edu.degree}</p>
+              <p className="text-sm text-text-secondary">{edu.graduationYear}</p>
+            </div>
+          ))}
         </div>
       </section>
 
