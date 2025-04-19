@@ -9,7 +9,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-black/[0.08] px-8 py-4 sm:py-2">
+    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-black/[0.08] px-8 py-4 sm:py-2 z-10">
       <div className="max-w-3xl mx-auto">
         <ul className="flex justify-between sm:justify-start sm:gap-12">
           {navLinks.map((link) => (

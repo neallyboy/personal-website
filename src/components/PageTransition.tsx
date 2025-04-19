@@ -14,6 +14,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.7, ease: 'easeInOut' }}
+      suppressHydrationWarning
     >
       {children}
     </motion.div>
