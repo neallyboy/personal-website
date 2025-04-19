@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from '../components/Navbar';
-import { AnimatePresence } from 'framer-motion';
-import PageTransition from '@/components/PageTransition';
+import ClientLayout from '../components/ClientLayout';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <Navbar />
-        <AnimatePresence mode="wait">
-          <PageTransition key={new Date().getTime()}>
+        <div className="content-wrapper">
+          <ClientLayout>
             {children}
-          </PageTransition>
-        </AnimatePresence>
+          </ClientLayout>
+        </div>
       </body>
     </html>
   );
