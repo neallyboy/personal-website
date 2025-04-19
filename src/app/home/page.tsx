@@ -1,12 +1,8 @@
-import PageTransition from '@/components/PageTransition';
-
 export default function HomePage() {
   return (
-    <PageTransition>
-      <div>
-        <h1>Welcome to the Home Page</h1>
-        <p>This is the home page of the website.</p>
-      </div>
-    </PageTransition>
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <p>This is the home page of the website.</p>
+    </div>
   );
 }
