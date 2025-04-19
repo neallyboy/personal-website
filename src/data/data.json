@@ -63,17 +63,17 @@
     {
       "href": "/",
       "text": "Home",
-      "icon": "/home.svg"
+      "icon": "/icons/home.svg"
     },
     {
       "href": "/projects",
       "text": "Projects",
-      "icon": "/projects.svg"
+      "icon": "/icons/projects.svg"
     },
     {
       "href": "/about",
       "text": "About",
-      "icon": "/globe.svg"
+      "icon": "/icons/globe.svg"
     }
   ]
 }

@@ -1,6 +1,4 @@
-@import '../styles/base.css';
-@import '../styles/components.css';
-@import '../styles/utilities.css';
+@tailwind base;
 
 :root {
   --font-sans: var(--font-geist-sans);
