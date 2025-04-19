@@ -4,4 +4,7 @@ export interface NavLink {
   icon: string;
 }
 
+// This is the type that was referenced in types/index.ts
+export type NavItem = NavLink;
+
 export type NavLinkList = NavLink[];

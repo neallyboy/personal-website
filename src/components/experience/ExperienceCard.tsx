@@ -1,8 +1,8 @@
 'use client';
 
-import { Experience } from '../data/experience/types';
-import OptimizedImage from './OptimizedImage';
-import { getDateRange } from '../utils/dateFormat';
+import { Experience } from '@/data/experience/types';
+import OptimizedImage from '@/components/ui/OptimizedImage';
+import { getDateRange } from '@/utils/formatters/dateFormatter';
 
 interface ExperienceCardProps {
   experience: Experience;

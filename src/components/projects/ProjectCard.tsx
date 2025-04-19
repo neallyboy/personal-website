@@ -1,5 +1,5 @@
-import { Project } from '../data/projects/types';
-import OptimizedImage from './OptimizedImage';
+import { Project } from '@/data/projects/types';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface ProjectCardProps {
   project: Project;

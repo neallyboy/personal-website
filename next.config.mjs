@@ -1,6 +1,5 @@
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
   images: {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -17,7 +16,7 @@ const nextConfig: NextConfig = {
     optimizeCss: false, // Disable CSS optimization
     typedRoutes: true,
   },
-  webpack: (config: import('webpack').Configuration) => {
+  webpack: (config) => {
     config.cache = false; // Disable webpack caching
     return config;
   },

@@ -1,10 +1,8 @@
-import Section from '../components/Section';
-import SectionHeader from '../components/SectionHeader';
-import ExperienceCard from '../components/ExperienceCard';
-import { experiences } from '../data/experience/data';
-import { personalInfo } from '../data/personal-info/data';
-import { education } from '../data/education/data';
-import { skills } from '../data/skills/data';
+import { Section, SectionHeader, ExperienceCard } from '@/components';
+import { experiences } from '@/data/experience/data';
+import { personalInfo } from '@/data/personal-info/data';
+import { education } from '@/data/education/data';
+import { skills } from '@/data/skills/data';
 
 export default function Home() {
   return (
