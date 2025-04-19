@@ -1,9 +1,8 @@
-import data from '../../data/data.json';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import ProjectCard from '../../components/ProjectCard';
 import PageTransition from '@/components/PageTransition';
-import type { Project } from '../../types/data';
+import { projects } from '@/data/projects/data';
 
 export default function Projects() {
   return (
@@ -13,9 +12,9 @@ export default function Projects() {
           <Section>
             <SectionHeader title="Current Projects" />
             <div className="flex flex-col gap-6">
-              {data.projects
-                .filter((project: Project) => !project.completed)
-                .map((project: Project) => (
+              {projects
+                .filter((project) => !project.completed)
+                .map((project) => (
                   <ProjectCard key={project.title} project={project} />
                 ))}
             </div>
@@ -24,9 +23,9 @@ export default function Projects() {
           <Section>
             <SectionHeader title="Completed Projects" />
             <div className="flex flex-col gap-6">
-              {data.projects
-                .filter((project: Project) => project.completed)
-                .map((project: Project) => (
+              {projects
+                .filter((project) => project.completed)
+                .map((project) => (
                   <ProjectCard key={project.title} project={project} />
                 ))}
             </div>

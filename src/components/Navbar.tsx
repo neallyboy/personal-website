@@ -1,30 +1,31 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import data from '../data/data.json';
-import { NavLink } from '../types/data';
+import { usePathname } from 'next/navigation';
+import { navLinks } from '../data/navigation/data';
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <nav className="sticky top-0 z-40 bg-white border-b border-black/[0.08]">
-      <div className="max-w-3xl mx-auto px-6 py-4 flex gap-6">
-        {data.navLinks.map((link: NavLink) => (
-          <Link 
-            key={link.href} 
-            href={link.href} 
-            className="flex items-center gap-2 text-text-secondary hover:text-text-primary font-medium no-underline"
-          >
-            {link.icon && (
-              <Image 
-                src={link.icon} 
-                alt="" 
-                width={20} 
-                height={20} 
-                className="w-5 h-5"
-              />
-            )}
-            {link.text}
-          </Link>
-        ))}
+    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-black/[0.08] px-8 py-4 sm:py-2">
+      <div className="max-w-3xl mx-auto">
+        <ul className="flex justify-between sm:justify-start sm:gap-12">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-sm ${
+                  pathname === link.href ? 'text-text-primary' : 'text-text-secondary'
+                }`}
+              >
+                <Image src={link.icon} alt={link.text} width={20} height={20} className="opacity-80" />
+                <span>{link.text}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </nav>
   );
