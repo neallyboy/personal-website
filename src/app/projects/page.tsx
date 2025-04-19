@@ -5,11 +5,11 @@ import { projects } from '@/data/projects/data';
 
 export default function Projects() {
   return (
-    <main className="min-h-screen bg-page-bg px-5 py-10">
+    <main className="min-h-screen bg-page-bg px-5 pt-[53px] pb-10">
       <div className="max-w-3xl mx-auto">
         <Section>
           <SectionHeader title="Current Projects" />
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {projects
               .filter((project) => !project.completed)
               .map((project) => (
@@ -20,7 +20,7 @@ export default function Projects() {
 
         <Section>
           <SectionHeader title="Completed Projects" />
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {projects
               .filter((project) => project.completed)
               .map((project) => (

@@ -8,8 +8,8 @@ import { skills } from '../data/skills/data';
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center min-h-screen bg-page-bg px-5 pt-24 pb-10 leading-relaxed">
-      <Section className="mb-6 px-6 py-8">
+    <main className="flex flex-col items-center min-h-screen bg-page-bg px-5 pt-[53px] pb-10 leading-relaxed">
+      <Section className="px-6 py-8">
         <div className="text-center">
           <h1 className="text-3xl font-semibold mb-1 text-text-primary">{personalInfo.name}</h1>
           <h2 className="text-lg mb-1 text-text-primary">{personalInfo.title}</h2>
