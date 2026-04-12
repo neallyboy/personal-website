@@ -118,9 +118,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         )}
         {process.env.NODE_ENV === "production" && (
-          <Script
-            id="clarity"
-            strategy="afterInteractive"
+          <script
             dangerouslySetInnerHTML={{
               __html: `(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
