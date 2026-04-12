@@ -117,6 +117,24 @@ export default async function RootLayout({
             }}
           />
         )}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-ZPW1EKDFMT"
+              strategy="afterInteractive"
+            />
+            <Script
+              id="ga4"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZPW1EKDFMT');`,
+              }}
+            />
+          </>
+        )}
       </head>
       <Providers>
         <Column
