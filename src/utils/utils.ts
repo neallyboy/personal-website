@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { notFound } from "next/navigation";
 
 type Team = {
   name: string;
@@ -25,7 +26,7 @@ type Metadata = {
 
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
-    return [];
+    notFound();
   }
 
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
