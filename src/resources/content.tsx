@@ -87,9 +87,10 @@ const home: Home = {
       I'm Neal, a Team Lead, DevOps at{" "}
       <Text as="span" size="xl" weight="strong">
         Oxford Properties Group
-      </Text>
-      , where I lead engineering teams delivering <br /> enterprise web
-      platforms. After hours, I run a homelab and build my own projects.
+      </Text>{" "}
+      — technically deep, business minded. I turn complex problems into
+      integrations, internal tools, and web platforms that close gaps, connect
+      data, and help teams make better decisions.
     </>
   ),
 };
@@ -239,7 +240,12 @@ const about: About = {
         timeframe: "Jul 2017 - Oct 2018",
         logo: "/images/logos/rethink_solutions_inc__logo.jpeg",
         role: "Data Specialist · Permanent Full-time",
-        achievements: [],
+        achievements: [
+          "Served as team lead in migrating current and historical data for top-ranking Fortune 500 companies, processing gigabytes of data from multiple sources with 100,000+ records and 100+ fields per dataset.",
+          "Mapped unstructured client data to existing database structures, applying cleansing techniques including error corrections, unifications, outlier handling, and data enrichment to ensure integrity before load.",
+          "Developed reusable SQL procedures, functions, and queries to support migration workflows and generated ad hoc reports to support internal and external decision-making.",
+          "Tested and validated imported data against source systems on local web servers and databases, ensuring accuracy and completeness for each client implementation.",
+        ],
         images: [],
       },
       {
@@ -247,7 +253,12 @@ const about: About = {
         timeframe: "Oct 2016 - Jul 2017",
         logo: "/images/logos/plexxissoftware_logo.jpeg",
         role: "Developer & Data Analyst · Permanent Full-time",
-        achievements: [],
+        achievements: [
+          "Wrote PL/SQL queries, views, and stored procedures to automate data sanity checks and support large-scale data migration into Oracle databases.",
+          "Maintained and developed new features in Oracle Forms for the ERP front end, working collaboratively with developers, project managers, account managers, and end customers.",
+          "Mapped and connected multiple high-volume disparate data sources across mixed environments and platforms into common data structures, and created custom data file exports for third-party software integrations.",
+          "Provided technical support to the application development team, analysing available information and applying systems knowledge to diagnose and resolve issues.",
+        ],
         images: [],
       },
       {
@@ -255,7 +266,13 @@ const about: About = {
         timeframe: "Sep 2011 - Oct 2016",
         logo: "/images/logos/teknion_logo.jpeg",
         role: "Systems Analyst · Permanent Full-time",
-        achievements: [],
+        achievements: [
+          "Maintained the manufacturing system's item master, bill of materials, and routings, ensuring accuracy and completeness of all data to meet customer demand on time in coordination with Engineering, Materials, and Production.",
+          "Created bills of materials and routings from detailed engineering drawings for special products, entering all component parts, BOM structures, and routing attachments in the customised item data system.",
+          "Processed engineering change orders including TFS manufacturing changes across part numbers, BOMs, routings, and all related EDM processes, and maintained the existing part numbering system in the Item Master.",
+          "Designed IT specifications for new custom forms, developed test case scenarios, created reference and training documentation, and delivered end-user and shop floor training on new systems and production techniques.",
+          "Built custom reports in Enterprise Cyberquery (eCQ) for various departments and contributed to Lean Office process improvement initiatives.",
+        ],
         images: [],
       },
       {
@@ -263,7 +280,11 @@ const about: About = {
         timeframe: "Sep 2009 - Aug 2011",
         logo: "/images/logos/teknion_logo.jpeg",
         role: "Oracle Configurator Developer · Permanent Full-time",
-        achievements: [],
+        achievements: [
+          "Developed and supported Oracle Configurator models on an ongoing basis, working closely with the Product Lifecycle Management team to create configurable models for sales and service modules including Order Management and iStore.",
+          "Provided solutions and validation testing across configurator model structure, rules, and user interfaces, and assisted with the build release process as required.",
+          "Collaborated across the organisation to gather accurate requirements and implement enhancements and problem resolutions.",
+        ],
         images: [],
       },
       {
@@ -271,7 +292,12 @@ const about: About = {
         timeframe: "May 2009 - Aug 2009",
         logo: "/images/logos/vmware_logo.jpeg",
         role: "Helpdesk Support Specialist · Contract Full-time",
-        achievements: [],
+        achievements: [
+          "Provided first-level customer and technical support to Fortune 100 companies, filing technical support incidents through Siebel Call Center 7 and working through support entitlements.",
+          "Used Oracle EBS Service Contracts and Install Base modules to determine support eligibility, verify primary licence holders, and handle renewal and expiry inquiries.",
+          "Ran Discovery Reports to identify customer accounts and validate product SKUs and entitlements.",
+          "Recognised for outstanding job performance and asked to mentor and train new hires shortly after joining.",
+        ],
         images: [],
       },
     ],

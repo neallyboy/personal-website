@@ -2,6 +2,7 @@ import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import { about, baseURL, person, social } from "@/resources";
 import {
+  Accordion,
   Avatar,
   Button,
   Column,
@@ -224,7 +225,7 @@ export default function About() {
               </Heading>
               <Column fillWidth marginBottom="40">
                 <Timeline
-                  size="s"
+                  size="xs"
                   items={about.work.experiences.map((experience, index) => ({
                     label: (
                       <Row
@@ -270,50 +271,62 @@ export default function About() {
                     ),
                     state: index === 0 ? "active" : "default",
                     children: (
-                      <Column
+                      <Accordion
                         key={`children-${experience.company}-${experience.timeframe}`}
-                        fillWidth
-                        gap="m"
-                        paddingTop="8"
+                        title={
+                          <Text
+                            variant="body-default-m"
+                            onBackground="neutral-weak"
+                          >
+                            Key Achievements
+                          </Text>
+                        }
+                        open={index < 2}
+                        size="s"
+                        icon="plus"
+                        iconRotation={45}
                       >
-                        <Column as="ul" gap="16">
-                          {experience.achievements.map(
-                            (
-                              achievement: React.ReactNode,
-                              achIndex: number,
-                            ) => (
-                              <Text
-                                as="li"
-                                variant="body-default-m"
-                                key={`${experience.company}-${achIndex}`}
-                              >
-                                {achievement}
-                              </Text>
-                            ),
-                          )}
-                        </Column>
-                        {experience.images && experience.images.length > 0 && (
-                          <Row fillWidth paddingTop="m" gap="12" wrap>
-                            {experience.images.map((image) => (
-                              <Row
-                                key={image.src}
-                                border="neutral-medium"
-                                radius="m"
-                                minWidth={image.width}
-                                height={image.height}
-                              >
-                                <Media
-                                  enlarge
-                                  radius="m"
-                                  sizes={image.width.toString()}
-                                  alt={image.alt}
-                                  src={image.src}
-                                />
+                        <Column fillWidth gap="m" paddingTop="8">
+                          <Column as="ul" gap="16">
+                            {experience.achievements.map(
+                              (
+                                achievement: React.ReactNode,
+                                achIndex: number,
+                              ) => (
+                                <Text
+                                  as="li"
+                                  variant="body-default-m"
+                                  key={`${experience.company}-${achIndex}`}
+                                >
+                                  {achievement}
+                                </Text>
+                              ),
+                            )}
+                          </Column>
+                          {experience.images &&
+                            experience.images.length > 0 && (
+                              <Row fillWidth paddingTop="m" gap="12" wrap>
+                                {experience.images.map((image) => (
+                                  <Row
+                                    key={image.src}
+                                    border="neutral-medium"
+                                    radius="m"
+                                    minWidth={image.width}
+                                    height={image.height}
+                                  >
+                                    <Media
+                                      enlarge
+                                      radius="m"
+                                      sizes={image.width.toString()}
+                                      alt={image.alt}
+                                      src={image.src}
+                                    />
+                                  </Row>
+                                ))}
                               </Row>
-                            ))}
-                          </Row>
-                        )}
-                      </Column>
+                            )}
+                        </Column>
+                      </Accordion>
                     ),
                   }))}
                 />
