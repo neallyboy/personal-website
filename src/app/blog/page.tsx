@@ -1,7 +1,5 @@
-import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
-import { baseURL, blog, newsletter, person } from "@/resources";
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { baseURL, blog, person } from "@/resources";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -32,14 +30,9 @@ export default function Blog() {
       <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
         {blog.title}
       </Heading>
-      <Column fillWidth flex={1} gap="40">
-        <Posts range={[1, 1]} thumbnail />
-        <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
-        <Mailchimp marginBottom="l" />
-        <Heading as="h2" variant="heading-strong-xl" marginLeft="l">
-          Earlier posts
-        </Heading>
-        <Posts range={[4]} columns="2" />
+      <Column fillWidth paddingY="128" horizontal="center" vertical="center" gap="16">
+        <Heading variant="heading-strong-xl">Coming Soon</Heading>
+        <Text onBackground="neutral-weak">Posts are on their way. Check back soon.</Text>
       </Column>
     </Column>
   );

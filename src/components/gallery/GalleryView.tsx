@@ -1,23 +1,12 @@
 "use client";
 
-import { gallery } from "@/resources";
-import { MasonryGrid, Media } from "@once-ui-system/core";
+import { Column, Heading, Text } from "@once-ui-system/core";
 
 export default function GalleryView() {
   return (
-    <MasonryGrid columns={2} s={{ columns: 1 }}>
-      {gallery.images.map((image, index) => (
-        <Media
-          enlarge
-          priority={index < 10}
-          sizes="(max-width: 560px) 100vw, 50vw"
-          key={image.src}
-          radius="m"
-          aspectRatio={image.orientation === "horizontal" ? "16 / 9" : "3 / 4"}
-          src={image.src}
-          alt={image.alt}
-        />
-      ))}
-    </MasonryGrid>
+    <Column fillWidth paddingY="128" horizontal="center" vertical="center" gap="16">
+      <Heading variant="heading-strong-xl">Coming Soon</Heading>
+      <Text onBackground="neutral-weak">The gallery is on its way. Check back soon.</Text>
+    </Column>
   );
 }

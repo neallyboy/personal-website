@@ -84,7 +84,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Neal, a Team Lead, DevOps & SRE at{" "}
+      I'm Neal, a Team Lead, DevOps at{" "}
       <Text as="span" size="xl" weight="strong">
         Oxford Properties Group
       </Text>
