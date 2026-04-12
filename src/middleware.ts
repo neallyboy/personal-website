@@ -16,6 +16,11 @@ function isProtectedPath(pathname: string): boolean {
 export default auth((request: NextRequest & { auth: unknown }) => {
   const { pathname } = request.nextUrl;
 
+  // Never intercept auth routes or the login page — prevents redirect loops
+  if (pathname.startsWith("/api/auth") || pathname === "/login") {
+    return NextResponse.next();
+  }
+
   if (!isProtectedPath(pathname)) {
     return NextResponse.next();
   }
