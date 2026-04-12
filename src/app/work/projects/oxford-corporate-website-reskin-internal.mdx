@@ -18,28 +18,37 @@ team:
 - [Overview](#overview)
 - [Team](#team)
 - [Key Features](#key-features)
+- [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
 - [Challenges and Learnings](#challenges-and-learnings)
 - [Outcome](#outcome)
 
 ## Overview
 
-<Table data={{
-  headers: [
-    { content: "Category", key: "category" },
-    { content: "Details", key: "details" }
-  ],
-  rows: [
-    ["Client", "Oxford Properties Group"],
-    ["Project Type", "Corporate website reskin and platform modernisation"],
-    ["Duration", "4 months"],
-    ["Team Size", "4 core members: Project Manager, 2 Developers, UX/UI Designer"],
-    ["Stakeholders", "BMC Team (Brand, Marketing & Communications)"],
-    ["Tech Stack", "Next.js, Agility CMS, Elasticsearch, Netlify, React, Tailwind CSS"],
-    ["Hosting", "Netlify with branch-based CI/CD"],
-    ["Delivery", "First in-house delivery in Oxford's history"]
-  ]
-}} />
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Client", "Oxford Properties Group"],
+      ["Project Type", "Corporate website reskin and platform modernisation"],
+      ["Duration", "4 months"],
+      [
+        "Team Size",
+        "4 core members: Project Manager, 2 Developers, UX/UI Designer",
+      ],
+      ["Stakeholders", "BMC Team (Brand, Marketing & Communications)"],
+      [
+        "Tech Stack",
+        "Next.js, Agility CMS, Elasticsearch, Netlify, React, Tailwind CSS",
+      ],
+      ["Hosting", "Netlify with branch-based CI/CD"],
+      ["Delivery", "First in-house delivery in Oxford's history"],
+    ],
+  }}
+/>
 
 Oxford Properties' corporate website reskin was a full platform modernisation, and the first time the project was delivered entirely in-house. Working as a small team of two developers and a UX/UI designer, we replaced the legacy site with a modern stack built on Next.js, Agility CMS, Elasticsearch, and Netlify. Throughout the engagement, we worked in close collaboration with the BMC (Brand, Marketing & Communications) team to ensure every design and content decision aligned with Oxford's brand standards and communications strategy.
 
@@ -58,6 +67,37 @@ This was a lean, cross-functional team operating across both delivery and stakeh
 - **Modern Component Library:** Built a React and Tailwind CSS component library, giving the BMC team a consistent set of UI patterns and accelerating future content updates.
 - **CMS-Driven Content:** Integrated Agility CMS as the headless content layer, empowering the communications and marketing teams to manage and publish content independently without developer intervention.
 - **Property Search with Elasticsearch:** Integrated Elasticsearch as a caching layer for the property search experience on the "Lease With Us" page, enabling fast, responsive filtering of Oxford's commercial portfolio without hitting upstream data sources on every request.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/cw-reskin/cw-reskin-home.png",
+      alt: "Homepage — Oxford Properties reskin",
+      badges: [
+        { label: "Homepage", variant: "neutral" },
+        { label: "Reskin", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/cw-reskin/agility-cms-preview.png",
+      alt: "Agility CMS - Preview mode",
+      badges: [
+        { label: "Preview Mode", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/cw-reskin/agility-cms-modules.png",
+      alt: "Agility CMS - modules",
+      badges: [
+        { label: "Agility Modules", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+  ]}
+/>
 
 ## Technologies Used
 

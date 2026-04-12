@@ -1,13 +1,17 @@
 import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import type React from "react";
+import { LightboxCarousel } from "@/components/LightboxCarousel";
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 import { slugify as transliterate } from "transliteration";
 
 import {
   Accordion,
   AccordionGroup,
+  Badge,
   Button,
   Card,
+  Carousel,
+  Swiper,
   CodeBlock,
   Column,
   Feedback,
@@ -24,6 +28,7 @@ import {
   Row,
   SmartLink,
   Table,
+  Tag,
   Text,
   type TextProps,
 } from "@once-ui-system/core";
@@ -207,6 +212,11 @@ const components = {
   Icon,
   Media,
   SmartLink,
+  Badge,
+  Carousel,
+  Swiper,
+  Tag,
+  LightboxCarousel,
 };
 
 type CustomMDXProps = MDXRemoteProps & {

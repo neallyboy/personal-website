@@ -172,6 +172,24 @@ export const Header = () => {
                   </Row>
                 </>
               )}
+              <>
+                <Line background="neutral-alpha-medium" vert maxHeight="24" />
+                <Row s={{ hide: true }}>
+                  <ToggleButton
+                    prefixIcon="lock"
+                    href="/work/internal"
+                    label="Internal"
+                    selected={pathname.startsWith("/work/internal") || pathname === "/login"}
+                  />
+                </Row>
+                <Row hide s={{ hide: false }}>
+                  <ToggleButton
+                    prefixIcon="lock"
+                    href="/work/internal"
+                    selected={pathname.startsWith("/work/internal") || pathname === "/login"}
+                  />
+                </Row>
+              </>
               {display.themeSwitcher && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />

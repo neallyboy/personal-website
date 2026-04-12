@@ -1,5 +1,6 @@
 import { CustomMDX, ScrollToHash } from "@/components";
 import { Projects } from "@/components/work/Projects";
+import { COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
 import { about, baseURL, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
@@ -19,7 +20,8 @@ import {
   Text,
 } from "@once-ui-system/core";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -42,6 +44,14 @@ export async function generateMetadata({
   const post = posts.find((post) => post.slug === slugPath);
 
   if (!post) return {};
+
+  // Don't leak internal post titles/descriptions to unauthenticated crawlers or previews
+  if (post.metadata.internal) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(COOKIE_NAME)?.value;
+    const isAuth = token ? await verifyAuthToken(token) : false;
+    if (!isAuth) return { title: "Internal Project", robots: { index: false } };
+  }
 
   return Meta.generate({
     title: post.metadata.title,
@@ -66,6 +76,17 @@ export default async function Project({
 
   if (!post) {
     notFound();
+  }
+
+  // Defense-in-depth: middleware handles the redirect, but verify again server-side
+  // so internal content is never rendered if somehow middleware is bypassed.
+  if (post.metadata.internal) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(COOKIE_NAME)?.value;
+    const isAuth = token ? await verifyAuthToken(token) : false;
+    if (!isAuth) {
+      redirect(`/login?from=/work/${slugPath}`);
+    }
   }
 
   const avatars =

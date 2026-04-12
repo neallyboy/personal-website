@@ -11,6 +11,7 @@ import type {
   SocialSharingConfig,
   StyleConfig,
 } from "@/types";
+import { PROTECTED_PATHS } from "@/lib/protected-routes";
 import { home } from "./index";
 
 // IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
@@ -30,13 +31,12 @@ const display: DisplayConfig = {
   themeSwitcher: true,
 };
 
-// Enable password protection on selected routes
-// Set password in the .env file, refer to .env.example
-const protectedRoutes: ProtectedRoutesConfig = {
-  "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
-  "/work/oxford-corporate-website-reskin-internal": true,
-  "/work/internal": true,
-};
+// Enable password protection on selected routes.
+// Edit PROTECTED_PATHS in src/lib/protected-routes.ts — that file is the single source of truth
+// and is also imported by middleware (Edge Runtime), so it must stay free of next/font imports.
+const protectedRoutes: ProtectedRoutesConfig = Object.fromEntries(
+  PROTECTED_PATHS.map((p) => [p, true]),
+) as ProtectedRoutesConfig;
 
 // Import and set font for each variant
 import { Geist } from "next/font/google";
