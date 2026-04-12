@@ -7,6 +7,7 @@ import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { about, blog, display, gallery, person, routes, work } from "@/resources";
 import styles from "./Header.module.scss";
+import { InternalMenu } from "./InternalMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
 type TimeDisplayProps = {
@@ -174,21 +175,7 @@ export const Header = () => {
               )}
               <>
                 <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                <Row s={{ hide: true }}>
-                  <ToggleButton
-                    prefixIcon="lock"
-                    href="/work/internal"
-                    label="Internal"
-                    selected={pathname.startsWith("/work/internal") || pathname === "/login"}
-                  />
-                </Row>
-                <Row hide s={{ hide: false }}>
-                  <ToggleButton
-                    prefixIcon="lock"
-                    href="/work/internal"
-                    selected={pathname.startsWith("/work/internal") || pathname === "/login"}
-                  />
-                </Row>
+                <InternalMenu />
               </>
               {display.themeSwitcher && (
                 <>

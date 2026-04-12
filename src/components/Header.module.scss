@@ -8,6 +8,25 @@
     mask-size: 100% 100%;
 }
 
+/* Internal mega-menu dropdown */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    white-space: nowrap;
+}
+
+/* Desktop/mobile visibility helpers used by InternalMenu */
+.desktopOnly {
+    display: flex;
+}
+
+.mobileOnly {
+    display: none;
+}
+
 @media (max-width: breakpoints.$s) {
     .position {
         top: auto;
@@ -17,5 +36,19 @@
     .mask {
         transform: rotate(180deg);
         bottom: 0;
+    }
+
+    /* On mobile the nav sits at the bottom — open the dropdown upward */
+    .dropdown {
+        top: auto;
+        bottom: calc(100% + 8px);
+    }
+
+    .desktopOnly {
+        display: none;
+    }
+
+    .mobileOnly {
+        display: flex;
     }
 }
