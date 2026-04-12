@@ -1,0 +1,7 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # CSP is managed via next.config.mjs — no Netlify-level override needed
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
