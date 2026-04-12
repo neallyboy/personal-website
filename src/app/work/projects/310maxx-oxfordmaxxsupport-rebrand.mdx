@@ -1,0 +1,149 @@
+---
+title: "310Maxx Rebranding to OxfordMaxxsupport"
+publishedAt: "2025-05-01"
+summary: "A full rebranding of the 310Maxx tenant support platform to OxfordMaxxsupport, introducing new brand assets, enriched building pages, a self-serve account creation flow backed by an on-premises database integration, and a new FAQ section."
+images:
+  - "/images/projects/oxfordmaxxsupport/homepage.png"
+link: "https://www.oxfordmaxxsupport.com/en-ca/"
+team:
+  - name: "Neal Miran"
+    role: "Project Manager, Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Team](#team)
+- [Key Features](#key-features)
+- [Screenshots](#screenshots)
+- [Technologies Used](#technologies-used)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Client", "Oxford Properties Group"],
+      ["Project Type", "Platform rebranding and feature expansion"],
+      ["Previous Brand", "310Maxx"],
+      ["New Brand", "OxfordMaxxsupport"],
+      ["Duration", "4 months"],
+      ["Team Size", "Lead & PM + 1 Developer"],
+      [
+        "Tech Stack",
+        ".NET, on-premises database integration, email-based account provisioning",
+      ],
+      ["Delivery", "In-house end-to-end delivery"],
+    ],
+  }}
+/>
+
+The rebranding of 310Maxx to OxfordMaxxsupport was more than a visual update. It was an opportunity to significantly expand the platform's functionality while aligning it with Oxford's broader brand identity. The project introduced new brand assets across the interface, enriched building-specific pages with location details and hours of operation, added a self-serve account creation flow backed by on-premises data, and introduced a FAQ section to reduce inbound support volume.
+
+## Team
+
+- **Neal Miran, Lead & Project Manager:** Led end-to-end delivery including sprint planning, architecture decisions, stakeholder coordination, and hands-on development. Primary point of contact for both the technical team and business stakeholders.
+- **1 Developer:** Dedicated to investigating and updating the legacy application — including the rebrand changes, new features, and the account creation form.
+- **Retail & Digital Marketing stakeholders:** Key business stakeholders who defined requirements, supplied updated brand assets and copy, and validated the new FAQ content and account creation flow.
+- **IT stakeholders:** Supported the on-premises data integration and downstream account provisioning process.
+
+## Key Features
+
+- **FAQ Section:** Added a structured FAQ section to reduce inbound support tickets by surfacing answers to common tenant and building manager questions directly within the platform. Content was sourced from the support team's most frequent query categories and reviewed before launch.
+- **Brand Asset Refresh:** Replaced all 310Maxx imagery, logos, colour tokens, and typography with OxfordMaxxsupport brand assets. This included auditing the application for hardcoded values that bypassed the styling system and correcting them as part of the rebrand pass.
+- **Building Pages — Location and Hours of Operation:** Enriched individual building pages with structured location information and hours of operation, giving tenants the operational context they previously had to request through support.
+- **Self-Serve Account Creation:** Introduced a new account creation page allowing users to submit their details through a guided form. The form draws from an on-premises data source to populate dropdown options, and on submission the data is routed to a downstream process that handles account provisioning.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/oxfordmaxxsupport/homepage.png",
+      alt: "Homepage — OxfordMaxxsupport rebrand",
+      badges: [
+        { label: "Homepage", variant: "neutral" },
+        { label: "Rebrand", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-01.png",
+      alt: "Account creation — step 1",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-02.png",
+      alt: "Account creation — step 2",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-03.png",
+      alt: "Account creation — step 3",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/faq.png",
+      alt: "FAQ section",
+      badges: [
+        { label: "FAQ", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+  ]}
+/>
+
+## Technologies Used
+
+- **.NET:** The existing web application framework. All new features were built and extended within the legacy .NET application.
+- **On-Premises Database:** Source of record for tenant and building data, used to populate the account creation form and building page content. Read-only integration with no write path back to the source system.
+- **Existing Data Integration:** Building and tenant data is maintained through an existing operational data feed that refreshes once per day, ensuring the account creation form always reflects current information.
+- **Email-Based Account Provisioning:** Account creation submissions are routed to a monitored internal mailbox where a downstream process handles account provisioning. This integration boundary was kept unchanged to avoid modifying the existing provisioning workflow.
+
+## Challenges and Learnings
+
+### Working with a Legacy Application
+
+The most significant technical challenge was the application itself. The platform was a legacy codebase, and a dedicated developer was assigned specifically to investigate its structure before any new work could begin. Understanding how the existing components were wired, where styles were applied, and how the data layer was structured took meaningful upfront effort. This investigation phase was a necessary investment — without it, changes to one part of the application would have had unpredictable knock-on effects elsewhere.
+
+### Sourcing the Dropdown Data for Account Creation
+
+Identifying the right data source for the account creation form's dropdown was not straightforward. The solution was found by tracing an existing data pipeline already in use for operational purposes. That same data feeds into the on-premises database, which became the source for the dropdown options in the form. The integration refreshes on a daily schedule, so the form always reflects data that is at most one day old.
+
+### On-Premises Data Access
+
+Connecting the application to the on-premises database required coordination with IT around network access rules and service account permissions. The integration surface was kept minimal — a single read-only query with no write path back to the source system.
+
+### Email as the Integration Boundary
+
+Using a monitored internal mailbox as the handoff point for account provisioning was a constraint inherited from the existing downstream process, which was explicitly out of scope. Designing the submission format to work with the consuming process — while keeping that process unchanged — required close alignment with the operations team and end-to-end testing against a parallel test environment before production.
+
+### FAQ Content Governance
+
+Sourcing, reviewing, and approving FAQ content turned out to require more stakeholder cycles than anticipated. We decoupled the FAQ feature from the rest of the launch by building it behind a feature flag, allowing the rest of the rebrand to go live while FAQ content worked through the review process independently.
+
+### Building Page Data Ownership
+
+Hours of operation and location data were maintained by the individual building management teams, not a centralised source. Coordinating data collection across multiple buildings, validating it for consistency, and establishing an ongoing process for keeping it current required coordination that sat outside the development scope. We documented the update process and identified a single data owner per building as part of the launch checklist.
+
+## Outcome
+
+The rebranding launched with a consistent OxfordMaxxsupport identity across all pages and components. Building pages now provide tenants with the location and operational information they need without contacting support. The self-serve account creation flow has reduced manual provisioning requests into the IT team, and the FAQ section has contributed to a measurable decrease in common inbound support queries. The email-based integration maintained full compatibility with the existing provisioning process, with no downstream changes required, while enabling the new user-facing experience.
+
+The feature flag approach for the FAQ section proved useful beyond this project — it has since been adopted as a standard pattern for content-dependent features where development and content review timelines are likely to diverge.

@@ -1,0 +1,153 @@
+---
+title: "310Maxx Rebranding to OxfordMaxxsupport (Full)"
+publishedAt: "2025-05-01"
+internal: true
+summary: "A full rebranding of the 310Maxx tenant support platform to OxfordMaxxsupport, introducing new brand assets, enriched building pages, a self-serve account creation flow backed by an on-premises database integration, and a new FAQ section."
+images:
+  - "/images/projects/oxfordmaxxsupport/homepage.png"
+link: "https://www.oxfordmaxxsupport.com/en-ca/"
+team:
+  - name: "Neal Miran"
+    role: "Project Manager, Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Team](#team)
+- [Key Features](#key-features)
+- [Screenshots](#screenshots)
+- [Technologies Used](#technologies-used)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Client", "Oxford Properties Group"],
+      ["Project Type", "Platform rebranding and feature expansion"],
+      ["Previous Brand", "310Maxx"],
+      ["New Brand", "OxfordMaxxsupport"],
+      ["Duration", "4 months"],
+      ["Team Size", "Neal Miran (Lead & PM) + 1 Developer"],
+      [
+        "Tech Stack",
+        ".NET, SQL Server (on-premises), SMTP / Exchange mailbox, IIS",
+      ],
+      ["Delivery", "In-house end-to-end delivery"],
+    ],
+  }}
+/>
+
+The rebranding of 310Maxx to OxfordMaxxsupport was more than a visual update. It was an opportunity to significantly expand the platform's functionality while aligning it with Oxford's broader brand identity. The project introduced new brand assets across the interface, enriched building-specific pages with location details and hours of operation, added a self-serve account creation flow backed by on-premises data, and introduced a FAQ section to reduce inbound support volume.
+
+## Team
+
+- **Neal Miran, Lead & Project Manager:** Led end-to-end delivery including sprint planning, architecture decisions, stakeholder coordination, and hands-on development. Primary point of contact for both the technical team and business stakeholders.
+- **1 Developer:** Dedicated to investigating and updating the legacy .NET application — including the rebrand changes, new features, and the account creation form and API layer.
+- **Retail & Digital Marketing stakeholders (Canadian Business Segment):** Key business stakeholders who defined requirements, supplied updated brand assets and copy, and validated the new FAQ content and account creation flow.
+- **Operations / IT stakeholders:** Owned the on-premises SQL Server database and the downstream Exchange mailbox process. Defined the provisioning schema and validated the email submission format.
+
+## Key Features
+
+- **FAQ Section:** Added a structured FAQ section to reduce inbound support tickets by surfacing answers to common tenant and building manager questions directly within the platform. Content was sourced from the support team's most frequent query categories and reviewed by comms before launch.
+- **Brand Asset Refresh:** Replaced all 310Maxx imagery, logos, colour tokens, and typography with OxfordMaxxsupport brand assets. This included auditing the component library for hardcoded values that bypassed the token system and correcting them as part of the rebrand pass.
+- **Building Pages — Location and Hours of Operation:** Enriched individual building pages with structured location information (address, map link) and hours of operation. Data is maintained in the on-premises database and served through the existing API layer, with the front end updated to render the new fields.
+- **Self-Serve Account Creation:** Introduced a new account creation page allowing users to submit their details through a guided form. The application executes a stored procedure against the on-premises SQL Server database and uses the result set as the datasource for the form's dropdown options. On submission, the form data is serialised as a structured payload and dispatched to a dedicated Exchange mailbox. A separate automated process monitors that mailbox and handles downstream account provisioning in the access management system.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/oxfordmaxxsupport/homepage.png",
+      alt: "Homepage — OxfordMaxxsupport rebrand",
+      badges: [
+        { label: "Homepage", variant: "neutral" },
+        { label: "Rebrand", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-01.png",
+      alt: "Account creation — step 1",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-02.png",
+      alt: "Account creation — step 2",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/createaccount-03.png",
+      alt: "Account creation — step 3",
+      badges: [
+        { label: "Account Creation", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/oxfordmaxxsupport/faq.png",
+      alt: "FAQ section",
+      badges: [
+        { label: "FAQ", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
+  ]}
+/>
+
+## Technologies Used
+
+- **.NET:** The existing web application framework. All new features — the FAQ section, updated building page components, account creation form, and API layer — were built and extended within the legacy .NET application.
+- **SQL Server (On-Premises):** Source of record for tenant and building data. The application executes a stored procedure against this database and uses the result set as the datasource for the account creation form's dropdown options. Read-only; no write path back to the source system.
+- **Angus CSV / SFTP Data Feed:** Building and tenant data is exported as a CSV and delivered to Angus via SFTP as part of an existing process. That same data populates the on-premises SQL Server database queried by the stored procedure. The integration runs once per day, ensuring the form always reflects the latest available data.
+- **IIS:** Hosts the .NET application.
+- **Exchange Mailbox / SMTP:** Account creation submissions are serialised to a structured format and sent to a monitored Exchange mailbox. The downstream provisioning process parses these emails and creates accounts in the access management system. This boundary was kept unchanged to avoid modifying the downstream process.
+
+## Challenges and Learnings
+
+### Working with a Legacy .NET Application
+
+The most significant technical challenge was the application itself. The platform was a legacy .NET codebase, and a dedicated developer was assigned specifically to investigate its structure before any new work could begin. Understanding how the existing components were wired, where styles were applied, and how the data layer was structured took meaningful upfront effort. This investigation phase was a necessary investment — without it, changes to one part of the application would have had unpredictable knock-on effects elsewhere.
+
+### Sourcing the Dropdown Data for Account Creation
+
+Identifying the right data source for the account creation form's dropdown was not straightforward. The solution was found by tracing an existing data pipeline: building and tenant data is already exported as a CSV and sent to Angus via SFTP as part of a separate operational process. That same data feeds into the on-premises SQL Server database, which became the source for the dropdown options in the form. The integration runs on a daily schedule, so the form always reflects data that is at most one day old. Coordinating with the team that owns the Angus feed to confirm the data shape and refresh cadence was a key step before this could be implemented reliably.
+
+### On-Premises Data Access
+
+Connecting the .NET application to the on-premises SQL Server required coordination with IT around network access rules and service account permissions. The integration surface was kept minimal — a single stored procedure executed read-only, with no write path back to the source system.
+
+### Email as the Integration Boundary
+
+Using an Exchange mailbox as the handoff point for account provisioning was a constraint inherited from the existing downstream process, which was explicitly out of scope. Designing the submission payload to be machine-parseable — while the consuming process remained unchanged — required detailed alignment sessions with the Operations team. We agreed on a fixed field schema, a predictable subject line format for routing, and a defined handling path for malformed or incomplete submissions (bounce to a secondary inbox rather than silent drop).
+
+Testing this integration end-to-end required setting up a parallel test mailbox and coordinating with the Operations team to run the provisioning process against it before any production testing. This added lead time but avoided discovering format issues in production.
+
+### FAQ Content Governance
+
+Sourcing, reviewing, and approving FAQ content turned out to require more stakeholder cycles than anticipated. The support team provided the raw question set, but legal and comms both required sign-off on the published answers. We decoupled the FAQ feature from the rest of the launch by building it behind a feature flag, allowing the rest of the rebrand to go live while FAQ content worked through the review process independently.
+
+### Building Page Data Ownership
+
+Hours of operation and location data were maintained by the individual building management teams, not a centralised source. Coordinating data collection across multiple buildings, validating it for consistency, and establishing an ongoing process for keeping it current required coordination that sat outside the development scope. We documented the update process and identified a single data owner per building as part of the launch checklist.
+
+## Outcome
+
+The rebranding launched with a consistent OxfordMaxxsupport identity across all pages and components. Building pages now provide tenants with the location and operational information they need without contacting support. The self-serve account creation flow has reduced manual provisioning requests into the IT team, and the FAQ section has contributed to a measurable decrease in common inbound support queries. The email-based integration maintained full compatibility with the existing provisioning process, with no downstream changes required, while enabling the new user-facing experience.
+
+The feature flag approach for the FAQ section proved useful beyond this project — it has since been adopted as a standard pattern for content-dependent features where development and content review timelines are likely to diverge.
