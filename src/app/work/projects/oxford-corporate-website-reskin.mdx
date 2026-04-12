@@ -1,0 +1,93 @@
+---
+title: "Oxford Properties Corporate Website Reskin"
+publishedAt: "2026-04-02"
+summary: "The first-ever in-house delivery of Oxford's corporate website, a full platform modernisation built on Next.js, Agility CMS, and Netlify, delivered on time by a small cross-functional team."
+images:
+  - "/images/projects/cw-reskin/cw-reskin-home.png"
+link: "https://www.oxfordproperties.com/"
+team:
+  - name: "Neal Miran"
+    role: "Project Manager, Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Team](#team)
+- [Key Features](#key-features)
+- [Technologies Used](#technologies-used)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+Oxford Properties' corporate website reskin was a full platform modernisation, and the first time the project was delivered entirely in-house. Working as a small team of two developers and a UX/UI designer, we replaced the legacy site with a modern stack built on Next.js, Agility CMS, Elasticsearch, and Netlify. Throughout the engagement, we worked in close collaboration with the BMC (Brand, Marketing & Communications) team to ensure every design and content decision aligned with Oxford's brand standards and communications strategy.
+
+## Team
+
+This was a lean, cross-functional team operating across both delivery and stakeholder management:
+
+- **Neal Miran, Project Manager & Developer:** Led the end-to-end delivery, including architecture decisions, sprint planning, CI/CD pipeline setup, and developer coordination.
+- **2 Developers:** Responsible for front-end implementation across the component library, CMS module builds, and Elasticsearch integration.
+- **UX/UI Designer:** Owned the visual design and brand translation, working closely with the development team through an iterative design-to-development handoff process established during the project.
+- **BMC Team (Brand, Marketing & Communications):** Key stakeholders and collaborators throughout the project. The communications, marketing, and brand teams provided content direction, reviewed design decisions, and were the primary users of the CMS post-launch.
+
+## Key Features
+
+- **In-House Delivery:** Managed the full project lifecycle internally for the first time in Oxford's history, from architecture decisions and sprint planning through to production cutover, reducing reliance on external agency partners.
+- **Modern Component Library:** Built a React and Tailwind CSS component library, giving the BMC team a consistent set of UI patterns and accelerating future content updates.
+- **CMS-Driven Content:** Integrated Agility CMS as the headless content layer, empowering the communications and marketing teams to manage and publish content independently without developer intervention.
+- **Property Search with Elasticsearch:** Integrated Elasticsearch as a caching layer for the property search experience on the "Lease With Us" page, enabling fast, responsive filtering of Oxford's commercial portfolio without hitting upstream data sources on every request.
+
+## Technologies Used
+
+- **Next.js:** Core front-end framework, enabling server-side rendering, static generation, and optimised performance at scale.
+- **Agility CMS:** Headless CMS providing structured, flexible content management for the BMC team.
+- **Elasticsearch:** Used as a caching layer for the "Lease With Us" property search, decoupling the front-end from upstream data latency and enabling fast, filtered results.
+- **Netlify:** Hosting and CI/CD platform, used for branch-based preview deployments and the production environment.
+- **React & Tailwind CSS:** Component library foundation for building consistent, reusable UI patterns across the site.
+
+## Challenges and Learnings
+
+This project presented a unique combination of technical and organisational challenges that made estimation and planning particularly demanding.
+
+### Estimating the Unknown
+
+Much of the work had no historical precedent inside Oxford. We were estimating effort for a type of delivery the team had never done before in-house. Defining a credible four-month timeline required breaking the project into discrete modules, stress-testing assumptions early, and building in buffer for the unknowns we knew we'd encounter.
+
+### CMS Module Redesign
+
+A significant portion of the work involved auditing, redesigning, and reimplementing existing Agility CMS modules to align with the new brand. This wasn't a lift-and-shift. Many modules required structural changes to their content models alongside the visual updates, which added complexity that wasn't always visible upfront.
+
+### Shared Modules with Diverging Behaviour
+
+A recurring challenge was dealing with modules reused across multiple page types that needed to behave or appear differently depending on context. A single module might serve one purpose on a property listing page and a different purpose on a regional hub page. Identifying these divergences early, and deciding whether to extend an existing module or introduce a variant, was a constant judgement call that affected both scope and delivery pace.
+
+### New CSS Architecture for the Rebrand
+
+The rebrand introduced a new design language that required building a CSS structure from scratch rather than extending the existing one. Establishing consistent design tokens, utility patterns, and component-level styles that could scale across the full site took careful planning in the early sprints.
+
+### Establishing a Developer–Designer Workflow
+
+This was the first time the team worked with a UX/UI designer in a structured, iterative way. Defining handoff conventions, feedback loops, and what "ready for development" meant took deliberate effort at the start, but once established it became a repeatable model for the rest of the project.
+
+### Single CMS Instance: Staging in Production
+
+One of the more significant architectural constraints was that Agility CMS ran as a single instance shared between the live site and the in-development reskin. There was no separate staging CMS environment. This meant all new modules and styles had to be built within the same instance as production, kept in a staged state throughout development. The risk was real: a content editor could inadvertently publish staged content and affect the live site without knowing it. We had to work closely with the marketing team to limit content changes during the build period, while still giving stakeholders regular visibility into progress and how the reskin was taking shape.
+
+### Zero-Downtime Cutover
+
+The production cutover went as planned with no downtime. Coordinating the switch from the legacy Netlify branch to the new main required careful sequencing of branch deployment configurations and DNS changes. As a contingency, we prepared a backup plan by cloning the existing CMS instance to use as a last resort if anything went wrong, though it was never needed. The go-live was clean.
+
+## Outcome
+
+The reskin launched on time and has modernised Oxford's digital presence with a scalable, maintainable platform. The in-house delivery model proved the team's ability to own a project of this scale end-to-end, and the collaboration model with BMC has since become a blueprint for future digital initiatives. The structured schema work contributed to improved organic visibility, and the component library has significantly reduced onboarding time for future contributors.
+
+The project also surfaced an opportunity to get significantly more value out of Agility CMS than the team had previously. Two editor-facing features were implemented as part of the reskin:
+
+- **Web Preview:** Enabled inline content previewing directly on the page. The preview mode tracks editable fields and highlights them in context. Clicking on a field takes the editor directly to that field in the CMS, making content changes more intuitive and eliminating the guesswork of finding where data lives.
+- **Show Modules Toggle:** Added a toggle that labels each module on the page, clearly indicating which CMS module is responsible for each section of content. This gave editors a much clearer mental model of the page structure and reduced support requests from the marketing team around content management.
+
+Both features meaningfully improved the day-to-day experience for content editors and strengthened the team's relationship with the BMC stakeholders by making the CMS feel less like a black box.
