@@ -1,4 +1,4 @@
-import { COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
+import { auth } from "@/auth";
 import { LEGACY_INTERNAL_PATH, PROTECTED_PATHS } from "@/lib/protected-routes";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -13,7 +13,7 @@ function isProtectedPath(pathname: string): boolean {
   return (PROTECTED_PATHS as readonly string[]).some((p) => pathname === p);
 }
 
-export async function middleware(request: NextRequest) {
+export default auth((request: NextRequest & { auth: unknown }) => {
   const { pathname } = request.nextUrl;
 
   if (!isProtectedPath(pathname)) {
@@ -25,16 +25,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/internal/work", request.url));
   }
 
-  const token = request.cookies.get(COOKIE_NAME)?.value;
-
-  if (token && (await verifyAuthToken(token))) {
-    return NextResponse.next();
+  if (!request.auth) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("from", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
-  const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("from", pathname);
-  return NextResponse.redirect(loginUrl);
-}
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: ["/work/:path*", "/internal/:path*"],

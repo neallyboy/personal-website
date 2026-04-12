@@ -1,6 +1,6 @@
 import { CustomMDX, ScrollToHash } from "@/components";
 import { Projects } from "@/components/work/Projects";
-import { COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
+import { auth } from "@/auth";
 import { about, baseURL, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
@@ -20,7 +20,6 @@ import {
   Text,
 } from "@once-ui-system/core";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -47,10 +46,8 @@ export async function generateMetadata({
 
   // Don't leak internal post titles/descriptions to unauthenticated crawlers or previews
   if (post.metadata.internal) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(COOKIE_NAME)?.value;
-    const isAuth = token ? await verifyAuthToken(token) : false;
-    if (!isAuth) return { title: "Internal Project", robots: { index: false } };
+    const session = await auth();
+    if (!session) return { title: "Internal Project", robots: { index: false } };
   }
 
   return Meta.generate({
@@ -81,10 +78,8 @@ export default async function Project({
   // Defense-in-depth: middleware handles the redirect, but verify again server-side
   // so internal content is never rendered if somehow middleware is bypassed.
   if (post.metadata.internal) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(COOKIE_NAME)?.value;
-    const isAuth = token ? await verifyAuthToken(token) : false;
-    if (!isAuth) {
+    const session = await auth();
+    if (!session) {
       redirect(`/login?from=/work/${slugPath}`);
     }
   }

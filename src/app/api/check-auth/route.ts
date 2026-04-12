@@ -1,10 +1,10 @@
-import { COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
-import { type NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-  const token = request.cookies.get(COOKIE_NAME)?.value;
+export async function GET() {
+  const session = await auth();
 
-  if (token && (await verifyAuthToken(token))) {
+  if (session) {
     return NextResponse.json({ authenticated: true }, { status: 200 });
   }
 
