@@ -5,6 +5,10 @@ export default function robots() {
     rules: [
       {
         userAgent: "*",
+        disallow: [
+          "/work/internal",
+          "/work/oxford-corporate-website-reskin-internal",
+        ],
       },
     ],
     sitemap: `${baseURL}/sitemap.xml`,

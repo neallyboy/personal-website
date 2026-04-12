@@ -8,7 +8,9 @@ interface ProjectsProps {
 }
 
 export function Projects({ range, exclude }: ProjectsProps) {
-  let allProjects = getPosts(["src", "app", "work", "projects"]);
+  let allProjects = getPosts(["src", "app", "work", "projects"]).filter(
+    (post) => !post.metadata.internal,
+  );
 
   // Exclude by slug (exact match)
   if (exclude && exclude.length > 0) {

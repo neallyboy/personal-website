@@ -16,7 +16,7 @@ const person: Person = {
   name: "Neal Miran",
   role: "Team Lead, DevOps at Oxford Properties Group",
   avatar: "/images/avatar.png",
-  email: "neal.miran@gmail.com",
+  email: "contact@nealmiran.com",
   location: "America/Toronto",
   languages: [],
 };
@@ -84,11 +84,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Neal, a Team Lead, DevOps at{" "}
-      <Text as="span" size="xl" weight="strong">
-        Oxford Properties Group
-      </Text>{" "}
-      — technically deep, business minded. I turn complex problems into
+      I'm Neal — technically deep, business minded. I turn complex problems into
       integrations, internal tools, and web platforms that close gaps, connect
       data, and help teams make better decisions.
     </>
