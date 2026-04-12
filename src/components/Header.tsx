@@ -14,21 +14,27 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
+const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-US" }) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
+      const dateOptions: Intl.DateTimeFormatOptions = {
         timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
+        weekday: "short",
+        month: "short",
+        day: "numeric",
       };
-      const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      setCurrentTime(timeString);
+      const timeOptions: Intl.DateTimeFormatOptions = {
+        timeZone,
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      };
+      const datePart = new Intl.DateTimeFormat(locale, dateOptions).format(now);
+      const timePart = new Intl.DateTimeFormat(locale, timeOptions).format(now);
+      setCurrentTime(`${datePart} ${timePart}`);
     };
 
     updateTime();
