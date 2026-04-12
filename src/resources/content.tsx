@@ -1,37 +1,45 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import type {
+  About,
+  Blog,
+  Gallery,
+  Home,
+  Newsletter,
+  Person,
+  Social,
+  Work,
+} from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  firstName: "Neal",
+  lastName: "Miran",
+  name: "Neal Miran",
+  role: "Team Lead, DevOps & SRE at Oxford Properties Group",
+  avatar: "/images/avatar.png",
+  email: "neal.miran@gmail.com",
+  location: "America/Toronto",
+  languages: ["English"],
 };
 
 const newsletter: Newsletter = {
-  display: true,
+  display: false,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  description: (
+    <>Thoughts on DevOps, web platforms, and engineering leadership</>
+  ),
 };
 
 const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/neallyboy",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/nealmiran",
     essential: true,
   },
   {
@@ -44,7 +52,7 @@ const social: Social = [
     name: "Threads",
     icon: "threads",
     link: "https://www.threads.com/@once_ui",
-    essential: true,
+    essential: false,
   },
   {
     name: "Email",
@@ -60,24 +68,29 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Engineering platforms that scale, ship, and last</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">Oxford Properties</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
         </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/work/oxford-corporate-website-reskin",
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      I'm Neal, a Team Lead, DevOps & SRE at{" "}
+      <Text as="span" size="xl" weight="strong">
+        Oxford Properties Group
+      </Text>
+      , where I lead engineering teams delivering <br /> enterprise web
+      platforms. After hours, I run a homelab and build my own projects.
+    </>
   ),
 };
 
@@ -102,131 +115,136 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Neal is a Toronto-based DevOps and SRE Team Lead with a deep passion for
+        building resilient, scalable web platforms and the engineering processes
+        that support them. At Oxford Properties Group — part of the OMERS family
+        of companies — he leads teams delivering corporate marketing platforms,
+        enterprise system integrations, and internal tooling. He bridges the gap
+        between modern front-end development and backend infrastructure, with a
+        strong focus on developer experience, CI/CD pipelines, and operational
+        excellence.
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Oxford Properties Group",
+        timeframe: "2024 - Present",
+        role: "Team Lead, DevOps & SRE (Cross-functional)",
         achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
+          "Led the first-ever in-house delivery of Oxford's corporate website reskin — a full platform modernization built on Next.js, Agility CMS, Elasticsearch, and Netlify — delivering on time with a small team of two developers and a UX/UI designer.",
+          "Architected and managed CI/CD pipelines and branch deployment strategies on Netlify, including a zero-downtime cutover from a legacy branch to a new production main without disrupting existing staging workflows.",
+          "Drove the adoption of Storybook for component documentation and Playwright for end-to-end and visual regression testing across the React/Tailwind component library.",
+          "Designed and maintained enterprise data integration pipelines using SSIS and Boomi, connecting financial platforms including Yardi, JDE, and internal legacy systems.",
+          "Built internal tooling with the Microsoft Power Platform, including PowerApps demand intake applications connected to SharePoint, and Power BI dashboards with custom DAX and M formula logic.",
+          "Oversaw AEO/GEO implementation with structured JSON-LD schema markup for leadership pages as part of the corporate site reskin.",
+          "Mentored developers through a formal internal Oxford Properties mentorship program, with a focus on front-end architecture, testing practices, and career development.",
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
           {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            src: "/images/projects/cw-reskin/cw-reskin-home.png",
+            alt: "Oxford Properties Corporate Website Reskin",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Oxford Properties Group",
+        timeframe: "2020 - 2024",
+        role: "Systems & Integration Developer (Cross-functional)",
         achievements: [
-          <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
-          </>,
+          "Developed and maintained SSIS-based financial data pipelines, including schema version handling for CSV processing and SqlBulkCopy column mapping across dev, QA, and production environments.",
+          "Collaborated on enterprise integration projects using the Boomi platform, supporting cross-system data flows across the OMERS portfolio.",
+          "Contributed to GitHub Enterprise workflows for third-party agency collaboration, implementing branch-protection-compliant PR automation.",
         ],
         images: [],
       },
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Toronto Metropolitan University (formerly Ryerson University)",
+        description: (
+          <>
+            Bachelor of Commerce, Information Technology Management —
+            specialization in Telecommunications and Infrastructure Management.
+            Graduated 2008.
+          </>
+        ),
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Technical Skills",
     skills: [
       {
-        title: "Figma",
+        title: "Front-End & CMS",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>
+            Building modern, component-driven web applications with Next.js,
+            React, and Tailwind CSS. Experienced with Agility CMS for headless
+            content delivery, Storybook for component documentation, and
+            Playwright for end-to-end and visual regression testing.
+          </>
         ),
         tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
+          { name: "Next.js", icon: "nextjs" },
+          { name: "React", icon: "react" },
+          { name: "JavaScript", icon: "javascript" },
+          { name: "TypeScript", icon: "typescript" },
         ],
-        // optional: leave the array empty if you don't want to display images
         images: [
           {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
+            src: "/images/projects/cw-reskin/cw-reskin-home.png",
+            alt: "Oxford Properties Corporate Site — Home Page",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        title: "Next.js",
+        title: "DevOps & Infrastructure",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>
+            Managing deployment pipelines on Netlify and Azure DevOps, with
+            hands-on experience in CI/CD strategy, branch management, and
+            secrets hygiene. Homelab enthusiast running a 3-node Proxmox cluster
+            with Ceph storage, a QNAP NAS, and a self-hosted Docker services
+            stack.
+          </>
         ),
         tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
+          { name: "Netlify", icon: "netlify" },
+          { name: "Azure DevOps", icon: "azure" },
+          { name: "Docker", icon: "docker" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
+        images: [],
+      },
+      {
+        title: "Enterprise Integration & Data",
+        description: (
+          <>
+            Designing and maintaining financial data pipelines using SSIS and
+            Boomi, integrating platforms such as Yardi, JDE, and internal legacy
+            systems. Proficient in SQL, PL/SQL, shell scripting, and Power
+            Platform tooling including PowerApps and Power BI.
+          </>
+        ),
+        tags: [
+          { name: "SSIS", icon: "sqlServer" },
+          { name: "Boomi", icon: "cloud" },
+          { name: "SQL", icon: "sqlServer" },
+          { name: "Power Platform", icon: "microsoft" },
         ],
+        images: [],
       },
     ],
   },
@@ -235,19 +253,15 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
+  title: "Writing about engineering, platforms, and DevOps...",
   description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
 };
 
 const work: Work = {
   path: "/work",
   label: "Work",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  description: `Platform engineering and web development projects by ${person.name}`,
 };
 
 const gallery: Gallery = {
@@ -255,8 +269,6 @@ const gallery: Gallery = {
   label: "Gallery",
   title: `Photo gallery – ${person.name}`,
   description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
   images: [
     {
       src: "/images/gallery/horizontal-1.jpg",

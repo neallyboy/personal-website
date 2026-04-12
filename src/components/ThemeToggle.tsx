@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { Row, ToggleButton, useTheme } from "@once-ui-system/core";
+import type React from "react";
+import { useEffect, useState } from "react";
 
 export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -14,7 +15,11 @@ export const ThemeToggle: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setCurrentTheme(document.documentElement.getAttribute("data-theme") || "light");
+    if (theme === "system") {
+      setCurrentTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } else {
+      setCurrentTheme(theme || "light");
+    }
   }, [theme]);
 
   const icon = currentTheme === "dark" ? "light" : "dark";

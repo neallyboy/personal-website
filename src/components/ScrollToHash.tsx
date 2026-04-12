@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function ScrollToHash() {
   const router = useRouter();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: router is used as a navigation trigger to re-run the effect
   useEffect(() => {
     // Get the hash from the URL
     const hash = window.location.hash;
