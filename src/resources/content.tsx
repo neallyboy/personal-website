@@ -14,7 +14,7 @@ const person: Person = {
   firstName: "Neal",
   lastName: "Miran",
   name: "Neal Miran",
-  role: "Team Lead, DevOps & SRE at Oxford Properties Group",
+  role: "Team Lead, DevOps at Oxford Properties Group",
   avatar: "/images/avatar.png",
   email: "neal.miran@gmail.com",
   location: "America/Toronto",
@@ -115,7 +115,7 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Neal is a Toronto-based DevOps and SRE Team Lead with a deep passion for
+        Neal is a Toronto-based DevOps Team Lead with a deep passion for
         building resilient, scalable web platforms and the engineering processes
         that support them. At Oxford Properties Group — part of the OMERS family
         of companies — he leads teams delivering corporate marketing platforms,
@@ -133,7 +133,7 @@ const about: About = {
       {
         company: "Oxford Properties Group",
         timeframe: "2024 - Present",
-        role: "Team Lead, DevOps & SRE (Cross-functional)",
+        role: "Team Lead, DevOps (Cross-functional)",
         achievements: [
           "Led the first-ever in-house delivery of Oxford's corporate website reskin — a full platform modernization built on Next.js, Agility CMS, Elasticsearch, and Netlify — delivering on time with a small team of two developers and a UX/UI designer.",
           "Architected and managed CI/CD pipelines and branch deployment strategies on Netlify, including a zero-downtime cutover from a legacy branch to a new production main without disrupting existing staging workflows.",
