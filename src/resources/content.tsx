@@ -18,7 +18,7 @@ const person: Person = {
   avatar: "/images/avatar.png",
   email: "neal.miran@gmail.com",
   location: "America/Toronto",
-  languages: ["English"],
+  languages: [],
 };
 
 const newsletter: Newsletter = {
@@ -132,14 +132,16 @@ const about: About = {
     experiences: [
       {
         company: "Oxford Properties Group",
-        timeframe: "2024 - Present",
-        role: "Team Lead, DevOps (Cross-functional)",
+        timeframe: "Dec 2022 - Present",
+        logo: "/images/logos/oxford_properties_group_logo.jpeg",
+        role: "Team Lead, DevOps · Permanent Full-time",
         achievements: [
-          "Led the first-ever in-house delivery of Oxford's corporate website reskin — a full platform modernization built on Next.js, Agility CMS, Elasticsearch, and Netlify — delivering on time with a small team of two developers and a UX/UI designer.",
-          "Architected and managed CI/CD pipelines and branch deployment strategies on Netlify, including a zero-downtime cutover from a legacy branch to a new production main without disrupting existing staging workflows.",
-          "Drove the adoption of Storybook for component documentation and Playwright for end-to-end and visual regression testing across the React/Tailwind component library.",
-          "Designed and maintained enterprise data integration pipelines using SSIS and Boomi, connecting financial platforms including Yardi, JDE, and internal legacy systems.",
-          "Built internal tooling with the Microsoft Power Platform, including PowerApps demand intake applications connected to SharePoint, and Power BI dashboards with custom DAX and M formula logic.",
+          "Led the first-ever in-house delivery of Oxford's corporate website reskin, a full platform modernisation built on Next.js, Agility CMS, Elasticsearch, and Netlify, delivering on time with a small team of two developers and a UX/UI designer.",
+          "Architected and developed data pipelines for the Retail Marketing Team capturing user traffic and signups on Oxford's corporate website, integrating with Simon Data (a new customer data platform) for analytics and email marketing, using Boomi for pipelines and AWS S3 for storage.",
+          "Implemented a property search enhancement on the Lease With Us page reducing result latency from 6 seconds to under 1 second using Oxford's Lease-With-Us API and Elasticsearch for caching.",
+          "Developed Building Admin, a PowerApps application replacing a legacy Remedy platform app, resulting in over $200,000/year in licence cost savings, working with business end users and IT for discovery of functionality, data sources, and flow.",
+          "Implemented CI/CD for PowerApps Canvas Apps and Azure Data Factory pipelines using Azure DevOps build and release pipelines.",
+          "Managed and maintained public-facing websites using Agility CMS Site Generator, triggering build and deploy to Netlify CDN.",
           "Oversaw AEO/GEO implementation with structured JSON-LD schema markup for leadership pages as part of the corporate site reskin.",
           "Mentored developers through a formal internal Oxford Properties mentorship program, with a focus on front-end architecture, testing practices, and career development.",
         ],
@@ -154,21 +156,134 @@ const about: About = {
       },
       {
         company: "Oxford Properties Group",
-        timeframe: "2020 - 2024",
-        role: "Systems & Integration Developer (Cross-functional)",
+        timeframe: "Feb 2021 - Dec 2022",
+        logo: "/images/logos/oxford_properties_group_logo.jpeg",
+        role: "Integration Developer · Permanent Full-time",
         achievements: [
-          "Developed and maintained SSIS-based financial data pipelines, including schema version handling for CSV processing and SqlBulkCopy column mapping across dev, QA, and production environments.",
-          "Collaborated on enterprise integration projects using the Boomi platform, supporting cross-system data flows across the OMERS portfolio.",
-          "Contributed to GitHub Enterprise workflows for third-party agency collaboration, implementing branch-protection-compliant PR automation.",
+          "Designed and developed a new ingestion and validation process for financial and non-financial data for third-party property managers, standardising data collection and removing manual intervention to satisfy audit requirements.",
+          "Re-architected all VTS integrations following deprecation of the VTS XML API, migrating to their next-gen JSON APIs, switching from SSIS to Azure Data Factory, and redesigning database structures for new data points.",
+          "Worked with Suite Spot to update their API to allow Oxford to send additional data fields for residential move-in and move-out jobs, improving unit turnover visibility and operational cost tracking.",
+          "Led Azure Cloud Migration analysis for on-premises VTS integrations.",
+          "Key contributor in migrating legacy .NET web applications from SQL Server 2008/2012 to SQL Server 2019.",
+          "Responsible for testing all on-premises external web applications for Windows Server in-place upgrades from 2012 to 2019 due to end-of-life support.",
         ],
+        images: [],
+      },
+      {
+        company: "York Region District School Board",
+        timeframe: "Nov 2020 - Feb 2021",
+        logo: "/images/logos/york_region_district_school_board_logo.jpeg",
+        role: "Programming Analyst · Permanent Full-time",
+        achievements: [
+          "Assisted in developing and implementing ILARRS, a new attendance and replacement application for language teachers.",
+          "Integrated a new Supervisor form in ILARRS holding supervisor emergency contact details, enabling notifications when a language teacher reports an absence two hours or less before their scheduled class time.",
+          "Worked with the Data Quality Management team updating and enhancing SQL Server stored procedures for scheduled monthly data audits.",
+        ],
+        images: [],
+      },
+      {
+        company: "Ontario Ministry of the Solicitor General",
+        timeframe: "Sep 2020 - Nov 2020",
+        logo: "/images/logos/ontario_ministry_of_the_solicitor_general_logo.jpeg",
+        role: "Programmer Developer L3 · Contract Full-time",
+        achievements: [
+          "Supported and maintained eRoster, a shift scheduling application used across 25 correctional institutions with over 4,000 users.",
+          "Added new business rule logic across multiple reports for Daily Roster, Overtime, and Other Duty charges.",
+          "Developed additional web portal features for better user redirection, added user prompts for selection confirmation and error messages on business rule violations, and added a site map for AODA compliance.",
+        ],
+        images: [],
+      },
+      {
+        company: "Oxford Properties Group",
+        timeframe: "Mar 2020 - Aug 2020",
+        logo: "/images/logos/oxford_properties_group_logo.jpeg",
+        role: "Lead Integration Developer · Contract Full-time",
+        achievements: [
+          "Led the VTS platform implementation, designing and developing an automated data cleansing process for JDE data extracts that loads sanitised data into VTS on a nightly basis.",
+          "Developed a Budget integration ingesting Azure DataMart views and performing an ETL process that populates CSV templates uploaded to SmartFile for consumption by VTS.",
+          "Built an SSIS reconciliation package comparing data Oxford sent to VTS against what was entered via VTS reports, generating a comparison log that saved many hours of manual work.",
+          "Updated a complex integration between Oxford's corporate website and its Space Inventory application, replacing it with VTS Portfolio data and mapping legacy indicators to allow data to flow through.",
+          "Developed PowerApps applications for mapping third-party buildings in VTS with Oxford JDE properties, and for running the Budget integration on an ad-hoc basis for business users.",
+        ],
+        images: [],
+      },
+      {
+        company: 'Toys"R"Us Canada',
+        timeframe: "Nov 2019 - Feb 2020",
+        logo: "/images/logos/toysrus_canada_logo.jpeg",
+        role: "Data Developer · Contract Full-time",
+        achievements: [
+          "Created multiple SSIS ETL packages ingesting data from sFTP servers, MySQL, and SQL Server databases for Business Intelligence purposes.",
+          "Developed back-end solutions using views, stored procedures, C#, and VB scripts to extract, transform, cleanse, and load data.",
+          "Used Azure Data Factory to create data pipelines, setting up linked services and integration runtimes for both on-premises and cloud environments.",
+        ],
+        images: [],
+      },
+      {
+        company: "Walmart Labs",
+        timeframe: "Nov 2018 - Oct 2019",
+        logo: "/images/logos/walmartglobaltech_logo.jpeg",
+        role: "Data Developer & DevOps / Master Data Analyst · Contract Full-time",
+        achievements: [
+          "Used OneOps to manage building and deploying QA and production environments for the Metadata Management web application for the Canadian Data Lake.",
+          "Developed disaster recovery processes and bash scripts to apply patches and perform backups across multiple environments.",
+          "Optimised the Ecom Catalog Kafka feed supporting daily Sales reports by updating the DW Loader from fast append to reload, reducing row count.",
+          "Developed Python scripts using Selenium to automate the item delisting process, translating into significant labour cost savings.",
+          "Initiated monthly Vendor fines process resulting in $400,000 in fines for the first wave.",
+          "Developed SQL queries across Oracle, DB2, Teradata, and SQL Server; rotational Scrum Master duties for the Data Ops team.",
+        ],
+        images: [],
+      },
+      {
+        company: "Rethink Solutions Inc.",
+        timeframe: "Jul 2017 - Oct 2018",
+        logo: "/images/logos/rethink_solutions_inc__logo.jpeg",
+        role: "Data Specialist · Permanent Full-time",
+        achievements: [],
+        images: [],
+      },
+      {
+        company: "Plexxis Software",
+        timeframe: "Oct 2016 - Jul 2017",
+        logo: "/images/logos/plexxissoftware_logo.jpeg",
+        role: "Developer & Data Analyst · Permanent Full-time",
+        achievements: [],
+        images: [],
+      },
+      {
+        company: "Teknion",
+        timeframe: "Sep 2011 - Oct 2016",
+        logo: "/images/logos/teknion_logo.jpeg",
+        role: "Systems Analyst · Permanent Full-time",
+        achievements: [],
+        images: [],
+      },
+      {
+        company: "Teknion",
+        timeframe: "Sep 2009 - Aug 2011",
+        logo: "/images/logos/teknion_logo.jpeg",
+        role: "Oracle Configurator Developer · Permanent Full-time",
+        achievements: [],
+        images: [],
+      },
+      {
+        company: "VMWare",
+        timeframe: "May 2009 - Aug 2009",
+        logo: "/images/logos/vmware_logo.jpeg",
+        role: "Helpdesk Support Specialist · Contract Full-time",
+        achievements: [],
         images: [],
       },
     ],
   },
   studies: {
     display: true,
-    title: "Studies",
+    title: "Education",
     institutions: [
+      {
+        name: "York University",
+        description: <>Certificate, Full Stack Developer Graduated 2019.</>,
+      },
       {
         name: "Toronto Metropolitan University (formerly Ryerson University)",
         description: (
@@ -186,7 +301,7 @@ const about: About = {
     title: "Technical Skills",
     skills: [
       {
-        title: "Front-End & CMS",
+        title: "Full Stack Engineer & CMS",
         description: (
           <>
             Building modern, component-driven web applications with Next.js,
@@ -201,14 +316,7 @@ const about: About = {
           { name: "JavaScript", icon: "javascript" },
           { name: "TypeScript", icon: "typescript" },
         ],
-        images: [
-          {
-            src: "/images/projects/cw-reskin/cw-reskin-home.png",
-            alt: "Oxford Properties Corporate Site — Home Page",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
         title: "DevOps & Infrastructure",
@@ -229,7 +337,7 @@ const about: About = {
         images: [],
       },
       {
-        title: "Enterprise Integration & Data",
+        title: "Enterprise Integration & Data Insights",
         description: (
           <>
             Designing and maintaining financial data pipelines using SSIS and

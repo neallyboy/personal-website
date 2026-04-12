@@ -14,6 +14,7 @@ import {
   Schema,
   Tag,
   Text,
+  Timeline,
 } from "@once-ui-system/core";
 import React from "react";
 
@@ -100,7 +101,7 @@ export default function About() {
             </Row>
             {person.languages && person.languages.length > 0 && (
               <Row wrap gap="8">
-                {person.languages.map((language, index) => (
+                {person.languages.map((language) => (
                   <Tag key={language} size="l">
                     {language}
                   </Tag>
@@ -132,7 +133,11 @@ export default function About() {
                   backdropFilter: "blur(var(--static-space-1))",
                 }}
               >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
+                <Icon
+                  paddingLeft="12"
+                  name="calendar"
+                  onBackground="brand-weak"
+                />
                 <Row paddingX="8">Schedule a call</Row>
                 <IconButton
                   href={about.calendar.link}
@@ -197,82 +202,149 @@ export default function About() {
           </Column>
 
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+            <Column
+              textVariant="body-default-l"
+              fillWidth
+              gap="m"
+              marginBottom="xl"
+            >
               {about.intro.description}
             </Column>
           )}
 
           {about.work.display && (
             <>
-              <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
+              <Heading
+                as="h2"
+                id={about.work.title}
+                variant="display-strong-s"
+                marginBottom="m"
+              >
                 {about.work.title}
               </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
-                {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
-                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} variant="heading-strong-l">
-                        {experience.company}
-                      </Text>
-                      <Text variant="heading-default-xs" onBackground="neutral-weak">
-                        {experience.timeframe}
-                      </Text>
-                    </Row>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
-                      {experience.role}
-                    </Text>
-                    <Column as="ul" gap="16">
-                      {experience.achievements.map(
-                        (achievement: React.ReactNode, index: number) => (
-                          <Text
-                            as="li"
-                            variant="body-default-m"
-                            key={`${experience.company}-${index}`}
-                          >
-                            {achievement}
-                          </Text>
-                        ),
-                      )}
-                    </Column>
-                    {experience.images && experience.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
-                        {experience.images.map((image) => (
-                          <Row
-                            key={image.src}
-                            border="neutral-medium"
-                            radius="m"
-                            minWidth={image.width}
-                            height={image.height}
-                          >
-                            <Media
-                              enlarge
-                              radius="m"
-                              sizes={image.width.toString()}
-                              alt={image.alt}
-                              src={image.src}
+              <Column fillWidth marginBottom="40">
+                <Timeline
+                  size="s"
+                  items={about.work.experiences.map((experience, index) => ({
+                    label: (
+                      <Row
+                        key={`label-${experience.company}-${experience.timeframe}`}
+                        fillWidth
+                        horizontal="between"
+                        vertical="center"
+                      >
+                        <Row gap="12" vertical="center">
+                          {experience.logo && (
+                            <Avatar
+                              src={experience.logo}
+                              size="s"
+                              style={{
+                                borderRadius: "var(--radius-s)",
+                                flexShrink: 0,
+                              }}
                             />
-                          </Row>
-                        ))}
+                          )}
+                          <Text
+                            id={experience.company}
+                            variant="heading-strong-l"
+                          >
+                            {experience.company}
+                          </Text>
+                        </Row>
+                        <Text
+                          variant="heading-default-xs"
+                          onBackground="neutral-weak"
+                        >
+                          {experience.timeframe}
+                        </Text>
                       </Row>
-                    )}
-                  </Column>
-                ))}
+                    ),
+                    description: (
+                      <Text
+                        key={`desc-${experience.company}-${experience.timeframe}`}
+                        variant="body-default-s"
+                        onBackground="brand-weak"
+                      >
+                        {experience.role}
+                      </Text>
+                    ),
+                    state: index === 0 ? "active" : "default",
+                    children: (
+                      <Column
+                        key={`children-${experience.company}-${experience.timeframe}`}
+                        fillWidth
+                        gap="m"
+                        paddingTop="8"
+                      >
+                        <Column as="ul" gap="16">
+                          {experience.achievements.map(
+                            (
+                              achievement: React.ReactNode,
+                              achIndex: number,
+                            ) => (
+                              <Text
+                                as="li"
+                                variant="body-default-m"
+                                key={`${experience.company}-${achIndex}`}
+                              >
+                                {achievement}
+                              </Text>
+                            ),
+                          )}
+                        </Column>
+                        {experience.images && experience.images.length > 0 && (
+                          <Row fillWidth paddingTop="m" gap="12" wrap>
+                            {experience.images.map((image) => (
+                              <Row
+                                key={image.src}
+                                border="neutral-medium"
+                                radius="m"
+                                minWidth={image.width}
+                                height={image.height}
+                              >
+                                <Media
+                                  enlarge
+                                  radius="m"
+                                  sizes={image.width.toString()}
+                                  alt={image.alt}
+                                  src={image.src}
+                                />
+                              </Row>
+                            ))}
+                          </Row>
+                        )}
+                      </Column>
+                    ),
+                  }))}
+                />
               </Column>
             </>
           )}
 
           {about.studies.display && (
             <>
-              <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
+              <Heading
+                as="h2"
+                id={about.studies.title}
+                variant="display-strong-s"
+                marginBottom="m"
+              >
                 {about.studies.title}
               </Heading>
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
-                  <Column key={`${institution.name}-${index}`} fillWidth gap="4">
+                  <Column
+                    key={`${institution.name}-${index}`}
+                    fillWidth
+                    gap="4"
+                  >
                     <Text id={institution.name} variant="heading-strong-l">
                       {institution.name}
                     </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                    <Text
+                      variant="heading-default-xs"
+                      onBackground="neutral-weak"
+                    >
                       {institution.description}
                     </Text>
                   </Column>
@@ -292,7 +364,7 @@ export default function About() {
                 {about.technical.title}
               </Heading>
               <Column fillWidth gap="l">
-                {about.technical.skills.map((skill, index) => (
+                {about.technical.skills.map((skill) => (
                   <Column key={skill.title} fillWidth gap="4">
                     <Text id={skill.title} variant="heading-strong-l">
                       {skill.title}
@@ -303,7 +375,11 @@ export default function About() {
                     {skill.tags && skill.tags.length > 0 && (
                       <Row wrap gap="8" paddingTop="8">
                         {skill.tags.map((tag, tagIndex) => (
-                          <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
+                          <Tag
+                            key={`${skill.title}-${tagIndex}`}
+                            size="l"
+                            prefixIcon={tag.icon}
+                          >
                             {tag.name}
                           </Tag>
                         ))}

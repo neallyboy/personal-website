@@ -150,6 +150,8 @@ export interface About extends BasePageConfig {
       timeframe: string;
       /** Role or job title */
       role: string;
+      /** Path to company logo image, e.g. /images/logos/oxford.png */
+      logo?: string;
       /** Achievements at the company */
       achievements: React.ReactNode[];
       /** Images related to the experience */
