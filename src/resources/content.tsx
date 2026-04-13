@@ -64,9 +64,9 @@ const social: Social = [
 
 const home: Home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "/images/og/home.png",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
+  title: `${person.name} | Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
   headline: <>Engineering platforms that scale, ship, and last</>,
   featured: {
@@ -94,7 +94,7 @@ const home: Home = {
 const about: About = {
   path: "/about",
   label: "About",
-  title: `About – ${person.name}`,
+  title: `About | ${person.name}`,
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
   tableOfContent: {
     display: true,
@@ -383,21 +383,21 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about engineering, platforms, and DevOps...",
+  title: `Blog | ${person.name}`,
   description: `Read what ${person.name} has been up to recently`,
 };
 
 const work: Work = {
   path: "/work",
   label: "Work",
-  title: `Projects – ${person.name}`,
+  title: `Projects | ${person.name}`,
   description: `Platform engineering and web development projects by ${person.name}`,
 };
 
 const gallery: Gallery = {
   path: "/gallery",
   label: "Gallery",
-  title: `Photo gallery – ${person.name}`,
+  title: `Gallery | ${person.name}`,
   description: `A photo collection by ${person.name}`,
   images: [
     {
