@@ -11,6 +11,7 @@ import {
 } from "@once-ui-system/core";
 
 interface ProjectCardProps {
+  id?: string;
   href: string;
   priority?: boolean;
   images: string[];
@@ -22,6 +23,7 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
+  id,
   href,
   images = [],
   title,
@@ -31,7 +33,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   link,
 }) => {
   return (
-    <Column fillWidth gap="m">
+    <Column id={id} fillWidth gap="m" style={{ scrollMarginTop: "80px" }}>
       <Carousel
         sizes="(max-width: 960px) 100vw, 960px"
         items={images.map((image) => ({

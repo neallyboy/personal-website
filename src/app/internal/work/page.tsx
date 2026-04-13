@@ -1,4 +1,5 @@
 import { ProjectCard } from "@/components";
+import WorkTableOfContents from "@/components/work/WorkTableOfContents";
 import { baseURL } from "@/resources";
 import { getPosts } from "@/utils/utils";
 import { Column, Meta, Text } from "@once-ui-system/core";
@@ -22,13 +23,17 @@ export default function InternalWorkPage() {
         new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime(),
     );
 
+  const tocProjects = internalProjects.map((post) => ({ slug: post.slug, title: post.metadata.title, navTitle: post.metadata.navTitle }));
+
   return (
     <Column maxWidth="m" paddingTop="24">
+      <WorkTableOfContents projects={tocProjects} />
       <Column fillWidth gap="xl" marginBottom="40" paddingX="l">
         {internalProjects.map((post, index) => (
           <ProjectCard
             priority={index < 2}
             key={post.slug}
+            id={post.slug}
             href={`/work/${post.slug}`}
             images={post.metadata.images}
             title={post.metadata.title}

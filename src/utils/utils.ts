@@ -12,6 +12,7 @@ type Team = {
 
 type Metadata = {
   title: string;
+  navTitle?: string;
   subtitle?: string;
   publishedAt: string;
   summary: string;
@@ -42,6 +43,7 @@ function readMDXFile(filePath: string) {
 
   const metadata: Metadata = {
     title: data.title || "",
+    navTitle: data.navTitle || undefined,
     subtitle: data.subtitle || "",
     publishedAt: data.publishedAt,
     summary: data.summary || "",

@@ -32,6 +32,7 @@ export function Projects({ range, exclude, onlyInternal = false }: ProjectsProps
         <ProjectCard
           priority={index < 2}
           key={post.slug}
+          id={post.slug}
           href={`/work/${post.slug}`}
           images={post.metadata.images}
           title={post.metadata.title}
