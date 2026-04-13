@@ -2,6 +2,7 @@ import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import type React from "react";
 import { LightboxCarousel } from "@/components/LightboxCarousel";
 import { MermaidDiagram } from "@/components/MermaidDiagram";
+import { TechStack } from "@/components/TechStack";
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 import { slugify as transliterate } from "transliteration";
 
@@ -219,6 +220,7 @@ const components = {
   Tag,
   LightboxCarousel,
   MermaidDiagram,
+  TechStack,
 };
 
 type CustomMDXProps = MDXRemoteProps & {

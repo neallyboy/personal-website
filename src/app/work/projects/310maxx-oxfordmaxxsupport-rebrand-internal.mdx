@@ -112,11 +112,13 @@ The rebranding of 310Maxx to OxfordMaxxsupport was more than a visual update. It
 
 ## Technologies Used
 
-- **.NET:** The existing web application framework. All new features — the FAQ section, updated building page components, account creation form, and API layer — were built and extended within the legacy .NET application.
-- **SQL Server (On-Premises):** Source of record for tenant and building data. The application executes a stored procedure against this database and uses the result set as the datasource for the account creation form's dropdown options. Read-only; no write path back to the source system.
-- **Angus CSV / SFTP Data Feed:** Building and tenant data is exported as a CSV and delivered to Angus via SFTP as part of an existing process. That same data populates the on-premises SQL Server database queried by the stored procedure. The integration runs once per day, ensuring the form always reflects the latest available data.
-- **IIS:** Hosts the .NET application.
-- **Exchange Mailbox / SMTP:** Account creation submissions are serialised to a structured format and sent to a monitored Exchange mailbox. The downstream provisioning process parses these emails and creates accounts in the access management system. This boundary was kept unchanged to avoid modifying the downstream process.
+<TechStack items={[
+  { name: ".NET", iconSrc: "/images/tech-icons/dotnet.svg", description: "The existing web application framework. All new features — the FAQ section, updated building page components, account creation form, and API layer — were built and extended within the legacy .NET application." },
+  { name: "SQL Server (On-Premises)", iconSrc: "/images/tech-icons/mssql.svg", description: "Source of record for tenant and building data. The application executes a stored procedure against this database and uses the result set as the datasource for the account creation form's dropdown options. Read-only; no write path back to the source system." },
+  { name: "Angus CSV / SFTP Data Feed", iconSrc: "/images/tech-icons/sftp.svg", description: "Building and tenant data is exported as a CSV and delivered to Angus via SFTP as part of an existing process. That same data populates the on-premises SQL Server database queried by the stored procedure. The integration runs once per day, ensuring the form always reflects the latest available data." },
+  { name: "IIS", description: "Hosts the .NET application." },
+  { name: "Exchange Mailbox / SMTP", iconSrc: "/images/tech-icons/microsoft-exchange.svg", description: "Account creation submissions are serialised to a structured format and sent to a monitored Exchange mailbox. The downstream provisioning process parses these emails and creates accounts in the access management system. This boundary was kept unchanged to avoid modifying the downstream process." },
+]} />
 
 ## Challenges and Learnings
 

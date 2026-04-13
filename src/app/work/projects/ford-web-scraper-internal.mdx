@@ -272,12 +272,14 @@ flowchart LR
 
 ## Technologies Used
 
-- **Python:** Core scripting language used to orchestrate the scraping logic, data comparison, and email generation end to end.
-- **Selenium:** Browser automation library used to drive a headless Chrome instance against both sites. Necessary because both ford.ca and fordtodealers.ca rely on JavaScript to render pricing content — static HTTP requests alone would not return the data needed.
-- **Docker:** The scraper was packaged as a Docker image including the Python runtime, Selenium, and a compatible Chrome/ChromeDriver binary. Containerising the scraper ensured the environment was consistent across local development, CI, and the Azure execution environment.
-- **Azure Container Instances (ACI):** Hosted the Docker container in Azure, removing the need for a dedicated local machine to be on and available at the scheduled run time every day. ACI ran the container on demand — it started when triggered, completed the full pipeline in under two minutes, and stopped. Because ACI bills only for active execution time, the cost of running the scraper daily was minimal.
-- **Azure Logic Apps:** Provided the daily schedule trigger. The Logic Apps workflow fired once per day and sent a start signal to the Azure Container Instance. No persistent scheduler or cron infrastructure was required.
-- **Gmail SMTP:** The comparison output was serialised into a structured HTML email and dispatched via Gmail's SMTP interface. The email layout was designed to be readable in a standard mail client with no additional tools required on the recipient's end.
+<TechStack items={[
+  { name: "Python", iconSrc: "/images/tech-icons/python.svg", description: "Core scripting language used to orchestrate the scraping logic, data comparison, and email generation end to end." },
+  { name: "Selenium", iconSrc: "/images/tech-icons/selenium.svg", description: "Browser automation library used to drive a headless Chrome instance against both sites. Necessary because both ford.ca and fordtodealers.ca rely on JavaScript to render pricing content — static HTTP requests alone would not return the data needed." },
+  { name: "Docker", iconSrc: "/images/tech-icons/docker.svg", description: "The scraper was packaged as a Docker image including the Python runtime, Selenium, and a compatible Chrome/ChromeDriver binary. Containerising the scraper ensured the environment was consistent across local development, CI, and the Azure execution environment." },
+  { name: "Azure Container Instances (ACI)", iconSrc: "/images/tech-icons/azure-container-instances.svg", description: "Hosted the Docker container in Azure, removing the need for a dedicated local machine to be on and available at the scheduled run time every day. ACI ran the container on demand — it started when triggered, completed the full pipeline in under two minutes, and stopped. Because ACI bills only for active execution time, the cost of running the scraper daily was minimal." },
+  { name: "Azure Logic Apps", iconSrc: "/images/tech-icons/azure.svg", description: "Provided the daily schedule trigger. The Logic Apps workflow fired once per day and sent a start signal to the Azure Container Instance. No persistent scheduler or cron infrastructure was required." },
+  { name: "Gmail SMTP", iconSrc: "/images/tech-icons/gmail.svg", description: "The comparison output was serialised into a structured HTML email and dispatched via Gmail's SMTP interface. The email layout was designed to be readable in a standard mail client with no additional tools required on the recipient's end." },
+]} />
 
 ## Challenges and Learnings
 
