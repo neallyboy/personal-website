@@ -158,6 +158,7 @@ export default async function Project({
               ? [post.slug.replace(/-internal$/, "")]
               : [`${post.slug}-internal`]),
           ]}
+          onlyInternal={!!post.metadata.internal}
           range={[2]}
         />
       </Column>

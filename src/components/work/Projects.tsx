@@ -5,11 +5,12 @@ import { Column } from "@once-ui-system/core";
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
+  onlyInternal?: boolean;
 }
 
-export function Projects({ range, exclude }: ProjectsProps) {
+export function Projects({ range, exclude, onlyInternal = false }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "work", "projects"]).filter(
-    (post) => !post.metadata.internal,
+    (post) => onlyInternal ? post.metadata.internal : !post.metadata.internal,
   );
 
   // Exclude by slug (exact match)
