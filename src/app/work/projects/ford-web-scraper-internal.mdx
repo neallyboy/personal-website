@@ -16,6 +16,7 @@ team:
 ## Contents
 
 - [Overview](#overview)
+- [Architecture](#architecture)
 - [Key Features](#key-features)
 - [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
@@ -48,6 +49,70 @@ This meant the forddealers.ca team was opening the manufacturer site, navigating
 
 The scraper automated the full pipeline: it navigated both sites using Selenium, extracted trim-level pricing for every model, compared the values, and delivered a structured email via Gmail showing where prices aligned and where they diverged — including a dedicated column for the price difference on any mismatched trims. The container ran once daily on Azure Container Instances, triggered by a Logic Apps schedule. The project was retired in 2025.
 
+## Architecture
+
+### Development Workflow
+
+The development cycle moved through three gates before code ever touched Azure. Selenium was run with headless disabled first so the browser was fully visible — this made it easy to watch page navigation, spot selector failures, and inspect JavaScript-rendered content in real time. Once the scraper ran cleanly in a visible browser, headless mode was re-enabled and the script was run again in the terminal to confirm there were no display-dependent assumptions in the code. Only after that did the Docker image get built and tested locally in Docker Desktop. Pushing to Azure happened last, after the container was confirmed to be working end to end.
+
+<MermaidDiagram
+  caption="Development workflow: local iteration → Docker → Azure"
+  chart={`
+flowchart TD
+    A([Write Python / Selenium code]) --> B[Run locally\nheadless = False]
+    B --> C{Correct output\nin browser?}
+    C -- Fix --> A
+    C -- Yes --> D[Set headless = True\nRun again in terminal]
+    D --> E{Clean run\nno errors?}
+    E -- Fix --> A
+    E -- Yes --> F[docker build]
+    F --> G[Test image locally\ndocker run]
+    G --> H{Container\nworks correctly?}
+    H -- Fix --> A
+    H -- Yes --> I[docker push to registry]
+    I --> J([Deploy to Azure])
+`}
+/>
+
+### Runtime Architecture
+
+At runtime the only always-on component is the Azure Logic Apps schedule. Once per day it sends an HTTP trigger to Azure Container Instances, which spins up the Docker container, runs the full scrape-compare-email pipeline in under two minutes, and exits. ACI bills only for that execution window, so there is no cost for the idle time between runs.
+
+<MermaidDiagram
+  caption="Runtime architecture: Logic Apps triggers ACI, which scrapes both sites and sends the comparison email"
+  chart={`
+flowchart TD
+    A([Azure Logic Apps\nDaily Schedule]) -->|HTTP Trigger| B[Azure Container Instances\nDocker Container]
+    B --> C[Selenium + Headless Chrome]
+    C -->|Navigate & extract prices| D[ford.ca\nManufacturer Site]
+    C -->|Navigate & extract prices| E[forddealers.ca\nDealer Portal]
+    D --> F[(Price Dataset — MFR)]
+    E --> G[(Price Dataset — Dealer)]
+    F --> H[Compare & Diff\nby model + trim]
+    G --> H
+    H -->|HTML email report| I[Gmail SMTP]
+    I --> J([Recipient Inbox])
+`}
+/>
+
+### Infrastructure as Code
+
+All Azure resources — the resource group, container registry, container instance, and Logic Apps workflow — were scripted with Azure CLI so that changes like adding an environment variable or updating the container image could be applied by re-running a script rather than clicking through the portal. The Logic Apps HTTP action and the ACI environment variables were the two most frequently updated pieces of configuration as the project evolved.
+
+<MermaidDiagram
+  caption="Infrastructure as code: Azure CLI scripts provision all resources; env vars and the Logic Apps trigger are the main change points"
+  chart={`
+flowchart LR
+    A([Azure CLI Scripts]) -->|az group create| RG[Resource Group]
+    RG --> ACR[Azure Container Registry\nStores Docker image]
+    RG --> ACI[Azure Container Instances\nRuns the container]
+    RG --> LA[Azure Logic Apps\nDaily schedule trigger]
+    ACR -->|Pull image on trigger| ACI
+    LA -->|HTTP action| ACI
+    ACI --> ENV[Environment Variables\nGmail credentials\nSMTP settings\nTarget URLs\nRecipient addresses]
+`}
+/>
+
 ## Key Features
 
 - **Dual-Site Navigation with Selenium:** The scraper used Selenium to drive a headless browser against both ford.ca and forddealers.ca in a single run. Pricing was captured at two points on each site: the navigation menu, which surfaces prices at the model level, and the individual model page, which shows prices at the trim level. Selenium was required because pricing content on both sites is rendered by JavaScript after page load and is not present in the initial HTML response.
@@ -59,7 +124,7 @@ The scraper automated the full pipeline: it navigated both sites using Selenium,
 - **Per-Model Source Links:** Each model section in the email included source links to the exact pages on ford.ca and forddealers.ca from which the prices were scraped. The recipient could click directly to the live page to verify a price or investigate a discrepancy, without having to navigate the site manually.
 - **Back-to-Top Anchor Links:** Each model section ended with a "back to top" anchor link returning the reader to the summary table. On a long email covering many models, this made it practical to work through mismatches one at a time without losing context.
 - **Containerised with Docker:** The entire scraper — Python runtime, Selenium, Chrome driver, and dependencies — was packaged into a Docker container. This made the environment fully reproducible and removed any dependency on the host machine's configuration.
-- **Azure Container Instances:** The Docker container was deployed to Azure Container Instances, which ran it on demand without requiring a persistent VM or always-on infrastructure. The container spun up, executed the full scrape-compare-email pipeline, and exited.
+- **Azure Container Instances:** Hosting in Azure removed the need for a dedicated local machine to run the scraper. A locally-hosted solution would have required a machine to be on and available at the scheduled time every day — unreliable and impractical for a side project. Running on ACI meant the pipeline would execute reliably regardless of any local environment. The container spun up, executed the full scrape-compare-email pipeline in under two minutes, and exited. Because ACI bills only for the time the container is actually running, the execution cost was minimal — at most a couple of minutes of compute per day.
 - **Azure Logic Apps Trigger:** A Logic Apps workflow triggered the container once per day on a fixed schedule. This replaced any need for an always-running cron job or dedicated scheduler — the Logic Apps trigger was the only piece of infrastructure that stayed active between runs.
 
 ## Screenshots
@@ -210,7 +275,7 @@ The scraper automated the full pipeline: it navigated both sites using Selenium,
 - **Python:** Core scripting language used to orchestrate the scraping logic, data comparison, and email generation end to end.
 - **Selenium:** Browser automation library used to drive a headless Chrome instance against both sites. Necessary because both ford.ca and forddealers.ca rely on JavaScript to render pricing content — static HTTP requests alone would not return the data needed.
 - **Docker:** The scraper was packaged as a Docker image including the Python runtime, Selenium, and a compatible Chrome/ChromeDriver binary. Containerising the scraper ensured the environment was consistent across local development, CI, and the Azure execution environment.
-- **Azure Container Instances (ACI):** Hosted the Docker container in Azure. ACI ran the container on demand — it started when triggered, ran the full pipeline, and stopped. There was no idle compute cost between executions.
+- **Azure Container Instances (ACI):** Hosted the Docker container in Azure, removing the need for a dedicated local machine to be on and available at the scheduled run time every day. ACI ran the container on demand — it started when triggered, completed the full pipeline in under two minutes, and stopped. Because ACI bills only for active execution time, the cost of running the scraper daily was minimal.
 - **Azure Logic Apps:** Provided the daily schedule trigger. The Logic Apps workflow fired once per day and sent a start signal to the Azure Container Instance. No persistent scheduler or cron infrastructure was required.
 - **Gmail SMTP:** The comparison output was serialised into a structured HTML email and dispatched via Gmail's SMTP interface. The email layout was designed to be readable in a standard mail client with no additional tools required on the recipient's end.
 

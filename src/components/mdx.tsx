@@ -1,6 +1,7 @@
 import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import type React from "react";
 import { LightboxCarousel } from "@/components/LightboxCarousel";
+import { MermaidDiagram } from "@/components/MermaidDiagram";
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 import { slugify as transliterate } from "transliteration";
 
@@ -217,6 +218,7 @@ const components = {
   Swiper,
   Tag,
   LightboxCarousel,
+  MermaidDiagram,
 };
 
 type CustomMDXProps = MDXRemoteProps & {
