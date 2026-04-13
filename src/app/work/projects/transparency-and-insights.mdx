@@ -1,0 +1,99 @@
+---
+title: "Transparency & Insights — Automated Data Ingestion Pipeline"
+publishedAt: "2023-09-15"
+summary: "An end-to-end automated ingestion pipeline for financial and non-financial data submitted by third-party property managers — built with SSIS, a custom SQL database, a two-stage validation engine, and a custom web portal — replacing a fully manual, email-driven process and connecting directly into JD Edwards."
+images: []
+team:
+  - name: "Neal Miran"
+    role: "Integration Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Technologies Used](#technologies-used)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Project Name", "Transparency & Insights (T&I)"],
+      ["Project Type", "Automated data ingestion, validation, and ERP integration"],
+      ["Data Types", "Financial (trial balance) and non-financial (leases, property data)"],
+      ["Source", "Third-party property managers (3PPMs)"],
+      ["Target System", "JD Edwards (JDE)"],
+      ["Team", "Director of Integrations, Senior Integrations Engineer, Neal Miran (Integration Developer)"],
+      ["Tech Stack", "SSIS, SQL Server, SFTP, Custom Web Portal, SQL Mail"],
+      ["Duration", "~6–8 months"],
+      ["Status", "Delivered"],
+    ],
+  }}
+/>
+
+The Transparency & Insights project was built to solve a persistent and operationally fragile problem: third-party property managers (3PPMs) had no standardised, automated channel for submitting financial and non-financial data to the organisation. Both data streams were being handled manually, and both were accumulating risk as the portfolio of managed properties grew.
+
+On the financial side, 3PPMs were emailing trial balance data directly to an accountant. That accountant would then manually review and transform the data, perform a set of data integrity checks, and manually enter the results into JD Edwards. The process had no audit trail, no validation gate, and no formal error-handling path — the quality of what reached JDE depended entirely on the individual performing the work.
+
+The non-financial data — covering leases, property details such as floors and options, and related metadata — was nominally more structured, but the process was not standard either. Files were being delivered via SFTP in inconsistent formats with no mechanism to confirm that what arrived matched what was expected.
+
+T&I replaced both processes with a single, standardised pipeline. 3PPMs now upload their data to a designated SFTP location in a defined format, accompanied by a metadata descriptor file. The pipeline runs two sequential validation stages, generates email notifications at each decision point, routes approved batches through a custom web portal for final sign-off, and posts confirmed data directly into JDE. Rejected batches generate a structured notification with the reason for rejection — no manual intervention required to communicate an outcome.
+
+## Key Features
+
+- **Standardised SFTP Submission Protocol:** All 3PPMs were given a defined submission format — a CSV file paired with a `csv-metadata.json` descriptor — and a designated SFTP location to deliver it to. This replaced an ad-hoc, email-driven process with a consistent, auditable intake channel that the integration could reliably detect and process.
+- **csv-metadata.json Descriptor:** The companion metadata file gave the pipeline the context it needed to validate and route a submission before inspecting the data itself. By declaring the filename, pay period, and business unit entities upfront, the JSON file allowed the integration to reject malformed or misrouted submissions at the earliest possible point, without opening the CSV.
+- **Two-Stage Validation Engine:** Validation ran in two discrete, sequential stages. Stage one checked the JSON descriptor for structure and valid values. Stage two checked the CSV data against field-level and business-rule constraints specific to the file type. Decoupling the stages meant that structural problems with the descriptor were caught and reported before any data-level processing began, making failure notifications more actionable.
+- **Financial and Non-Financial Schema Enforcement:** The validation rules applied in stage two differed depending on whether the submission was a financial trial balance or a non-financial property data file. The JSON descriptor declared the type, and the integration applied the corresponding schema — allowing a single pipeline to handle both data streams without conflating their different structural requirements.
+- **Email Notifications at Every Decision Point:** Notifications were generated and dispatched at each stage of the pipeline — JSON validation pass or fail, CSV validation pass or fail, and batch approval or rejection. Every notification included the specific errors or the rejection reason rather than a generic status message, giving 3PPMs and accountants the information needed to act without a separate follow-up.
+- **Custom Web Portal Approval Workflow:** Validated batches were queued in a custom-built web portal for explicit human sign-off before any data was posted to JDE. Authorised users could review the batch, approve it, or reject it with a stated reason — maintaining a controlled, auditable link between validated data and what actually entered the ERP.
+- **JDE Integration on Approval:** Once a batch was approved in the portal, the integration posted the data directly to JD Edwards. The posting step was only reachable after a submission had passed both validation stages and received explicit portal approval, ensuring JDE received clean, reviewed data at every step.
+- **Batch State Audit Trail:** Every submission was tracked through its full lifecycle — from arrival and validation outcomes through portal decision and JDE posting. This gave the team a complete audit trail for any batch and made it straightforward to answer questions about what was submitted, when, by whom, and what happened to it.
+
+## Technologies Used
+
+- **SSIS (SQL Server Integration Services):** The integration layer that detected new SFTP submissions, orchestrated the two-stage validation pipeline, and triggered the downstream steps based on validation outcomes.
+- **SQL Server:** Hosted the custom database underpinning the pipeline — staging tables, validated data tables, batch state tracking, and the email notification logic. All state transitions and email triggers were implemented as stored procedures and SQL Agent jobs.
+- **SFTP:** The intake channel for all 3PPM submissions. Defining SFTP as the required submission method replaced the informal email channel and gave the integration a predictable, machine-readable location to monitor for new files.
+- **SQL Mail (Database Mail):** Email notifications at each validation decision point were generated and sent directly from SQL Server, keeping notification content tightly coupled to the data and state that produced it.
+- **Custom Web Portal:** The approval interface through which accountants reviewed validated batches and made the approve-or-reject decision before data was posted to JDE.
+- **JD Edwards (JDE):** The target ERP system into which approved financial and non-financial data was posted, replacing the manual data entry step previously performed by the accountant.
+
+## Challenges and Learnings
+
+### Defining a Standard Where None Existed
+
+One of the earliest challenges was establishing the submission format itself. 3PPMs had no existing standard — they were sending data in whatever format was convenient, often as unstructured email attachments. Getting external parties to change how they prepare and deliver data required clear documentation, direct communication, and a format simple enough to follow consistently.
+
+### Designing Validation Rules for Two Data Types
+
+Financial trial balance data and non-financial property data have fundamentally different structures and quality requirements. Designing validation rules thorough enough to catch meaningful errors without rejecting correctly-formed submissions required detailed analysis of both schemas and close collaboration with the accountants who understood what the downstream systems expected.
+
+### Keeping Failure Notifications Actionable
+
+A generic "validation failed" email is not useful to a 3PPM who needs to correct their file and resubmit. Every failure notification needed to identify the specific fields that failed, the rule they failed against, and enough context for the submitter to understand what to fix — generated directly from SQL to surface the specific error content rather than just the outcome.
+
+### Coordinating Across an External Party Boundary
+
+The pipeline depended on 3PPMs behaving consistently — uploading files in the right format, to the right location, on a predictable schedule. Unlike an internal system, external parties required a different kind of coordination: clear onboarding, documentation, and a feedback loop through the email notifications that helped them understand and correct submission errors quickly.
+
+### Balancing Automation with Controlled Posting
+
+A fully automated pipeline — validate, then post to JDE without human review — was technically achievable but was not the right design. Financial data posting to an ERP carries real consequences if incorrect data gets through. The custom web portal approval step was a deliberate control point that kept a human in the loop at the final gate, while automating everything up to that point.
+
+## Outcome
+
+T&I replaced two manual, error-prone processes with a single, structured pipeline. The email-driven financial data submission process — where trial balance data was sent to an accountant, manually transformed, and manually entered into JDE — was eliminated. The non-standard non-financial SFTP process was replaced with a consistent, validated intake channel that enforced the expected format before any data was accepted for processing.
+
+3PPMs had a clear, documented submission protocol and a feedback loop that told them immediately whether their submission passed or failed and why. Accountants no longer handled raw data transformation or manual JDE entry for 3PPM submissions — their role in the pipeline was reduced to reviewing validated batches and making the approve-or-reject decision through the portal.
+
+The two-stage validation engine, the approval workflow, and the direct JDE integration created an auditable, controllable path from submission to posting that had not existed before. Every step in a batch's lifecycle was recorded, giving the team a complete audit trail and a reliable operational process in place of an informal one.
