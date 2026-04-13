@@ -2,7 +2,7 @@
 title: "Ford Web Scraper — Price Comparison Tool (Full)"
 publishedAt: "2024-03-23"
 internal: true
-summary: "A Python and Selenium web scraper that navigates both ford.ca and forddealers.ca, extracts trim-level pricing for every model, and delivers a daily comparison email via Gmail — containerised with Docker, hosted on Azure Container Instances, and triggered once a day by Azure Logic Apps."
+summary: "A Python and Selenium web scraper that navigates both ford.ca and fordtodealers.ca, extracts trim-level pricing for every model, and delivers a daily comparison email via Gmail — containerised with Docker, hosted on Azure Container Instances, and triggered once a day by Azure Logic Apps."
 images:
   - "/images/projects/fordwebscrapper/email-mismatch-01.png"
 link: "https://github.com/neallyboy/ford-web-scrapper"
@@ -33,7 +33,7 @@ team:
     ],
     rows: [
       ["Project Type", "Web scraping and automated price comparison"],
-      ["Sites Targeted", "ford.ca (manufacturer) and forddealers.ca (dealer portal)"],
+      ["Sites Targeted", "ford.ca (manufacturer) and fordtodealers.ca (dealer portal)"],
       ["Team Size", "Solo — Neal Miran"],
       ["Tech Stack", "Python, Selenium, Docker, Azure Container Instances, Azure Logic Apps, Gmail SMTP"],
       ["Trigger Cadence", "Once daily via Azure Logic Apps"],
@@ -43,9 +43,9 @@ team:
   }}
 />
 
-The Ford Web Scraper was built to solve a specific and recurring operational problem: the team maintaining forddealers.ca was manually cross-referencing pricing from ford.ca once a month to keep their dealer portal in sync. The two sites operate independently — forddealers.ca is a dealer-facing portal, while ford.ca is the manufacturer's public-facing site — and they have no formal communication channel or shared data pipeline. Ford does not expose a public API for pricing data.
+The Ford Web Scraper was built to solve a specific and recurring operational problem: the team maintaining fordtodealers.ca was manually cross-referencing pricing from ford.ca once a month to keep their dealer portal in sync. The two sites operate independently — fordtodealers.ca is a dealer-facing portal, while ford.ca is the manufacturer's public-facing site — and they have no formal communication channel or shared data pipeline. Ford does not expose a public API for pricing data.
 
-This meant the forddealers.ca team was opening the manufacturer site, navigating to each model, recording trim prices by hand, and then updating their portal manually. The process was error-prone, time-consuming, and entirely dependent on someone remembering to do it each month.
+This meant the fordtodealers.ca team was opening the manufacturer site, navigating to each model, recording trim prices by hand, and then updating their portal manually. The process was error-prone, time-consuming, and entirely dependent on someone remembering to do it each month.
 
 The scraper automated the full pipeline: it navigated both sites using Selenium, extracted trim-level pricing for every model, compared the values, and delivered a structured email via Gmail showing where prices aligned and where they diverged — including a dedicated column for the price difference on any mismatched trims. The container ran once daily on Azure Container Instances, triggered by a Logic Apps schedule. The project was retired in 2025.
 
@@ -85,7 +85,7 @@ flowchart TD
     A([Azure Logic Apps\nDaily Schedule]) -->|HTTP Trigger| B[Azure Container Instances\nDocker Container]
     B --> C[Selenium + Headless Chrome]
     C -->|Navigate & extract prices| D[ford.ca\nManufacturer Site]
-    C -->|Navigate & extract prices| E[forddealers.ca\nDealer Portal]
+    C -->|Navigate & extract prices| E[fordtodealers.ca\nDealer Portal]
     D --> F[(Price Dataset — MFR)]
     E --> G[(Price Dataset — Dealer)]
     F --> H[Compare & Diff\nby model + trim]
@@ -115,13 +115,13 @@ flowchart LR
 
 ## Key Features
 
-- **Dual-Site Navigation with Selenium:** The scraper used Selenium to drive a headless browser against both ford.ca and forddealers.ca in a single run. Pricing was captured at two points on each site: the navigation menu, which surfaces prices at the model level, and the individual model page, which shows prices at the trim level. Selenium was required because pricing content on both sites is rendered by JavaScript after page load and is not present in the initial HTML response.
+- **Dual-Site Navigation with Selenium:** The scraper used Selenium to drive a headless browser against both ford.ca and fordtodealers.ca in a single run. Pricing was captured at two points on each site: the navigation menu, which surfaces prices at the model level, and the individual model page, which shows prices at the trim level. Selenium was required because pricing content on both sites is rendered by JavaScript after page load and is not present in the initial HTML response.
 - **Trim-Level Price Extraction:** For each model, the scraper collected the price of every available trim from each site, building a structured dataset keyed by model and trim name that could be joined for comparison.
 - **Price Comparison and Diff Calculation:** Once data was collected from both sites, the scraper joined the datasets by model and trim, computed the price difference for each row, and flagged any discrepancies. Trims present on one site but absent on the other were captured separately rather than silently dropped.
 - **Conditional Email Subject Line:** The email subject line included the word "Mismatch" only when at least one price discrepancy was detected. A subject line without "Mismatch" signalled immediately — before opening the email — that all prices were in sync for that day's run.
 - **Summary Table with Anchor Links:** The email opened with a summary table listing every model and its comparison status. Each model name in the table was an anchor link that jumped directly to that model's section further down in the email, allowing the recipient to scan the summary and navigate to a specific mismatch without scrolling through the full report.
 - **Red Mismatch Badges:** Any model with at least one price discrepancy was marked with a red badge in the summary table, making mismatches immediately visible at a glance. Models where all prices matched carried no badge — reducing visual noise and keeping the focus on the rows that needed attention.
-- **Per-Model Source Links:** Each model section in the email included source links to the exact pages on ford.ca and forddealers.ca from which the prices were scraped. The recipient could click directly to the live page to verify a price or investigate a discrepancy, without having to navigate the site manually.
+- **Per-Model Source Links:** Each model section in the email included source links to the exact pages on ford.ca and fordtodealers.ca from which the prices were scraped. The recipient could click directly to the live page to verify a price or investigate a discrepancy, without having to navigate the site manually.
 - **Back-to-Top Anchor Links:** Each model section ended with a "back to top" anchor link returning the reader to the summary table. On a long email covering many models, this made it practical to work through mismatches one at a time without losing context.
 - **Containerised with Docker:** The entire scraper — Python runtime, Selenium, Chrome driver, and dependencies — was packaged into a Docker container. This made the environment fully reproducible and removed any dependency on the host machine's configuration.
 - **Azure Container Instances:** Hosting in Azure removed the need for a dedicated local machine to run the scraper. A locally-hosted solution would have required a machine to be on and available at the scheduled time every day — unreliable and impractical for a side project. Running on ACI meant the pipeline would execute reliably regardless of any local environment. The container spun up, executed the full scrape-compare-email pipeline in under two minutes, and exited. Because ACI bills only for the time the container is actually running, the execution cost was minimal — at most a couple of minutes of compute per day.
@@ -133,49 +133,49 @@ flowchart LR
   items={[
     {
       src: "/images/projects/fordwebscrapper/forddealer-homepage.png",
-      alt: "forddealers.ca — Homepage",
+      alt: "fordtodealers.ca — Homepage",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "Dealer Portal", variant: "brand" },
       ],
     },
     {
       src: "/images/projects/fordwebscrapper/forddealer-nav-suvs-cars.png",
-      alt: "forddealers.ca — SUVs & Cars navigation",
+      alt: "fordtodealers.ca — SUVs & Cars navigation",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "SUVs & Cars", variant: "brand" },
       ],
     },
     {
       src: "/images/projects/fordwebscrapper/forddealer-nav-trucks-vans.png",
-      alt: "forddealers.ca — Trucks & Vans navigation",
+      alt: "fordtodealers.ca — Trucks & Vans navigation",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "Trucks & Vans", variant: "brand" },
       ],
     },
     {
       src: "/images/projects/fordwebscrapper/forddealer-nav-electric-hybrid.png",
-      alt: "forddealers.ca — Electric & Hybrid navigation",
+      alt: "fordtodealers.ca — Electric & Hybrid navigation",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "Electric & Hybrid", variant: "brand" },
       ],
     },
     {
       src: "/images/projects/fordwebscrapper/forddealer-nav-performance.png",
-      alt: "forddealers.ca — Performance navigation",
+      alt: "fordtodealers.ca — Performance navigation",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "Performance", variant: "brand" },
       ],
     },
     {
       src: "/images/projects/fordwebscrapper/forddealer-nav-commercial.png",
-      alt: "forddealers.ca — Commercial navigation",
+      alt: "fordtodealers.ca — Commercial navigation",
       badges: [
-        { label: "forddealers.ca", variant: "neutral" },
+        { label: "fordtodealers.ca", variant: "neutral" },
         { label: "Commercial", variant: "brand" },
       ],
     },
@@ -273,7 +273,7 @@ flowchart LR
 ## Technologies Used
 
 - **Python:** Core scripting language used to orchestrate the scraping logic, data comparison, and email generation end to end.
-- **Selenium:** Browser automation library used to drive a headless Chrome instance against both sites. Necessary because both ford.ca and forddealers.ca rely on JavaScript to render pricing content — static HTTP requests alone would not return the data needed.
+- **Selenium:** Browser automation library used to drive a headless Chrome instance against both sites. Necessary because both ford.ca and fordtodealers.ca rely on JavaScript to render pricing content — static HTTP requests alone would not return the data needed.
 - **Docker:** The scraper was packaged as a Docker image including the Python runtime, Selenium, and a compatible Chrome/ChromeDriver binary. Containerising the scraper ensured the environment was consistent across local development, CI, and the Azure execution environment.
 - **Azure Container Instances (ACI):** Hosted the Docker container in Azure, removing the need for a dedicated local machine to be on and available at the scheduled run time every day. ACI ran the container on demand — it started when triggered, completed the full pipeline in under two minutes, and stopped. Because ACI bills only for active execution time, the cost of running the scraper daily was minimal.
 - **Azure Logic Apps:** Provided the daily schedule trigger. The Logic Apps workflow fired once per day and sent a start signal to the Azure Container Instance. No persistent scheduler or cron infrastructure was required.
@@ -287,7 +287,7 @@ Ford does not expose a public API for vehicle pricing. The only way to access cu
 
 ### Two Sites with Different Structures
 
-ford.ca and forddealers.ca are independent sites with different HTML structures, navigation patterns, and URL schemes. Each required its own traversal and extraction logic — assumptions that held on one site could not be carried over to the other. Model and trim names also had minor inconsistencies between the two sites that needed to be normalised before any meaningful comparison could be made.
+ford.ca and fordtodealers.ca are independent sites with different HTML structures, navigation patterns, and URL schemes. Each required its own traversal and extraction logic — assumptions that held on one site could not be carried over to the other. Model and trim names also had minor inconsistencies between the two sites that needed to be normalised before any meaningful comparison could be made.
 
 ### Matching Models and Trims Across Sites
 
@@ -303,10 +303,10 @@ Configuring Logic Apps to trigger an ACI container on a schedule required settin
 
 ### Keeping the Output Actionable
 
-The goal was not to produce a raw data dump but to give the forddealers.ca team something they could act on immediately. Structuring the email to surface discrepancies clearly — with model, trim, both prices, and the difference in a single row — meant the team could open the email and know exactly which entries needed to be updated, without additional sorting or interpretation.
+The goal was not to produce a raw data dump but to give the fordtodealers.ca team something they could act on immediately. Structuring the email to surface discrepancies clearly — with model, trim, both prices, and the difference in a single row — meant the team could open the email and know exactly which entries needed to be updated, without additional sorting or interpretation.
 
 ## Outcome
 
-The scraper replaced the monthly manual cross-referencing process entirely. The forddealers.ca team received a daily email showing the current state of pricing across both sites, with any discrepancies immediately visible. Price differences that had previously gone undetected between monthly update cycles were surfaced the day they appeared.
+The scraper replaced the monthly manual cross-referencing process entirely. The fordtodealers.ca team received a daily email showing the current state of pricing across both sites, with any discrepancies immediately visible. Price differences that had previously gone undetected between monthly update cycles were surfaced the day they appeared.
 
 The containerised, event-driven architecture kept ongoing infrastructure costs minimal — ACI only ran when triggered, and Logic Apps handled the schedule with no always-on components required. The project ran reliably until it was retired in 2025, and demonstrated a practical pattern for bridging data gaps between systems that have no formal integration: when no API exists and manual reconciliation is the only alternative, a targeted scraper with a structured output pipeline can replace that process reliably.
