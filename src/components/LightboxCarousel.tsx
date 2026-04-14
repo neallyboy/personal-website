@@ -95,7 +95,7 @@ export function LightboxCarousel({ items }: LightboxCarouselProps) {
                 zIndex: 2,
               }}
             >
-              <IconButton icon="chevronLeft" variant="secondary" onClick={prev} />
+              <IconButton icon="chevronLeft" variant="primary" onClick={prev} />
             </Flex>
           )}
 
@@ -110,7 +110,7 @@ export function LightboxCarousel({ items }: LightboxCarouselProps) {
                 zIndex: 2,
               }}
             >
-              <IconButton icon="chevronRight" variant="secondary" onClick={next} />
+              <IconButton icon="chevronRight" variant="primary" onClick={next} />
             </Flex>
           )}
         </Flex>
@@ -162,17 +162,22 @@ export function LightboxCarousel({ items }: LightboxCarouselProps) {
               style={{ left: "24px", top: "50%", transform: "translateY(-50%)", zIndex: 1 }}
               onClick={(e) => { e.stopPropagation(); setActiveIndex((i) => i - 1); }}
             >
-              <IconButton icon="chevronLeft" variant="secondary" size="l" />
+              <IconButton icon="chevronLeft" variant="primary" size="l" />
             </Flex>
           )}
 
-          <Media
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={current.src}
             alt={current.alt}
-            style={{ maxWidth: "90vw", maxHeight: "90vh" }}
-            objectFit="contain"
-            sizes="90vw"
+            style={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              objectFit: "contain",
+              display: "block",
+            }}
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
           />
 
           {/* Next button */}
@@ -182,7 +187,7 @@ export function LightboxCarousel({ items }: LightboxCarouselProps) {
               style={{ right: "24px", top: "50%", transform: "translateY(-50%)", zIndex: 1 }}
               onClick={(e) => { e.stopPropagation(); setActiveIndex((i) => i + 1); }}
             >
-              <IconButton icon="chevronRight" variant="secondary" size="l" />
+              <IconButton icon="chevronRight" variant="primary" size="l" />
             </Flex>
           )}
 

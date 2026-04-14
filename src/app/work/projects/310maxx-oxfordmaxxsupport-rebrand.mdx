@@ -107,17 +107,47 @@ The rebranding of 310Maxx to OxfordMaxxsupport was more than a visual update. It
         { label: "New Feature", variant: "success" },
       ],
     },
+    {
+      src: "/images/projects/oxfordmaxxsupport/buildingpage.png",
+      alt: "Building page - location and hours",
+      badges: [
+        { label: "HOO", variant: "neutral" },
+        { label: "New Feature", variant: "success" },
+      ],
+    },
   ]}
 />
 
 ## Technologies Used
 
-<TechStack items={[
-  { name: ".NET", iconSrc: "/images/tech-icons/dotnet.svg", description: "The existing web application framework. All new features were built and extended within the legacy .NET application." },
-  { name: "On-Premises Database", iconSrc: "/images/tech-icons/mssql.svg", description: "Source of record for tenant and building data, used to populate the account creation form and building page content. Read-only integration with no write path back to the source system." },
-  { name: "Existing Data Integration", iconSrc: "/images/tech-icons/mssql.svg", description: "Building and tenant data is maintained through an existing operational data feed that refreshes once per day, ensuring the account creation form always reflects current information." },
-  { name: "Email-Based Account Provisioning", iconSrc: "/images/tech-icons/microsoft-exchange.svg", description: "Account creation submissions are routed to a monitored internal mailbox where a downstream process handles account provisioning. This integration boundary was kept unchanged to avoid modifying the existing provisioning workflow." },
-]} />
+<TechStack
+  items={[
+    {
+      name: ".NET",
+      iconSrc: "/images/tech-icons/dotnet.svg",
+      description:
+        "The existing web application framework. All new features were built and extended within the legacy .NET application.",
+    },
+    {
+      name: "On-Premises Database",
+      iconSrc: "/images/tech-icons/mssql.svg",
+      description:
+        "Source of record for tenant and building data, used to populate the account creation form and building page content. Read-only integration with no write path back to the source system.",
+    },
+    {
+      name: "Existing Data Integration",
+      iconSrc: "/images/tech-icons/mssql.svg",
+      description:
+        "Building and tenant data is maintained through an existing operational data feed that refreshes once per day, ensuring the account creation form always reflects current information.",
+    },
+    {
+      name: "Email-Based Account Provisioning",
+      iconSrc: "/images/tech-icons/microsoft-exchange.svg",
+      description:
+        "Account creation submissions are routed to a monitored internal mailbox where a downstream process handles account provisioning. This integration boundary was kept unchanged to avoid modifying the existing provisioning workflow.",
+    },
+  ]}
+/>
 
 ## Challenges and Learnings
 

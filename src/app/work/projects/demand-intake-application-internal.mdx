@@ -4,7 +4,8 @@ navTitle: "IT Demand Intake"
 publishedAt: "2024-06-01"
 internal: true
 summary: "A self-service IT demand intake application built on Power Apps, Power Automate, and SharePoint — replacing ad-hoc requests scattered across ServiceNow with a structured, multi-stage approval workflow that routes intake through the PMO, assigned delivery teams, a director, and back to the requestor for final sign-off. CI/CD handled through Azure DevOps, reporting through Power BI."
-images: []
+images:
+  - "/images/projects/demandintake/intakelist.png"
 team:
   - name: "Neal Miran"
     role: "Developer"
@@ -17,6 +18,7 @@ team:
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Key Features](#key-features)
+- [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
 - [Challenges and Learnings](#challenges-and-learnings)
 - [Outcome](#outcome)
@@ -125,6 +127,100 @@ A Power BI dashboard connected to the SharePoint list provided the PMO with live
 - **Email Notifications at Every Transition:** Every status change in the lifecycle triggers an email to the relevant parties — requestor and PMO on submission, assigned teams on assignment, director on estimation, requestor on director approval. Notifications were targeted to the role responsible for the next action, keeping noise low and context relevant.
 - **Power BI Reporting Dashboard:** The PMO had access to a live Power BI dashboard connected directly to the SharePoint list, surfacing analytics across the demand portfolio: total intakes by status, intakes by group, top requestors by volume, total estimated hours, and total projected costs. This replaced ad-hoc reporting with a self-service view the PMO could consult at any point.
 - **Azure DevOps CI/CD Pipeline:** Solution promotion across Dev, UAT, and Prod followed a repeatable pipeline rather than manual exports. The pipeline converted the unmanaged development solution to a managed package and deployed it through environments in sequence, giving the release process version control and removing the risk of environment drift from manual steps.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/demandintake/intakelist.png",
+      alt: "Intake list — requestor view",
+      badges: [
+        { label: "Intake List", variant: "neutral" },
+        { label: "Requestor View", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-01.png",
+      alt: "New intake questionnaire — step 1",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 1", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-02.png",
+      alt: "New intake questionnaire — step 2",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 2", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-03.png",
+      alt: "New intake questionnaire — step 3",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 3", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-04.png",
+      alt: "New intake questionnaire — step 4",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 4", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-05.png",
+      alt: "New intake questionnaire — step 5",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 5", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/newintake-06.png",
+      alt: "New intake questionnaire — step 6",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 6", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/intakedetails.png",
+      alt: "Intake details view",
+      badges: [
+        { label: "Intake Details", variant: "neutral" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/greencosts.png",
+      alt: "Cost breakdown — green costs",
+      badges: [
+        { label: "Estimation", variant: "neutral" },
+        { label: "Green Costs", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/browncosts.png",
+      alt: "Cost breakdown — brown costs",
+      badges: [
+        { label: "Estimation", variant: "neutral" },
+        { label: "Brown Costs", variant: "warning" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake/insights-dashboard.png",
+      alt: "Power BI insights dashboard",
+      badges: [
+        { label: "Power BI", variant: "neutral" },
+        { label: "Reporting", variant: "brand" },
+      ],
+    },
+  ]}
+/>
 
 ## Technologies Used
 

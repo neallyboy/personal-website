@@ -3,7 +3,8 @@ title: "IT Demand Intake Application"
 navTitle: "IT Demand Intake"
 publishedAt: "2024-06-01"
 summary: "A self-service IT demand intake application built on Power Apps, Power Automate, and SharePoint — giving the entire organisation a structured channel for submitting IT requests through a multi-stage approval workflow covering intake, team assignment, estimation, and sign-off. CI/CD through Azure DevOps, reporting through Power BI."
-images: []
+images:
+  - "/images/projects/demandintake-public/intakelist.png"
 team:
   - name: "Neal Miran"
     role: "Developer"
@@ -15,6 +16,7 @@ team:
 
 - [Overview](#overview)
 - [Key Features](#key-features)
+- [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
 - [Challenges and Learnings](#challenges-and-learnings)
 - [Outcome](#outcome)
@@ -54,6 +56,100 @@ The Demand Intake Application replaced this with a single, guided process. Reque
 - **Targeted Email Notifications:** Every status change triggers an email to the party responsible for the next action — not a broadcast to all parties — keeping communication relevant and noise low.
 - **Power BI Reporting Dashboard:** A live dashboard connected to the SharePoint list gives the PMO visibility into total intakes by status, intakes by assigned group, top requestors by volume, total estimated hours, and total projected costs.
 - **Azure DevOps CI/CD Pipeline:** Solution promotion across Dev, UAT, and Prod followed a repeatable pipeline, converting the unmanaged development solution to a managed package and deploying through environments in sequence.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/demandintake-public/intakelist.png",
+      alt: "Intake list — requestor view",
+      badges: [
+        { label: "Intake List", variant: "neutral" },
+        { label: "Requestor View", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-01.png",
+      alt: "New intake questionnaire — step 1",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 1", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-02.png",
+      alt: "New intake questionnaire — step 2",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 2", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-03.png",
+      alt: "New intake questionnaire — step 3",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 3", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-04.png",
+      alt: "New intake questionnaire — step 4",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 4", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-05.png",
+      alt: "New intake questionnaire — step 5",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 5", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/newintake-06.png",
+      alt: "New intake questionnaire — step 6",
+      badges: [
+        { label: "New Intake", variant: "neutral" },
+        { label: "Step 6", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/intakedetails.png",
+      alt: "Intake details view",
+      badges: [
+        { label: "Intake Details", variant: "neutral" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/greencosts.png",
+      alt: "Cost breakdown — green costs",
+      badges: [
+        { label: "Estimation", variant: "neutral" },
+        { label: "Green Costs", variant: "success" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/browncosts.png",
+      alt: "Cost breakdown — brown costs",
+      badges: [
+        { label: "Estimation", variant: "neutral" },
+        { label: "Brown Costs", variant: "warning" },
+      ],
+    },
+    {
+      src: "/images/projects/demandintake-public/insights-dashboard.png",
+      alt: "Power BI insights dashboard",
+      badges: [
+        { label: "Power BI", variant: "neutral" },
+        { label: "Reporting", variant: "brand" },
+      ],
+    },
+  ]}
+/>
 
 ## Technologies Used
 
