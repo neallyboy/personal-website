@@ -232,6 +232,7 @@ const about: About = {
         images: [],
       },
       {
+        hidden: true,
         company: "Rethink Solutions Inc.",
         timeframe: "Jul 2017 - Oct 2018",
         logo: "/images/logos/rethink_solutions_inc__logo.jpeg",
@@ -245,6 +246,7 @@ const about: About = {
         images: [],
       },
       {
+        hidden: true,
         company: "Plexxis Software",
         timeframe: "Oct 2016 - Jul 2017",
         logo: "/images/logos/plexxissoftware_logo.jpeg",
@@ -258,6 +260,7 @@ const about: About = {
         images: [],
       },
       {
+        hidden: true,
         company: "Teknion",
         timeframe: "Sep 2011 - Oct 2016",
         logo: "/images/logos/teknion_logo.jpeg",
@@ -272,6 +275,7 @@ const about: About = {
         images: [],
       },
       {
+        hidden: true,
         company: "Teknion",
         timeframe: "Sep 2009 - Aug 2011",
         logo: "/images/logos/teknion_logo.jpeg",
@@ -284,6 +288,7 @@ const about: About = {
         images: [],
       },
       {
+        hidden: true,
         company: "VMWare",
         timeframe: "May 2009 - Aug 2009",
         logo: "/images/logos/vmware_logo.jpeg",

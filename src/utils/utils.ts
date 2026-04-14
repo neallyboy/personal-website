@@ -22,6 +22,7 @@ type Metadata = {
   team: Team[];
   link?: string;
   internal?: boolean;
+  hidden?: boolean;
 };
 
 

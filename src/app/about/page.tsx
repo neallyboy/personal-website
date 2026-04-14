@@ -39,7 +39,7 @@ export default function About() {
     {
       title: about.work.title,
       display: about.work.display,
-      items: about.work.experiences.map((experience) => experience.company),
+      items: about.work.experiences.filter((e) => !e.hidden).map((experience) => experience.company),
     },
     {
       title: about.studies.title,
@@ -226,7 +226,7 @@ export default function About() {
               <Column fillWidth marginBottom="40">
                 <Timeline
                   size="xs"
-                  items={about.work.experiences.map((experience, index) => ({
+                  items={about.work.experiences.filter((e) => !e.hidden).map((experience, index) => ({
                     label: (
                       <Row
                         key={`label-${experience.company}-${experience.timeframe}`}

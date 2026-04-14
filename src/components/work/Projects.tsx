@@ -10,7 +10,7 @@ interface ProjectsProps {
 
 export function Projects({ range, exclude, onlyInternal = false }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "work", "projects"]).filter(
-    (post) => onlyInternal ? post.metadata.internal : !post.metadata.internal,
+    (post) => (onlyInternal ? post.metadata.internal : !post.metadata.internal) && !post.metadata.hidden,
   );
 
   // Exclude by slug (exact match)
