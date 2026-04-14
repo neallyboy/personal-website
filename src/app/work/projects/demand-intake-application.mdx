@@ -1,0 +1,97 @@
+---
+title: "IT Demand Intake Application"
+navTitle: "IT Demand Intake"
+publishedAt: "2024-06-01"
+summary: "A self-service IT demand intake application built on Power Apps, Power Automate, and SharePoint — giving the entire organisation a structured channel for submitting IT requests through a multi-stage approval workflow covering intake, team assignment, estimation, and sign-off. CI/CD through Azure DevOps, reporting through Power BI."
+images: []
+team:
+  - name: "Neal Miran"
+    role: "Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Technologies Used](#technologies-used)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Project Type", "Self-service intake and multi-stage approval workflow"],
+      ["Audience", "Organisation-wide"],
+      ["Team", "Neal Miran (Sole Developer), PMO (Requirements)"],
+      ["Tech Stack", "Power Apps, Power Automate, SharePoint, Azure DevOps, Power BI"],
+      ["CI/CD", "Azure DevOps — unmanaged to managed solution promotion across environments"],
+      ["Status", "Delivered"],
+    ],
+  }}
+/>
+
+IT requests were arriving without structure. There was no consistent format for capturing what was being asked, by whom, with what priority, or with what business justification attached. The PMO had limited visibility into the incoming demand, and delivery teams were receiving requests without the context needed to estimate or plan work effectively.
+
+The Demand Intake Application replaced this with a single, guided process. Requestors open the app, see their own submissions at a glance, and create new intakes through a structured questionnaire covering business unit, priority, business value, business risk, target date, and supporting documentation. From there, the intake moves through a defined workflow: PMO review and team assignment, team estimation and solution commentary, director approval, and final sign-off by the requestor. Every transition triggers a targeted email notification to the relevant party, and a Power BI dashboard gives the PMO live analytics across the full intake portfolio.
+
+## Key Features
+
+- **Self-Service Intake Questionnaire:** Requestors create intakes through a structured form capturing business unit, priority, business value, business risk, target date, and up to ten supporting documents. The guided format replaced ad-hoc requests with a consistent, complete record from the point of submission.
+- **Draft and Submit States:** Intakes can be saved as a draft and returned to before submission, giving requestors time to build their submission without accidentally triggering the workflow on an incomplete record. Submitting locks all fields and initiates the review process.
+- **Requestor-Scoped Intake List:** Each user sees only their own submissions on open, keeping the default view relevant without exposing organisation-wide demand to every user.
+- **PMO Assignment Workflow:** Submitted intakes are reviewed by the PMO before reaching any delivery team. The PMO assigns one or more groups, giving them a controlled point to understand the request and route it appropriately.
+- **Team Accept or Reject Decision:** Assigned teams explicitly accept or reject each intake. Rejection returns the intake through the workflow with a notification. Acceptance moves it to estimation.
+- **Structured Estimation:** Accepted intakes require teams to document who will work on it, estimated hours, itemised costs (consulting, software, and other fees), and commentary on the proposed approach. This gives approvers the information needed to make an informed decision.
+- **Two-Stage Approval Gate:** Estimates go to a director for review before reaching the requestor, ensuring proposals have been internally validated before the requestor gives final sign-off.
+- **Targeted Email Notifications:** Every status change triggers an email to the party responsible for the next action — not a broadcast to all parties — keeping communication relevant and noise low.
+- **Power BI Reporting Dashboard:** A live dashboard connected to the SharePoint list gives the PMO visibility into total intakes by status, intakes by assigned group, top requestors by volume, total estimated hours, and total projected costs.
+- **Azure DevOps CI/CD Pipeline:** Solution promotion across Dev, UAT, and Prod followed a repeatable pipeline, converting the unmanaged development solution to a managed package and deploying through environments in sequence.
+
+## Technologies Used
+
+<TechStack items={[
+  { name: "Power Apps (Canvas App)", iconSrc: "/images/tech-icons/PowerApps_scalable.svg", description: "The primary user interface, built as a canvas app and accessed by the entire organisation. Requestors managed their intakes and tracked status through submission to final approval; PMO users had access to the full intake list with assignment controls." },
+  { name: "Power Automate", iconSrc: "/images/tech-icons/PowerAutomate_scalable.svg", description: "All data operations and notifications were handled through Power Automate flows, covering intake creation, status updates, and email dispatch at each workflow transition." },
+  { name: "SharePoint List", iconSrc: "/images/tech-icons/ms-sharepoint-svgrepo-com.svg", description: "The data store for all demand intakes, holding every record and its associated metadata — status, assignees, estimates, costs, and document attachments — within the organisation's existing Microsoft 365 footprint." },
+  { name: "Azure DevOps", iconSrc: "/images/tech-icons/azure.svg", description: "Provided the CI/CD pipeline for solution promotion, exporting the unmanaged solution from Dev, converting it to a managed package, and deploying through UAT to Prod in a version-controlled, repeatable process." },
+  { name: "Power BI", iconSrc: "/images/tech-icons/power-bi-icon.svg", description: "A reporting dashboard connected directly to the SharePoint list, giving the PMO self-service analytics across the demand portfolio without manual tracking or ad-hoc queries." },
+  { name: "Microsoft Exchange (Outlook)", iconSrc: "/images/tech-icons/microsoft-exchange.svg", description: "Email notifications dispatched through Outlook via Power Automate at each workflow transition, targeted to the role responsible for the next action." },
+]} />
+
+## Challenges and Learnings
+
+### Designing a Multi-Stage Workflow in a Flat Data Store
+
+SharePoint lists are flat. Representing a multi-stage approval workflow with branching paths — accept, reject, multiple assigned groups, itemised cost breakdowns — required deliberate column design upfront. Changes to the schema mid-project cascaded into the Power Automate flows and the canvas app, making early data model decisions load-bearing. Investing time in schema design before building flows paid off consistently throughout the project.
+
+### Managing Flow Complexity as the Workflow Grew
+
+Each status transition required its own flow covering the state update, conditional branching, and targeted notification logic. As the workflow expanded across six statuses and multiple paths, keeping flows named, scoped, and independently testable required more organisational discipline than a single large flow would have — but made individual transitions significantly easier to debug and modify without affecting others.
+
+### Building One App for Multiple Roles
+
+Requestors, PMO users, delivery teams, and directors all used the same canvas app with different views, available actions, and data visibility. Building role-appropriate interfaces without separate apps required conditional visibility logic throughout the app — and getting role detection right was a correctness requirement, not just a UX one.
+
+### CI/CD for Power Platform Solutions
+
+Deploying Power Platform solutions through Azure DevOps differs meaningfully from deploying code. Solutions are XML-based packages containing connection references and environment variables that need correct handling during promotion. Configuring the pipeline to export cleanly, convert to managed, and deploy without breaking bindings required end-to-end testing of the full promotion path before relying on it for real deployments.
+
+### Translating Process Into State
+
+Working directly with the PMO to define requirements meant working with stakeholders who understood the process deeply but were not thinking in terms of status transitions or branching logic. Translating descriptions like "the team reviews it and either accepts or sends it back" into concrete states, field-level rules, and notification targets required iterative clarification — and each round surfaced edge cases that needed to be resolved before they became bugs.
+
+## Outcome
+
+The Demand Intake Application gave the organisation a structured, auditable channel for submitting and managing IT demand. Requests that had previously arrived without consistent context or format were replaced by guided intakes that captured every required detail at the point of submission.
+
+Every stage of the workflow — from draft through PMO assignment, team estimation, director approval, and requestor sign-off — was tracked in SharePoint and surfaced in Power BI. The PMO had real-time portfolio visibility without needing to chase status updates. Teams received notifications only when action was required from them. Requestors could track their own submissions through the app without contacting anyone.
+
+The Azure DevOps pipeline removed manual steps from solution promotion, giving the deployment process the same repeatability and version control that code-based projects take for granted in the Power Platform space.
