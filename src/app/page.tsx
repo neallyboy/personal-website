@@ -1,6 +1,7 @@
+import { Posts } from "@/components/blog/Posts";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
-import { about, baseURL, home, person } from "@/resources";
+import { about, baseURL, blog, home, person } from "@/resources";
 import {
   Avatar,
   Badge,
@@ -63,17 +64,37 @@ export default function Home() {
               </Badge>
             </RevealFx>
           )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
+          <RevealFx
+            translateY="4"
+            fillWidth
+            horizontal="center"
+            paddingBottom="16"
+          >
             <Heading wrap="balance" variant="display-strong-l">
               {home.headline}
             </Heading>
           </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
+          <RevealFx
+            translateY="8"
+            delay={0.2}
+            fillWidth
+            horizontal="center"
+            paddingBottom="32"
+          >
+            <Text
+              wrap="balance"
+              onBackground="neutral-weak"
+              variant="heading-default-xl"
+            >
               {home.subline}
             </Text>
           </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
+          <RevealFx
+            paddingTop="12"
+            delay={0.4}
+            horizontal="center"
+            paddingLeft="12"
+          >
             <Button
               id="about"
               data-border="rounded"
@@ -102,6 +123,19 @@ export default function Home() {
         <Projects range={[1, 1]} />
       </RevealFx>
       <Projects range={[2]} />
+      <Column fillWidth gap="24">
+        <Heading variant="heading-strong-l">Recent Writing</Heading>
+        <Posts range={[1, 1]} columns="1" thumbnail direction="row" />
+        <Button
+          href={blog.path}
+          variant="tertiary"
+          size="m"
+          weight="default"
+          arrowIcon
+        >
+          View all posts
+        </Button>
+      </Column>
       <Mailchimp />
     </Column>
   );

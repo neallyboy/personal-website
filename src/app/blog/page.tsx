@@ -1,5 +1,6 @@
+import { Posts } from "@/components/blog/Posts";
 import { baseURL, blog, person } from "@/resources";
-import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
+import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -30,10 +31,7 @@ export default function Blog() {
       <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
         {blog.title}
       </Heading>
-      <Column fillWidth paddingY="128" horizontal="center" vertical="center" gap="16">
-        <Heading variant="heading-strong-xl">Coming Soon</Heading>
-        <Text onBackground="neutral-weak">Posts are on their way. Check back soon.</Text>
-      </Column>
+      <Posts columns="1" thumbnail direction="row" />
     </Column>
   );
 }

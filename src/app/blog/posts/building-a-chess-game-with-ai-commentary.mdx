@@ -1,0 +1,136 @@
+---
+title: "Building a Chess Game With AI Commentary"
+subtitle: "My son asked for a chess game with an AI opponent that could talk back, so naturally I built one"
+summary: "This started because my son asked me to make a chess game where the AI could play against you and talk. It has turned into a really fun little side project with commentary, sound effects, AI difficulty levels, an eval bar, and a surprising amount of personality."
+image: "/images/blog/chess-ai-commentary.png"
+publishedAt: "2026-04-17"
+tag: "Side Project"
+---
+
+## Contents
+
+- [How it started](#how-it-started)
+- [Overview](#overview)
+- [Screenshot](#screenshot)
+- [What I built](#what-i-built)
+- [Why this one has been fun](#why-this-one-has-been-fun)
+- [What is next](#what-is-next)
+
+## How it started
+
+My son asked me to build a chess game where you could play against an AI, but with one extra condition: the AI had to talk.
+
+That was basically all I needed to hear.
+
+The brief was simple enough. Make it feel like an actual little game, not just a chess board that happens to allow legal moves. Give it some personality. Let the computer react. Make it fun even if someone only opens it for a few minutes.
+
+So that is what this became: a browser-based chess game where you play White, the engine plays Black, and the AI keeps up a running stream of commentary while the game unfolds.
+
+This has absolutely been vibe coding so far, in a good way. The idea moved fast, the feedback loop was short, and every pass made it feel more like a real little product instead of just a code experiment. It looks good, it works well, and it is already fun to just open and play.
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Project Type", "Interactive browser-based chess game"],
+      ["Audience", "Built at home after a request from my son"],
+      ["Core Idea", "Play against an AI opponent that comments on the game as it plays"],
+      ["Engines", "Built-in minimax AI and Stockfish"],
+      ["Extras", "Commentary panel, speech, move sounds, difficulty levels, evaluation bar"],
+      ["Status", "Live and actively evolving"],
+    ],
+  }}
+/>
+
+At a technical level, it is a playable chess board with legal moves, AI move selection, spoken commentary, sound effects, multiple difficulty levels, and a UI that tries to feel more like a small game than a coding demo.
+
+At a personal level, this one has been a good reminder that not every project needs a giant plan behind it. Sometimes a good build starts with a kid basically asking, "Can you make this talk?"
+
+## Screenshot
+
+![Screenshot of the chess board with AI commentary beside it.](/images/blog/chess-ai-commentary.png)
+
+## What I built
+
+### A playable chess board
+
+The first thing I wanted to get right was the board itself. It needed to be properly playable, with legal move handling, turn management, check detection, checkmate, stalemate, move highlighting, and enough visual feedback that you always know what is going on.
+
+I wanted it to feel clear right away. The piece styling, square highlights, and move indicators do a lot of work there. You should be able to open the page and immediately understand whose turn it is, what just happened, and what your options are.
+
+### Two AI paths
+
+The game supports two different AI paths:
+
+- A built-in AI using a minimax-style approach for quick local play.
+- Stockfish for stronger play and more recognizable chess-engine behaviour.
+
+That split turned out to be really useful because it gives the game two different personalities. The built-in engine is quick and lightweight. Stockfish is the more serious option when you want the computer to stop being polite.
+
+### Difficulty levels
+
+When Stockfish is selected, there are multiple difficulty levels ranging from beginner through master. That matters a lot for something like this because the gap between "fun challenge" and "absolutely miserable" in chess gets very small if you only expose one engine strength.
+
+The levels make it usable for different kinds of players. Someone just poking around can keep things casual, and someone who wants a harder game can crank it up and get punished properly.
+
+### AI commentary that talks back
+
+This is the part that made the whole thing feel different.
+
+The commentary panel reacts to the game as it unfolds, and the game can speak those lines out loud too. That means the opponent is not just moving pieces around silently. It reacts to captures, checks, momentum swings, and game-ending moments.
+
+The result is somewhere between a chess engine, a commentator, and a slightly smug opponent, which is exactly what I was hoping for.
+
+That extra layer of voice and personality changes the feel of the game more than I expected. Even a short session feels more alive.
+
+### Sound design
+
+There are move sounds, capture sounds, and speech controls so the whole thing does not feel flat.
+
+This is one of those details that is easy to underestimate. Sound gives feedback instantly. A basic move sound, a capture sound, and spoken commentary go a long way toward making the board feel responsive instead of static.
+
+There is also a mute toggle, which is necessary because a talking chess opponent is great right up until you do not want it talking anymore.
+
+### Evaluation bar
+
+The evaluation bar adds a bit more of that "real chess tool" feeling. It gives a quick read on who is better and how the position is trending, without making the player do all that work manually.
+
+That balance ended up working nicely. The commentary makes it more playful. The eval bar makes it feel a little more serious.
+
+### UI polish that makes it feel finished
+
+Some of the less flashy work ended up mattering just as much:
+
+- The board and commentary layout now sit properly side by side on wide screens.
+- The responsive behaviour has been tightened so the UI does not collapse awkwardly.
+- The board visuals were cleaned up so there are no seams between squares.
+- The commentary panel is given enough room to actually read the running chat.
+
+Those are the kinds of changes that turn "it works" into "this actually feels nice to use."
+
+## Why this one has been fun
+
+This project has been a good reminder that small ideas can have a lot of energy if they are specific enough.
+
+There was no long planning phase here. The idea was clear, the feedback was immediate, and each improvement made the experience noticeably better. That kind of loop is hard not to enjoy.
+
+It has also been fun because it sits in a nice middle ground between game logic and UI polish. There is enough technical depth to keep it interesting, but enough visible interaction work that every change actually feels rewarding.
+
+And honestly, building a chess engine that can talk a little trash is just funny.
+
+## What is next
+
+There is still plenty I could add from here.
+
+- Stronger commentary tied more closely to position evaluation.
+- More game states and reactions for opening traps, blunders, and tactical sequences.
+- Move history and notation display.
+- Better mobile tuning.
+- Possibly letting Black be player-controlled too.
+
+But even in its current form, this already feels like a real little product. It started as a request from my son, turned into a vibe-coded side project, and ended up becoming one of the more instantly enjoyable things I have built in a while.
