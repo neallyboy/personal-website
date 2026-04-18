@@ -28,13 +28,12 @@ export function useSpeech() {
     if (!synthesis) return;
 
     try {
-      const primer = new SpeechSynthesisUtterance(" ");
+      // Speak a truly silent utterance to satisfy Chrome's autoplay policy.
+      // Do NOT cancel it — canceling immediately may revoke the permission grant.
+      const primer = new SpeechSynthesisUtterance('\u200B'); // zero-width space
       primer.volume = 0;
-      primer.rate = 1;
-      primer.pitch = 1;
+      primer.rate = 10; // finish as fast as possible
       synthesis.speak(primer);
-      synthesis.cancel();
-      synthesis.resume();
     } catch {
       // Ignore priming failures and keep normal speech available.
     }
@@ -47,7 +46,6 @@ export function useSpeech() {
 
       clearPendingSpeak();
       synthesis.cancel();
-      synthesis.resume();
 
       const utterance = new SpeechSynthesisUtterance(text);
       if (voiceRef.current) utterance.voice = voiceRef.current;
@@ -57,7 +55,6 @@ export function useSpeech() {
       utterance.volume = 1.0;
 
       pendingSpeakTimeoutRef.current = window.setTimeout(() => {
-        synthesis.resume();
         synthesis.speak(utterance);
         pendingSpeakTimeoutRef.current = null;
       }, 40);

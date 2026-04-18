@@ -443,6 +443,14 @@ export function ChessGame() {
                     game.inCheck &&
                     piece?.type === "K" &&
                     piece.color === game.turn;
+                  const isLosingKing =
+                    game.status === "checkmate" &&
+                    piece?.type === "K" &&
+                    piece.color === game.turn;
+                  const isWinningKing =
+                    game.status === "checkmate" &&
+                    piece?.type === "K" &&
+                    piece.color !== game.turn;
 
                   return (
                     <button
@@ -539,6 +547,12 @@ export function ChessGame() {
                           {SYMBOLS[`${piece.color}${piece.type}`]}
                         </span>
                       )}
+                      {isLosingKing && (
+                        <div className={`${styles.kingBadge} ${styles.kingBadgeLose}`}>✕</div>
+                      )}
+                      {isWinningKing && (
+                        <div className={`${styles.kingBadge} ${styles.kingBadgeWin}`}>✓</div>
+                      )}
                     </button>
                   );
                 })}
@@ -562,6 +576,15 @@ export function ChessGame() {
                 {file}
               </div>
             ))}
+
+            {game.status === "checkmate" && (
+              <div className={styles.checkmateOverlay}>
+                <div className={styles.checkmateTitle}>Checkmate</div>
+                <div className={styles.checkmateSubtitle}>
+                  {game.turn === "b" ? "You win!" : "AI wins"}
+                </div>
+              </div>
+            )}
           </div>
         </div>
         {/* end board */}

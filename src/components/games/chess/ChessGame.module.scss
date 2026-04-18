@@ -28,6 +28,71 @@
   user-select: none;
   min-width: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.checkmateOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(2px);
+  animation: fadeInOverlay 0.4s ease forwards;
+  pointer-events: none;
+}
+
+.checkmateTitle {
+  font-size: clamp(28px, 6vw, 56px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+}
+
+.checkmateSubtitle {
+  font-size: clamp(14px, 2.5vw, 22px);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.kingBadge {
+  position: absolute;
+  top: 6%;
+  right: 6%;
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 2.5vw, 22px);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.kingBadgeLose {
+  background: #e03030;
+  color: #fff;
+}
+
+.kingBadgeWin {
+  background: #28a745;
+  color: #fff;
 }
 
 .boardSquare {
@@ -37,6 +102,8 @@
 
 .chatPanel {
   width: 100%;
+  height: 0;       /* don't contribute to grid row height */
+  min-height: 100%; /* fill the row height set by the board */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -60,6 +127,7 @@
 
 .chatMessages {
   flex: 1;
+  min-height: 0; /* allow flex item to shrink and scroll */
   overflow-y: auto;
   padding: 12px 16px;
   display: flex;
