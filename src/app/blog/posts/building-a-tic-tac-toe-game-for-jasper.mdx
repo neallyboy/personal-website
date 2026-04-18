@@ -1,0 +1,98 @@
+---
+title: "Building Tic-Tac-Toe for Jasper"
+subtitle: "My youngest saw his brother's chess game and immediately asked when he was getting his own game"
+summary: "After Julien's chess game went live, Jasper wanted something too. We landed on tic-tac-toe, and Jasper came with opinions — including a signature move he calls Jasper's Ultimate Strategy."
+image: "/images/blog/jasper-tictactoe-v2.png"
+publishedAt: "2026-04-18"
+tag: "Side Project"
+---
+
+## Contents
+
+- [How it started](#how-it-started)
+- [Overview](#overview)
+- [What I built](#what-i-built)
+- [Jasper's Ultimate Strategy](#jaspers-ultimate-strategy)
+- [Why this one has been fun](#why-this-one-has-been-fun)
+- [What is next](#what-is-next)
+
+## How it started
+
+Julien got a chess game with an AI that could talk back. That was apparently a problem.
+
+Jasper, my youngest, took one look at it and had one very direct question: where is his game?
+
+We talked through a few options. It had to be something he actually likes playing, something he could understand completely, and something he already had a strategy for. He plays tic-tac-toe constantly and has thought about it more than most people have. So that was it. Tic-tac-toe.
+
+What I did not expect was how quickly he got into the design conversation. Jasper already had opinions about how the AI should behave, how hard it should be, and what made the game feel satisfying versus frustrating. He was basically co-designing it from the start.
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Project Type", "Interactive browser-based tic-tac-toe game"],
+      ["Audience", "Built at home after a request from my youngest son, Jasper"],
+      ["Core Idea", "Play tic-tac-toe against an AI opponent with a bit of personality"],
+      ["Strategy", "Jasper's Ultimate Strategy — the multi-way win fork"],
+      ["Status", "Live"],
+    ],
+  }}
+/>
+
+## What I built
+
+### A clean, playable board
+
+The first goal was making it feel like a real little game and not just a grid with X and O printed on it. Clear highlighting, obvious turn indicators, and enough feedback that you always know what just happened.
+
+Tic-tac-toe is simple enough that the experience lives almost entirely in the feel of it. If the board is sluggish, or unclear, or the win state is not obvious, the whole thing falls apart. So I put more time into that layer than you might expect for a three-by-three grid.
+
+### An AI with real logic
+
+The AI is not just picking random squares. It plays to win, blocks threats, and will not hand you an easy game if you leave an obvious move on the table.
+
+The fun part of designing the AI for this one was that Jasper gave me a clear north star: the AI should be good, but it should not be impossible. He wanted a game where his strategy could actually work if he played it right.
+
+That is a more interesting design target than "make the AI unbeatable," and it led to a better game.
+
+### Multiple difficulty levels
+
+Because not every session needs to be a serious match. Sometimes Jasper just wants to play a quick game and feel good about it. Other times he is testing his strategy against something that actually pushes back.
+
+The easier settings let him experiment without everything being a loss. The harder settings are where Jasper's Ultimate Strategy gets its real test.
+
+## Jasper's Ultimate Strategy
+
+This is Jasper's name for it, and he uses it with full seriousness.
+
+The idea is to set up a fork — a position where you have two different ways to win at the same time. The opponent can only block one of them. The other one goes through.
+
+Most tic-tac-toe players figure out the concept eventually, but Jasper named it, talks about it, and actively sets it up from the opening moves. He thinks about which first move gives him the best angle to reach a fork position, and he adjusts based on where the opponent responds.
+
+When it works, he does not say much. He just looks pleased with himself. When the AI blocks it early, he goes quiet for a second and then starts planning how to set it up differently next time.
+
+Watching a kid develop that kind of pattern recognition and competitive patience from a game this simple has been genuinely great.
+
+## Why this one has been fun
+
+The chess game was fun to build because the idea had a lot of energy and the feedback loop was fast. This one has been fun for a different reason.
+
+Jasper is actually invested in it. He has a strategy he cares about, opinions on how the AI should feel, and an ongoing interest in whether his approach holds up. It is not just a project I built for him — it is one he helped shape.
+
+There is something nice about building a small game and then watching the person you built it for actually play it seriously and think about it.
+
+## What is next
+
+There are a few things I would like to add from here:
+
+- Commentary that reacts to specific moves, including calling out a fork attempt when Jasper's Ultimate Strategy is in progress.
+- A move history so Jasper can review what happened when a game goes sideways.
+- Better visual feedback on the winning line.
+- Possibly a mode where the AI narrates its own thinking, like the chess commentary does.
+
+But for now it is live, it is playable, and Jasper has already tested it more times than I can count.
