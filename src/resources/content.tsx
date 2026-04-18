@@ -2,6 +2,7 @@ import type {
   About,
   Blog,
   Gallery,
+  Games,
   Home,
   Newsletter,
   Person,
@@ -448,4 +449,11 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+const games: Games = {
+  path: "/games",
+  label: "Games",
+  title: `Games | ${person.name}`,
+  description: `Games and interactive experiments by ${person.name}`,
+};
+
+export { person, social, newsletter, home, about, blog, work, gallery, games };
