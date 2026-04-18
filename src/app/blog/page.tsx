@@ -12,11 +12,11 @@ export async function generateMetadata() {
   });
 }
 
-export default function Blog() {
+export default function BlogIndexPage() {
   return (
     <Column maxWidth="m" paddingTop="24">
       <Schema
-        as="blogPosting"
+        as="webPage"
         baseURL={baseURL}
         title={blog.title}
         description={blog.description}
@@ -29,7 +29,7 @@ export default function Blog() {
         }}
       />
       <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
-        {blog.title}
+        {blog.label}
       </Heading>
       <Posts columns="1" thumbnail direction="row" />
     </Column>

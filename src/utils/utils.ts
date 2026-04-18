@@ -25,7 +25,6 @@ type Metadata = {
   hidden?: boolean;
 };
 
-
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
     notFound();
@@ -54,6 +53,7 @@ function readMDXFile(filePath: string) {
     team: data.team || [],
     link: data.link || "",
     internal: data.internal || false,
+    hidden: data.hidden || false,
   };
 
   return { metadata, content };
