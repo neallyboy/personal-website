@@ -68,6 +68,53 @@ Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfo
 - A localized, earlier version of Magic Portfolio is available with the next-intl library
 - To use localization, switch to the 'i18n' branch
 
+## Testing
+
+This project uses [Playwright](https://playwright.dev) for end-to-end testing across Chromium, Firefox, WebKit, and mobile viewports.
+
+### Setup
+
+Install browsers on first use:
+```
+npx playwright install
+```
+
+### Running tests
+
+```bash
+# Run all tests (all 5 browser projects)
+npm test
+
+# Run only Chromium (fastest for local dev)
+npm run test:chromium
+
+# Interactive UI mode
+npm run test:ui
+
+# Run with visible browser windows
+npm run test:headed
+
+# Open the last HTML report
+npm run test:report
+```
+
+The test suite auto-starts the dev server (`npm run dev`) if one isn't already running on port 3000.
+
+### Test coverage
+
+| File | What's covered |
+|------|---------------|
+| `tests/e2e/navigation.spec.ts` | All public routes return 200, header/footer on every page, nav links, 404, theme |
+| `tests/e2e/home.spec.ts` | Hero, CTA, featured project, blog posts, newsletter, console errors |
+| `tests/e2e/about.spec.ts` | Heading, person name, avatar, social links, section structure |
+| `tests/e2e/work.spec.ts` | Project index, all 5 public project detail pages, image 404 checks, protected project access |
+| `tests/e2e/blog.spec.ts` | Blog index, both post detail pages, images, 404 for missing posts |
+| `tests/e2e/gallery.spec.ts` | Images render, no 404s, lightbox, keyboard navigation |
+| `tests/e2e/games.spec.ts` | Games hub, Chess (board, pieces, difficulty, moves), Tic-Tac-Toe (board, difficulties, moves, full game sequence) |
+| `tests/e2e/auth.spec.ts` | Login page, all 3 internal routes blocked for unauthenticated users, `/api/check-auth` |
+| `tests/e2e/api.spec.ts` | RSS feed (valid XML), sitemap (no internal routes exposed), robots.txt, OG image generation |
+| `tests/e2e/seo.spec.ts` | `<title>`, meta description, Open Graph tags, JSON-LD schema, canonical URL, image alt attributes, keyboard focus |
+
 ## Creators
 
 Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
