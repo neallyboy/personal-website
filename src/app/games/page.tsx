@@ -40,9 +40,24 @@ export default function Games() {
             gap="8"
             style={{ cursor: 'pointer', transition: 'border-color 0.15s' }}
           >
-            <Heading variant="heading-strong-m">♟ Chess</Heading>
+            <Heading variant="heading-strong-m">♟ Julien's AI Chess</Heading>
             <Text onBackground="neutral-weak">
               Play chess against a minimax AI with alpha-beta pruning. You play White.
+            </Text>
+          </Column>
+        </SmartLink>
+
+        <SmartLink href="/games/tictactoe" style={{ textDecoration: 'none' }}>
+          <Column
+            border="neutral-alpha-weak"
+            radius="l"
+            padding="24"
+            gap="8"
+            style={{ cursor: 'pointer', transition: 'border-color 0.15s' }}
+          >
+            <Heading variant="heading-strong-m">⭕ Jasper&apos;s Tic-Tac-Toe</Heading>
+            <Text onBackground="neutral-weak">
+              Play tic-tac-toe against Jasper, a witty AI who claims he has never lost. Three difficulties available.
             </Text>
           </Column>
         </SmartLink>
