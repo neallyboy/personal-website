@@ -1,0 +1,5 @@
+.gameCardLink:hover .gameCard,
+.gameCardLink:focus-visible .gameCard {
+  border-color: var(--neutral-alpha-medium);
+  transform: translateY(-2px);
+}

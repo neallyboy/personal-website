@@ -1,5 +1,8 @@
 import { baseURL, games, person } from "@/resources";
-import { Column, Heading, Meta, Schema, SmartLink, Text } from "@once-ui-system/core";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./page.module.css";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -10,6 +13,33 @@ export async function generateMetadata() {
     path: games.path,
   });
 }
+
+const gamesList = [
+  {
+    href: "/games/chess",
+    title: "♟ Julien's AI Chess",
+    description:
+      "Play chess against a minimax AI with alpha-beta pruning. You play White.",
+    image: "/images/games/chess.svg",
+    alt: "Chess board preview",
+  },
+  {
+    href: "/games/tictactoe",
+    title: "⭕ Jasper's Tic-Tac-Toe",
+    description:
+      "Play tic-tac-toe against Jasper, a witty AI who claims he has never lost. Three difficulties.",
+    image: "/images/games/tictactoe.svg",
+    alt: "Tic-tac-toe board preview",
+  },
+  {
+    href: "/games/robot-fight",
+    title: "🤖 Robot Brawl",
+    description:
+      "Street Fighter-style robot brawler. Choose Jasper, Julien, or Mommy and defeat Daddy the AI.",
+    image: "/images/games/robot-fight.svg",
+    alt: "Robot fight game preview",
+  },
+];
 
 export default function Games() {
   return (
@@ -31,37 +61,71 @@ export default function Games() {
         Games
       </Heading>
 
-      <Column paddingX="24" gap="16">
-        <SmartLink href="/games/chess" style={{ textDecoration: 'none' }}>
-          <Column
-            border="neutral-alpha-weak"
-            radius="l"
-            padding="24"
-            gap="8"
-            style={{ cursor: 'pointer', transition: 'border-color 0.15s' }}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "16px",
+          paddingLeft: "24px",
+          paddingRight: "24px",
+        }}
+      >
+        {gamesList.map((game) => (
+          <Link
+            key={game.href}
+            href={game.href}
+            className={styles.gameCardLink}
+            style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Heading variant="heading-strong-m">♟ Julien's AI Chess</Heading>
-            <Text onBackground="neutral-weak">
-              Play chess against a minimax AI with alpha-beta pruning. You play White.
-            </Text>
-          </Column>
-        </SmartLink>
-
-        <SmartLink href="/games/tictactoe" style={{ textDecoration: 'none' }}>
-          <Column
-            border="neutral-alpha-weak"
-            radius="l"
-            padding="24"
-            gap="8"
-            style={{ cursor: 'pointer', transition: 'border-color 0.15s' }}
-          >
-            <Heading variant="heading-strong-m">⭕ Jasper&apos;s Tic-Tac-Toe</Heading>
-            <Text onBackground="neutral-weak">
-              Play tic-tac-toe against Jasper, a witty AI who claims he has never lost. Three difficulties available.
-            </Text>
-          </Column>
-        </SmartLink>
-      </Column>
+            <div
+              className={styles.gameCard}
+              style={{
+                border: "1px solid var(--neutral-alpha-weak)",
+                borderRadius: "12px",
+                overflow: "hidden",
+                cursor: "pointer",
+                transition: "border-color 0.15s, transform 0.15s",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "8/5",
+                }}
+              >
+                <Image
+                  src={game.image}
+                  alt={game.alt}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <div style={{ padding: "14px 16px" }}>
+                <div
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 700,
+                    marginBottom: "6px",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {game.title}
+                </div>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    opacity: 0.6,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {game.description}
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </Column>
   );
 }
