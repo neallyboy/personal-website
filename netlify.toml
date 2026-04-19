@@ -1,3 +1,10 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[dev]
+command = "npm run dev"
+
 [[headers]]
   for = "/*"
   [headers.values]
