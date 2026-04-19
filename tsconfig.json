@@ -32,5 +32,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "src/stories"]
+  "exclude": ["node_modules", "src/stories", "vitest.config.ts", "vitest.shims.d.ts"]
 }
