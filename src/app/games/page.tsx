@@ -61,15 +61,7 @@ export default function Games() {
         Games
       </Heading>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "16px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-        }}
-      >
+      <div className={styles.gameGrid}>
         {gamesList.map((game) => (
           <Link
             key={game.href}

@@ -3,3 +3,17 @@
   border-color: var(--neutral-alpha-medium);
   transform: translateY(-2px);
 }
+
+.gameGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (max-width: 640px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+}
