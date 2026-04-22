@@ -22,19 +22,21 @@ import { useSpeech } from "@/hooks/useSpeech";
 import { EvalBar } from "./EvalBar";
 import styles from "./ChessGame.module.scss";
 
+// ︎ (text-presentation selector) prevents iOS from rendering these as
+// color emoji, which ignores CSS `color` and makes white pieces appear black.
 const SYMBOLS: Record<string, string> = {
-  wK: "♚",
-  wQ: "♛",
-  wR: "♜",
-  wB: "♝",
-  wN: "♞",
-  wP: "♟",
-  bK: "♚",
-  bQ: "♛",
-  bR: "♜",
-  bB: "♝",
-  bN: "♞",
-  bP: "♟",
+  wK: "♚︎",
+  wQ: "♛︎",
+  wR: "♜︎",
+  wB: "♝︎",
+  wN: "♞︎",
+  wP: "♟︎",
+  bK: "♚︎",
+  bQ: "♛︎",
+  bR: "♜︎",
+  bB: "♝︎",
+  bN: "♞︎",
+  bP: "♟︎",
 };
 
 const LIGHT = "#f0d9b5";
