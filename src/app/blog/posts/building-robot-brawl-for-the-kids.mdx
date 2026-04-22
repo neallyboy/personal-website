@@ -1,0 +1,137 @@
+---
+title: "Building Robot Brawl"
+subtitle: "Both boys asked for a fighting game. That request turned into a fully animated Street Fighter-style brawler"
+summary: "After chess for Julien and tic-tac-toe for Jasper, both of them asked for a fighting game together. The result is Robot Brawl — a Street Fighter-style canvas brawler with four family-themed robots, unique special moves, particle effects, and screen shake."
+image: "/images/blog/robot-brawl.svg"
+publishedAt: "2026-04-22"
+tag: "Side Project"
+---
+
+## Contents
+
+- [How it started](#how-it-started)
+- [Overview](#overview)
+- [What I built](#what-i-built)
+- [The roster](#the-roster)
+- [Why this one has been fun](#why-this-one-has-been-fun)
+- [What is next](#what-is-next)
+
+## How it started
+
+After Julien got his chess game and Jasper got his tic-tac-toe, they both came to me with the same request at the same time: a fighting game.
+
+Not one kid asking. Both of them. Together.
+
+The brief was very clear. It had to be a real fighting game, not a puzzle or a board game. Robots. Fighting. Each other. They wanted to pick their own characters. And they wanted Daddy to be the villain.
+
+That last part was non-negotiable.
+
+So I built Robot Brawl — a Street Fighter-style 2D brawler built entirely in a browser canvas, with four family-themed robots, unique moves for each character, and Daddy as the AI opponent everyone is trying to defeat.
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      ["Project Type", "2D fighting game rendered on an HTML canvas"],
+      ["Audience", "Requested jointly by Julien and Jasper"],
+      ["Core Idea", "Street Fighter-style robot brawler with family-themed characters"],
+      ["Roster", "Jasper, Julien, Mommy (playable) vs. Daddy (AI)"],
+      ["Format", "Best-of-three rounds, 99-second timer per round"],
+      ["Status", "Live"],
+    ],
+  }}
+/>
+
+## What I built
+
+### A fully animated canvas fighter
+
+The entire game runs in a single HTML canvas element. Every robot is drawn frame by frame — head, torso, arms, legs, antenna, glowing reactor core — and animated with pose offsets that change depending on what the character is doing.
+
+Walking, jumping, punching, kicking, taking damage, using a special, dying. Each state has its own animation logic driving limb angles, torso lean, and head position. The result is robots that feel like they are actually moving, not just sprites sliding around.
+
+Getting the directional logic right was probably the trickiest part. Every limb offset has to flip correctly depending on which way the robot is facing, without scaling the entire canvas, so the animations stay unambiguous regardless of orientation.
+
+### Four family-themed robots
+
+Each character has a distinct color palette, glowing eyes, and a unique special ability that fits their personality. Jasper is blue. Julien is green. Mommy is pink and the most powerful one on the roster. Daddy is red and gets to be the AI boss.
+
+The characters are not balanced identically — they have different HP pools, punch damage, kick damage, and special move properties. Picking the right character for your playstyle actually matters.
+
+### Unique special moves
+
+Each character has a signature special move with a cooldown bar shown just below their health bar:
+
+- **Jasper: Candy Boost** — Jasper heals himself instead of attacking. Great for outlasting opponents who hit hard.
+- **Julien: Dance Slam** — A ground-shaking attack with extended reach, fitting for someone who will absolutely dance-fight you.
+- **Mommy: War Cry** — The highest damage special on the roster, paired with the highest base HP. Mommy does not mess around.
+- **Daddy: Power Surge** — A long-range blast from the AI side that keeps you honest about staying out of reach.
+
+The special cooldown bar fills up over time and resets when you use it, so there is a timing element to when you commit to the move.
+
+### An AI opponent with reactive behavior
+
+Daddy is not just a punching bag. The AI has a think timer that fires every several frames, evaluates the current distance, and decides whether to approach, attack, or jump. It mixes punch, kick, and special move usage based on range and health state. When it is low on health and in range, it starts going for the special more aggressively.
+
+It is not unbeatable, but it is not passive either. It will close distance on you, punish you for standing still, and use its reach when it has the angle for it.
+
+### Hit detection with real impact
+
+Hit windows are tied to specific animation frames for each move type. A punch only connects during a specific window of the swing. Same for kicks and specials. If you are out of range when that window fires, the attack whiffs.
+
+When a hit lands, a burst of particles sprays out at the impact point, the screen shakes in proportion to the attack's strength, and the target flashes and staggers. Specials produce a much bigger particle burst and a stronger shake.
+
+Those layers together make each hit feel like it landed. Without them, the same mechanical outcome — HP going down — feels flat. With them, even a basic punch has some weight to it.
+
+### Touch and keyboard controls
+
+The game works on mobile with an on-screen control layout: a d-pad on the left for movement and jumping, and action buttons on the right for punch, kick, and special. The controls swap based on the current phase — character select buttons during the select screen, fight controls during rounds, and a play again button after the match ends.
+
+On desktop, the keyboard handles everything. Arrow keys or WASD for movement, Z for punch, X for kick, C for special.
+
+### Neon cityscape arena
+
+The background is a hand-drawn cyberpunk city — a dark skyline silhouette with faint glowing windows, a purple neon grid floor with perspective lines converging to a vanishing point, and a glowing purple line marking the ground plane. It is drawn once onto an offscreen canvas and composited each frame so the rendering stays fast.
+
+The whole aesthetic is more neon arcade than realistic, which suits the characters.
+
+## The roster
+
+The character stats were designed around a simple question: what does each family member actually fight like?
+
+Jasper is the most balanced and the only one who heals. He was designed to survive, which matches the way he plays games — careful, patient, and planning ahead.
+
+Julien is slightly lower on HP but hits hard with his kick and has a dramatic ground-shaking special. Fast and aggressive.
+
+Mommy has the most HP on the playable side and the highest-damage special. She is clearly the most powerful fighter, which required zero design discussion.
+
+Daddy is the AI boss. His stats sit in the middle of the pack, but he gets to be the opponent in every fight, which is its own kind of power.
+
+## Why this one has been fun
+
+The chess game was a solo request that turned into a product. The tic-tac-toe game was Jasper's answer to not having one yet.
+
+This one came from both of them asking together, which made it feel different. There was no choosing whose game it was. They both had opinions about the characters, the roster, and the fact that Daddy had to be the villain. That part was settled before I even opened an editor.
+
+Building a real-time physics and hit detection system from scratch in a browser canvas is also just a fun engineering problem. Frame timing, animation state machines, hit window logic, particle systems, AI decision trees — it is more depth than the name "browser game" usually implies.
+
+But the best part is that they play it. Not just once to see it, but repeatedly, trying to beat Daddy, trying out different characters, arguing about who has the better special.
+
+That is the only metric that actually matters for a project like this.
+
+## What is next
+
+There are a few things I would like to add from here:
+
+- Sound effects and a music track for the arena.
+- Commentary or voice lines from each character during the fight.
+- A two-player mode so Julien and Jasper can fight each other directly.
+- More visual flair on the special moves — screen flash, character-specific effects.
+- Additional characters, because the request for more is already in.
+
+For now it is live, it works, and the villain loses more often than not.
