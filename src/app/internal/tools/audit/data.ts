@@ -1,0 +1,429 @@
+export type Status = "critical" | "high" | "medium" | "low";
+export type Category = "SEO" | "OG" | "GEO" | "AEO";
+export type PassState = "pass" | "fail" | "partial" | "unknown";
+
+export interface AuditCriterion {
+  id: string;
+  category: Category;
+  criteria: string;
+  testingFor: string;
+  currentValue: string;
+  shouldHave: string;
+  howToFix: string;
+  example: string;
+  status: Status;
+  passState: PassState;
+}
+
+export const STATUS_ORDER: Record<Status, number> = {
+  critical: 0,
+  high: 1,
+  medium: 2,
+  low: 3,
+};
+
+export const auditData: AuditCriterion[] = [
+  // ─── SEO ───────────────────────────────────────────────────────────────────
+  {
+    id: "seo-schema-name",
+    category: "SEO",
+    criteria: "Schema.org Name",
+    testingFor: "Site-wide structured data uses the correct author/site name.",
+    currentValue: '"Once UI" — template default still set in once-ui.config.ts',
+    shouldHave: "Personal name: 'Neal Miran'",
+    howToFix:
+      "In src/resources/once-ui.config.ts, update the schema.name field to your actual name.",
+    example: 'schema: { name: "Neal Miran", type: "Person", email: "contact@nealmiran.com" }',
+    status: "critical",
+    passState: "fail",
+  },
+  {
+    id: "seo-schema-email",
+    category: "SEO",
+    criteria: "Schema.org Email",
+    testingFor: "Structured data contact email matches site owner, not template author.",
+    currentValue: '"lorant@once-ui.com" — template default still set',
+    shouldHave: '"contact@nealmiran.com"',
+    howToFix:
+      "In src/resources/once-ui.config.ts, update schema.email to your own contact email.",
+    example: 'schema: { email: "contact@nealmiran.com" }',
+    status: "critical",
+    passState: "fail",
+  },
+  {
+    id: "seo-title-length",
+    category: "SEO",
+    criteria: "Title Tag Length",
+    testingFor:
+      "Page title is between 50–60 characters to display fully in SERPs without truncation.",
+    currentValue: '"Neal Miran | Portfolio" — 22 characters (too short)',
+    shouldHave: "50–60 characters including primary keyword",
+    howToFix:
+      "In src/resources/content.tsx, expand home.title to include role and differentiator.",
+    example: '"Neal Miran | DevOps & SRE Lead | Platform Engineering"  — 54 chars',
+    status: "critical",
+    passState: "fail",
+  },
+  {
+    id: "seo-schema-type",
+    category: "SEO",
+    criteria: "Schema.org Type",
+    testingFor: "Site-wide schema type should reflect a personal portfolio, not an organization.",
+    currentValue: '"Organization" — incorrect for a personal portfolio',
+    shouldHave: '"Person"',
+    howToFix:
+      "In src/resources/once-ui.config.ts, change schema.type to 'Person'.",
+    example: 'schema: { type: "Person", name: "Neal Miran" }',
+    status: "high",
+    passState: "fail",
+  },
+  {
+    id: "seo-meta-description-length",
+    category: "SEO",
+    criteria: "Meta Description Length",
+    testingFor:
+      "Meta description is 150–160 characters to maximize SERP click-through and avoid truncation.",
+    currentValue:
+      '"Portfolio website showcasing my work as a Team Lead, DevOps & SRE at Oxford Properties Group" — 92 characters',
+    shouldHave: "150–160 characters with keyword and call-to-action",
+    howToFix:
+      "In src/resources/content.tsx, expand home.description to 150–160 characters.",
+    example:
+      '"Explore Neal Miran\'s portfolio — Team Lead, DevOps & SRE at Oxford Properties Group. Discover case studies on platform engineering, infrastructure automation, and cloud architecture." — 185 chars (trim slightly)',
+    status: "high",
+    passState: "fail",
+  },
+  {
+    id: "seo-canonical",
+    category: "SEO",
+    criteria: "Canonical URL",
+    testingFor: "Each page declares a canonical URL to prevent duplicate-content penalties.",
+    currentValue: "Present — injected automatically by Meta.generate()",
+    shouldHave: "Self-referencing canonical on every page",
+    howToFix: "No action needed — Meta.generate handles this. Verify with View Source.",
+    example: '<link rel="canonical" href="https://nealmiran.com/" />',
+    status: "high",
+    passState: "pass",
+  },
+  {
+    id: "seo-structured-data-author",
+    category: "SEO",
+    criteria: "Structured Data: Author",
+    testingFor: "Page-level JSON-LD identifies the author with name, URL, and image.",
+    currentValue:
+      'Present — <Schema> component sets author: { name: "Neal Miran", url, image }',
+    shouldHave: "author.name, author.url, author.image populated",
+    howToFix: "Already implemented in page.tsx. Ensure all pages include the Schema component.",
+    example:
+      '"author": { "@type": "Person", "name": "Neal Miran", "url": "https://nealmiran.com/about" }',
+    status: "high",
+    passState: "pass",
+  },
+  {
+    id: "seo-sitemap",
+    category: "SEO",
+    criteria: "Sitemap.xml",
+    testingFor: "A sitemap.xml exists and lists all public pages to aid crawler discovery.",
+    currentValue: "Not verified — check https://nealmiran.com/sitemap.xml",
+    shouldHave: "Auto-generated sitemap listing all routes",
+    howToFix:
+      "Add src/app/sitemap.ts using Next.js built-in sitemap generation.",
+    example:
+      "export default function sitemap() { return [{ url: 'https://nealmiran.com', lastModified: new Date() }] }",
+    status: "medium",
+    passState: "unknown",
+  },
+  {
+    id: "seo-robots",
+    category: "SEO",
+    criteria: "Robots.txt",
+    testingFor: "A robots.txt file controls crawler access and references the sitemap.",
+    currentValue: "Not verified — check https://nealmiran.com/robots.txt",
+    shouldHave: "Allow all, Disallow /internal/*, Sitemap reference",
+    howToFix:
+      "Add src/app/robots.ts using Next.js built-in robots generation.",
+    example:
+      "export default function robots() { return { rules: { userAgent: '*', disallow: '/internal/' }, sitemap: 'https://nealmiran.com/sitemap.xml' } }",
+    status: "medium",
+    passState: "unknown",
+  },
+
+  // ─── OG ────────────────────────────────────────────────────────────────────
+  {
+    id: "og-image-presence",
+    category: "OG",
+    criteria: "og:image Presence",
+    testingFor: "An Open Graph image is set so link previews render correctly on social platforms.",
+    currentValue: '"/images/og/home.png" — static file set in home.image',
+    shouldHave: "Absolute URL to an image, 1200×630 px",
+    howToFix:
+      "Meta.generate already sets og:image. Ensure home.image points to a correctly sized file or use the /api/og/generate dynamic endpoint.",
+    example: 'image: "/api/og/generate?title=Neal+Miran+%7C+Portfolio"',
+    status: "critical",
+    passState: "partial",
+  },
+  {
+    id: "og-image-dimensions",
+    category: "OG",
+    criteria: "og:image Dimensions",
+    testingFor: "OG image is exactly 1200×630 px to render without cropping on all platforms.",
+    currentValue: "Static file /images/og/home.png — dimensions unverified",
+    shouldHave: "1200 × 630 pixels, < 8 MB, JPEG or PNG",
+    howToFix:
+      "Check the file dimensions. Consider switching to the dynamic /api/og/generate route which can be configured to output the correct size.",
+    example:
+      "// In /api/og/generate/route.tsx\nnew ImageResponse(<Layout />, { width: 1200, height: 630 })",
+    status: "high",
+    passState: "unknown",
+  },
+  {
+    id: "og-title",
+    category: "OG",
+    criteria: "og:title",
+    testingFor: "og:title tag is present so social shares display a meaningful title.",
+    currentValue: '"Neal Miran | Portfolio" — set via Meta.generate()',
+    shouldHave: "Matches page title, present on every page",
+    howToFix: "No action needed — Meta.generate sets og:title from the title param.",
+    example: '<meta property="og:title" content="Neal Miran | Portfolio" />',
+    status: "high",
+    passState: "pass",
+  },
+  {
+    id: "og-description",
+    category: "OG",
+    criteria: "og:description",
+    testingFor: "og:description is present and 150–160 characters for rich link previews.",
+    currentValue: "92 characters — same as meta description (too short)",
+    shouldHave: "150–160 characters with keyword + CTA",
+    howToFix:
+      "Fixing home.description in content.tsx (see Meta Description fix) will propagate to og:description automatically.",
+    example:
+      '<meta property="og:description" content="Explore Neal Miran\'s portfolio — DevOps & SRE Lead at Oxford Properties Group..." />',
+    status: "high",
+    passState: "partial",
+  },
+  {
+    id: "og-twitter-card",
+    category: "OG",
+    criteria: "Twitter / X Card Type",
+    testingFor: 'twitter:card is set to "summary_large_image" for full-width image previews on X.',
+    currentValue: "Not explicitly set — depends on Meta.generate() defaults",
+    shouldHave: 'twitter:card = "summary_large_image"',
+    howToFix:
+      "Verify Meta.generate sets Twitter card tags. If not, add to generateMetadata's return value.",
+    example:
+      "return { twitter: { card: 'summary_large_image', title: home.title, images: [home.image] } }",
+    status: "high",
+    passState: "unknown",
+  },
+  {
+    id: "og-type",
+    category: "OG",
+    criteria: "og:type",
+    testingFor: 'og:type is set to "website" for the homepage and "article" for blog posts.',
+    currentValue: '"website" — set by Meta.generate()',
+    shouldHave: '"website" for index pages, "article" for blog posts',
+    howToFix:
+      "Blog post pages should pass type: 'article' to Meta.generate. Verify /blog/[slug]/page.tsx.",
+    example: "Meta.generate({ type: 'article', ... })",
+    status: "medium",
+    passState: "partial",
+  },
+  {
+    id: "og-site-name",
+    category: "OG",
+    criteria: "og:site_name",
+    testingFor: "og:site_name identifies the site consistently across all shared links.",
+    currentValue: "Not explicitly configured — may default to baseURL hostname",
+    shouldHave: '"Neal Miran" or "nealmiran.com"',
+    howToFix:
+      "Add siteName to the Meta.generate() call in generateMetadata or in the shared meta config.",
+    example:
+      "Meta.generate({ siteName: 'Neal Miran', ... })",
+    status: "medium",
+    passState: "unknown",
+  },
+
+  // ─── GEO ───────────────────────────────────────────────────────────────────
+  {
+    id: "geo-person-schema",
+    category: "GEO",
+    criteria: "Person Schema Type",
+    testingFor:
+      "AI models and generative search engines use Person schema to accurately identify and describe the site owner.",
+    currentValue:
+      'Site-wide schema.type = "Organization" — AI models may incorrectly categorize the site',
+    shouldHave: '"Person" with jobTitle, worksFor, sameAs social links',
+    howToFix:
+      "Change schema.type to 'Person' in once-ui.config.ts and add jobTitle + sameAs fields.",
+    example:
+      '{ "@type": "Person", "name": "Neal Miran", "jobTitle": "Team Lead, DevOps & SRE", "worksFor": { "@type": "Organization", "name": "Oxford Properties Group" } }',
+    status: "high",
+    passState: "fail",
+  },
+  {
+    id: "geo-author-markup",
+    category: "GEO",
+    criteria: "Author Entity Markup",
+    testingFor:
+      "Each page explicitly names the content author so AI engines can attribute content correctly.",
+    currentValue: "Present — <Schema> sets author.name = 'Neal Miran' on all pages",
+    shouldHave: "author name, URL, and image on all pages",
+    howToFix: "Already implemented. Verify all pages (blog, work, about) include the Schema component.",
+    example: '"author": { "@type": "Person", "name": "Neal Miran", "url": "https://nealmiran.com/about" }',
+    status: "high",
+    passState: "pass",
+  },
+  {
+    id: "geo-eeat-expertise",
+    category: "GEO",
+    criteria: "E-E-A-T: Expertise",
+    testingFor:
+      "Content clearly signals the author's expertise with role, skills, and verifiable experience.",
+    currentValue: "Role stated in meta description; skills listed on /about page",
+    shouldHave:
+      "Explicit role + years of experience + technology specializations in structured data",
+    howToFix:
+      "Add jobTitle, knowsAbout, and alumniOf to the Person schema. Include an about-page bio paragraph that names specific technologies and years.",
+    example:
+      '"knowsAbout": ["Kubernetes", "Terraform", "AWS", "DevOps", "SRE", "Platform Engineering"]',
+    status: "high",
+    passState: "partial",
+  },
+  {
+    id: "geo-eeat-authority",
+    category: "GEO",
+    criteria: "E-E-A-T: Authoritativeness",
+    testingFor:
+      "sameAs links connect the site entity to verified profiles, increasing AI trust signals.",
+    currentValue: "GitHub and LinkedIn social links present in config",
+    shouldHave:
+      "sameAs array in Person schema referencing GitHub, LinkedIn, and other verified profiles",
+    howToFix:
+      "Add sameAs to the Person schema in page-level Schema components or once-ui.config.ts sameAs config.",
+    example:
+      '"sameAs": ["https://github.com/neallyboy", "https://www.linkedin.com/in/nealmiran"]',
+    status: "high",
+    passState: "partial",
+  },
+  {
+    id: "geo-entity-consistency",
+    category: "GEO",
+    criteria: "Entity Name Consistency",
+    testingFor:
+      "The same name string is used across all pages, meta tags, and schema — preventing entity fragmentation.",
+    currentValue: '"Neal Miran" used consistently across content.tsx and page Schema components',
+    shouldHave: "Exact same string everywhere: person.name, schema.name, author.name",
+    howToFix:
+      "No action needed. Ensure schema.name in once-ui.config.ts is updated to 'Neal Miran' to match.",
+    example: 'const person = { name: "Neal Miran" }  // single source of truth',
+    status: "medium",
+    passState: "partial",
+  },
+  {
+    id: "geo-content-freshness",
+    category: "GEO",
+    criteria: "Content Freshness",
+    testingFor:
+      "AI engines and crawlers weight recently updated content higher; publish/modify dates help signal freshness.",
+    currentValue: "Blog posts have publishedAt dates; work projects have publishedAt dates",
+    shouldHave: "datePublished + dateModified in Article/WebPage schema",
+    howToFix:
+      "Add dateModified to blog post MDX frontmatter and pass it to the Schema component.",
+    example: 'publishedAt: "2025-04-01"\nmodifiedAt: "2025-05-01"',
+    status: "medium",
+    passState: "partial",
+  },
+
+  // ─── AEO ───────────────────────────────────────────────────────────────────
+  {
+    id: "aeo-faq-schema",
+    category: "AEO",
+    criteria: "FAQ Schema",
+    testingFor:
+      "FAQPage schema enables featured snippets and direct answers in AI-powered search results.",
+    currentValue: "Not implemented — no FAQPage schema found",
+    shouldHave: 'FAQPage JSON-LD with Question + acceptedAnswer on relevant pages',
+    howToFix:
+      "Add a FAQPage schema block to /about or /work pages covering common questions about your role and services.",
+    example:
+      '{ "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "What is Neal Miran\'s role?", "acceptedAnswer": { "@type": "Answer", "text": "Team Lead, DevOps & SRE at Oxford Properties Group." } }] }',
+    status: "high",
+    passState: "fail",
+  },
+  {
+    id: "aeo-article-schema",
+    category: "AEO",
+    criteria: "Article Schema for Blog",
+    testingFor:
+      "Blog posts use Article schema (not generic WebPage) so AI engines treat them as citable content.",
+    currentValue: '"webPage" schema used — blog post pages use the generic Schema component',
+    shouldHave: '"Article" or "BlogPosting" schema with headline, datePublished, author',
+    howToFix:
+      "In /blog/[slug]/page.tsx, change Schema as='webPage' to as='article' and add articleBody or description.",
+    example:
+      '<Schema as="article" headline={post.metadata.title} datePublished={post.metadata.publishedAt} ... />',
+    status: "high",
+    passState: "fail",
+  },
+  {
+    id: "aeo-direct-answers",
+    category: "AEO",
+    criteria: "Direct Answer Format",
+    testingFor:
+      "Key content pages include at least one concise paragraph (≤ 60 words) that directly answers a probable user query.",
+    currentValue: "Some content is direct; homepage headline is concise",
+    shouldHave:
+      "Each page's opening paragraph answers the implicit 'who is this person/what do they do?' query in ≤ 60 words",
+    howToFix:
+      "Add a 2–3 sentence summary at the top of /about and /work that directly answers the primary question for that page.",
+    example:
+      '"Neal Miran is a DevOps & SRE Team Lead at Oxford Properties Group, specializing in platform engineering, infrastructure automation, and cloud architecture across enterprise real estate systems."',
+    status: "high",
+    passState: "partial",
+  },
+  {
+    id: "aeo-question-headings",
+    category: "AEO",
+    criteria: "Question-Based Headings",
+    testingFor:
+      "Section headings framed as questions signal answerable content to AI engines and improve featured snippet eligibility.",
+    currentValue: "Headings are descriptive but not question-format",
+    shouldHave: 'At least some H2/H3 headings phrased as questions (e.g. "What does Neal Miran do?")',
+    howToFix:
+      "On /about, /blog posts, and /work case studies, reframe 1–2 headings as natural questions relevant to the content.",
+    example: '"## What technologies does Neal Miran specialize in?"',
+    status: "medium",
+    passState: "fail",
+  },
+  {
+    id: "aeo-howto-schema",
+    category: "AEO",
+    criteria: "HowTo Schema",
+    testingFor:
+      "Technical blog posts or case studies use HowTo schema to surface step-by-step answers in AI search.",
+    currentValue: "Not implemented — no HowTo schema found",
+    shouldHave: "HowTo schema on any post that describes a process or procedure",
+    howToFix:
+      "For technical posts with clear steps, add a HowTo JSON-LD block to the blog post MDX or the [slug]/page.tsx.",
+    example:
+      '{ "@type": "HowTo", "name": "How to automate design handovers with a Figma-to-code pipeline", "step": [{ "@type": "HowToStep", "text": "Export Figma tokens..." }] }',
+    status: "medium",
+    passState: "fail",
+  },
+  {
+    id: "aeo-speakable",
+    category: "AEO",
+    criteria: "Speakable Schema",
+    testingFor:
+      "Speakable schema marks sections suitable for text-to-speech, enabling voice search answers.",
+    currentValue: "Not implemented",
+    shouldHave: "SpeakableSpecification on the /about page summary section",
+    howToFix:
+      "Add a Speakable JSON-LD block pointing to the CSS selector of the bio paragraph on /about.",
+    example:
+      '{ "@type": "SpeakableSpecification", "cssSelector": [".bio-summary"] }',
+    status: "low",
+    passState: "fail",
+  },
+];

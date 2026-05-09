@@ -1,0 +1,269 @@
+@use "@/components/breakpoints.scss" as *;
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--neutral-alpha-weak);
+  background: transparent;
+  color: var(--neutral-on-background-medium);
+  font-size: 13px;
+  font-family: var(--font-label);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--neutral-alpha-weak);
+  }
+
+  &.active {
+    background: var(--brand-background-medium);
+    border-color: var(--brand-background-strong);
+    color: var(--brand-on-background-strong);
+    font-weight: 600;
+  }
+}
+
+.filterCount {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.statsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.statBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-background-weak);
+  font-family: var(--font-label);
+}
+
+.statDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statCount {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 12px;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Category section
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--neutral-alpha-weak);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--neutral-background-weak);
+  border-bottom: 1px solid var(--neutral-alpha-weak);
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--neutral-on-background-strong);
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  color: var(--neutral-on-background-weak);
+}
+
+// Table header
+.tableHead {
+  display: grid;
+  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px;
+  gap: 0;
+  padding: 10px 20px;
+  background: var(--neutral-background-weak);
+  border-bottom: 1px solid var(--neutral-alpha-weak);
+
+  @media (max-width: $s) {
+    display: none;
+  }
+}
+
+.tableHeadCell {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--neutral-on-background-weak);
+  font-family: var(--font-label);
+}
+
+// Table rows
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px;
+  gap: 0;
+  border-bottom: 1px solid var(--neutral-alpha-weak);
+  transition: background 0.1s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: var(--neutral-alpha-weak);
+  }
+
+  @media (max-width: $s) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+}
+
+.cell {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--neutral-on-background-medium);
+  line-height: 1.5;
+
+  @media (max-width: $s) {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--neutral-alpha-weak);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.criteriaCell {
+  composes: cell;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.criteriaName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-on-background-strong);
+  font-family: var(--font-label);
+}
+
+.criteriaDesc {
+  font-size: 12px;
+  color: var(--neutral-on-background-weak);
+  line-height: 1.4;
+}
+
+.currentCell {
+  composes: cell;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.passIndicator {
+  flex-shrink: 0;
+  margin-top: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.currentValue {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--neutral-on-background-medium);
+}
+
+.shouldCell {
+  composes: cell;
+  font-size: 12px;
+}
+
+.fixCell {
+  composes: cell;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fixText {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.example {
+  display: block;
+  font-family: var(--font-code);
+  font-size: 11px;
+  background: var(--neutral-alpha-weak);
+  border: 1px solid var(--neutral-alpha-weak);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--brand-on-background-medium);
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.statusCell {
+  composes: cell;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+
+  @media (max-width: $s) {
+    justify-content: flex-start;
+  }
+}
+
+// Mobile label prefix (shown only on mobile)
+.mobileLabel {
+  display: none;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--neutral-on-background-weak);
+  margin-bottom: 4px;
+
+  @media (max-width: $s) {
+    display: block;
+  }
+}
