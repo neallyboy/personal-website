@@ -16,7 +16,7 @@ export async function generateMetadata() {
 
 export default function Work() {
   const projects = getPosts(["src", "app", "work", "projects"])
-    .filter((post) => !post.metadata.internal)
+    .filter((post) => !post.metadata.internal && !post.metadata.hidden)
     .sort((a, b) => new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime())
     .map((post) => ({ slug: post.slug, title: post.metadata.title, navTitle: post.metadata.navTitle }));
 

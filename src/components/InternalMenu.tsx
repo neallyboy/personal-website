@@ -9,6 +9,7 @@ const SECTIONS = [
   { icon: "grid" as const, label: "Work", href: "/internal/work" },
   { icon: "book" as const, label: "Blog", href: "/internal/blog" },
   { icon: "gallery" as const, label: "Gallery", href: "/internal/gallery" },
+  { icon: "tools" as const, label: "Tools", href: "/internal/tools" },
 ];
 
 export function InternalMenu() {
@@ -26,7 +27,8 @@ export function InternalMenu() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close on navigation
+  // Close on navigation — pathname is the intended trigger, not a value used inside the effect.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers close on route change
   useEffect(() => {
     setOpen(false);
   }, [pathname]);

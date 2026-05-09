@@ -22,6 +22,7 @@ import {
   PiImageDuotone,
   PiLockSimpleDuotone,
   PiUserCircleDuotone,
+  PiWrenchDuotone,
 } from "react-icons/pi";
 
 import {
@@ -71,6 +72,7 @@ export const iconLibrary: Record<string, IconType> = {
   gallery: PiImageDuotone,
   gameController: PiGameControllerDuotone,
   lock: PiLockSimpleDuotone,
+  tools: PiWrenchDuotone,
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,
