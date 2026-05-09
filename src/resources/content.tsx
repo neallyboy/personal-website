@@ -15,7 +15,7 @@ const person: Person = {
   firstName: "Neal",
   lastName: "Miran",
   name: "Neal Miran",
-  role: "Team Lead, DevOps at Oxford Properties Group",
+  role: "Team Lead, DevOps & SRE at Oxford Properties Group",
   avatar: "/images/avatar.png",
   email: "contact@nealmiran.com",
   location: "America/Toronto",
@@ -113,14 +113,14 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Neal is a Toronto-based DevOps Team Lead with a deep passion for
-        building resilient, scalable web platforms and the engineering processes
-        that support them. At Oxford Properties Group — part of the OMERS family
-        of companies — he leads teams delivering corporate marketing platforms,
-        enterprise system integrations, and internal tooling. He bridges the gap
-        between modern front-end development and backend infrastructure, with a
-        strong focus on developer experience, CI/CD pipelines, and operational
-        excellence.
+        Neal is a Toronto-based technology leader and practitioner architect with
+        6+ years at Oxford Properties Group — part of the OMERS family of
+        companies — designing, evaluating, and delivering enterprise-scale
+        integration, data, and web platform solutions. He translates complex
+        business requirements into right-sized architectural decisions, from
+        cloud migration strategies and data platform design to full-stack
+        application architecture, while collaborating across engineering,
+        business analysis, and senior leadership.
       </>
     ),
   },
@@ -132,7 +132,7 @@ const about: About = {
         company: "Oxford Properties Group",
         timeframe: "Dec 2022 - Present",
         logo: "/images/logos/oxford_properties_group_logo.jpeg",
-        role: "Team Lead, DevOps · Permanent Full-time",
+        role: "Team Lead, DevOps & SRE · Permanent Full-time",
         achievements: [
           "Led the first-ever in-house delivery of Oxford's corporate website reskin, a full platform modernisation built on Next.js, Agility CMS, Elasticsearch, and Netlify, delivering on time with a small team of two developers and a UX/UI designer.",
           "Architected and developed data pipelines for the Retail Marketing Team capturing user traffic and signups on Oxford's corporate website, integrating with Simon Data (a new customer data platform) for analytics and email marketing, using Boomi for pipelines and AWS S3 for storage.",
@@ -141,6 +141,10 @@ const about: About = {
           "Implemented CI/CD for PowerApps Canvas Apps and Azure Data Factory pipelines using Azure DevOps build and release pipelines.",
           "Managed and maintained public-facing websites using Agility CMS Site Generator, triggering build and deploy to Netlify CDN.",
           "Oversaw AEO/GEO implementation with structured JSON-LD schema markup for leadership pages as part of the corporate site reskin.",
+          "Built an internal property page audit tool surfacing SEO, GEO, layout quality, and data accuracy signals for individual property pages — enabling ongoing quality monitoring without manual inspection.",
+          "Extended the corporate site platform with the Agility CMS SDK for content preview and editor mouse tracking, and a show-modules overlay for live page composition visibility.",
+          "Created a repeatable WordPress-to-static site conversion process, migrating WordPress sites to static HTML hosted on Oxford's preferred Netlify infrastructure — standardising the platform footprint and eliminating CMS dependencies.",
+          "Presented technical strategies and architecture decisions to business stakeholders and senior leadership, translating complex technical concepts into actionable recommendations.",
           "Mentored developers through a formal internal Oxford Properties mentorship program, with a focus on front-end architecture, testing practices, and career development.",
         ],
         images: [
@@ -161,7 +165,9 @@ const about: About = {
           "Designed and developed a new ingestion and validation process for financial and non-financial data for third-party property managers, standardising data collection and removing manual intervention to satisfy audit requirements.",
           "Re-architected all VTS integrations following deprecation of the VTS XML API, migrating to their next-gen JSON APIs, switching from SSIS to Azure Data Factory, and redesigning database structures for new data points.",
           "Worked with Suite Spot to update their API to allow Oxford to send additional data fields for residential move-in and move-out jobs, improving unit turnover visibility and operational cost tracking.",
-          "Led Azure Cloud Migration analysis for on-premises VTS integrations.",
+          "Led Azure Cloud Migration analysis for on-premises VTS integrations — produced current-state landscape, evaluated cloud-native options, and authored future-state architecture recommendations for executive review.",
+          "Designed and architected the end-to-end T&I data flow pipeline — from source file ingestion through multi-stage validation — establishing the staging schema, error classification framework, and multi-environment promotion standards for consistent, auditable data delivery.",
+          "Evaluated and selected integration technologies (SSIS, Azure Data Factory, Azure Logic Apps, Boomi) for specific pipeline patterns, documenting architectural rationale and standards for team adoption.",
           "Key contributor in migrating legacy .NET web applications from SQL Server 2008/2012 to SQL Server 2019.",
           "Responsible for testing all on-premises external web applications for Windows Server in-place upgrades from 2012 to 2019 due to end-of-life support.",
         ],
@@ -218,10 +224,10 @@ const about: About = {
         images: [],
       },
       {
-        company: "Walmart Labs",
+        company: "Walmart Canada",
         timeframe: "Nov 2018 - Oct 2019",
         logo: "/images/logos/walmartglobaltech_logo.jpeg",
-        role: "Data Developer & DevOps / Master Data Analyst · Contract Full-time",
+        role: "Data Developer / BI DevOps · Contract Full-time",
         achievements: [
           "Used OneOps to manage building and deploying QA and production environments for the Metadata Management web application for the Canadian Data Lake.",
           "Developed disaster recovery processes and bash scripts to apply patches and perform backups across multiple environments.",
@@ -237,7 +243,7 @@ const about: About = {
         company: "Rethink Solutions Inc.",
         timeframe: "Jul 2017 - Oct 2018",
         logo: "/images/logos/rethink_solutions_inc__logo.jpeg",
-        role: "Data Specialist · Permanent Full-time",
+        role: "Lead Data Specialist · Permanent Full-time",
         achievements: [
           "Served as team lead in migrating current and historical data for top-ranking Fortune 500 companies, processing gigabytes of data from multiple sources with 100,000+ records and 100+ fields per dataset.",
           "Mapped unstructured client data to existing database structures, applying cleansing techniques including error corrections, unifications, outlier handling, and data enrichment to ensure integrity before load.",
@@ -251,7 +257,7 @@ const about: About = {
         company: "Plexxis Software",
         timeframe: "Oct 2016 - Jul 2017",
         logo: "/images/logos/plexxissoftware_logo.jpeg",
-        role: "Developer & Data Analyst · Permanent Full-time",
+        role: "Software Developer · Permanent Full-time",
         achievements: [
           "Wrote PL/SQL queries, views, and stored procedures to automate data sanity checks and support large-scale data migration into Oracle databases.",
           "Maintained and developed new features in Oracle Forms for the ERP front end, working collaboratively with developers, project managers, account managers, and end customers.",
