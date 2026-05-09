@@ -382,7 +382,7 @@ const about: About = {
         ),
         tags: [
           { name: "SSIS", icon: "sqlServer" },
-          { name: "Boomi", icon: "cloud" },
+          { name: "Boomi", icon: "boomi" },
           { name: "SQL", icon: "sqlServer" },
           { name: "Power Platform", icon: "microsoft" },
         ],
