@@ -35,6 +35,8 @@ const nextConfig = {
   },
   transpilePackages: ["next-mdx-remote"],
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

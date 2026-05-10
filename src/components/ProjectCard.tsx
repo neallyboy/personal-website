@@ -25,6 +25,7 @@ interface ProjectCardProps {
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   href,
+  priority,
   images = [],
   title,
   content,
@@ -35,6 +36,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <Column id={id} fillWidth gap="m" style={{ scrollMarginTop: "80px" }}>
       <Carousel
+        priority={priority}
         sizes="(max-width: 960px) 100vw, 960px"
         items={images.map((image) => ({
           slide: image,

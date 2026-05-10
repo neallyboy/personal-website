@@ -1,5 +1,4 @@
 import { Posts } from "@/components/blog/Posts";
-import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, blog, home, person } from "@/resources";
 import {
@@ -14,6 +13,11 @@ import {
   Schema,
   Text,
 } from "@once-ui-system/core";
+import dynamic from "next/dynamic";
+
+const Mailchimp = dynamic(() => import("@/components/Mailchimp").then((m) => m.Mailchimp), {
+  ssr: false,
+});
 
 export async function generateMetadata() {
   return Meta.generate({

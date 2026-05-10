@@ -105,7 +105,7 @@ export default async function RootLayout({
         {process.env.NODE_ENV === "production" && (
           <Script
             id="gtm"
-            strategy="beforeInteractive"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -116,7 +116,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         )}
         {process.env.NODE_ENV === "production" && (
-          <script
+          <Script
+            id="clarity"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
