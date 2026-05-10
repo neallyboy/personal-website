@@ -77,6 +77,49 @@
   /*
 }*/
 
+/* Cookie consent banner — themed to match Once UI design tokens */
+#cc-main {
+  --cc-font-family: var(--font-body, -apple-system, sans-serif);
+  --cc-modal-border-radius: var(--radius-m, 12px);
+  --cc-btn-border-radius: var(--radius-s, 6px);
+  --cc-bg: var(--neutral-background-strong, #ffffff);
+  --cc-primary-color: var(--neutral-on-background-strong, #0a0a0a);
+  --cc-secondary-color: var(--neutral-on-background-medium, #555555);
+  --cc-btn-primary-bg: var(--neutral-on-background-strong, #0a0a0a);
+  --cc-btn-primary-color: var(--neutral-background-strong, #ffffff);
+  --cc-btn-primary-border-color: var(--neutral-on-background-strong, #0a0a0a);
+  --cc-btn-secondary-bg: transparent;
+  --cc-btn-secondary-color: var(--neutral-on-background-strong, #0a0a0a);
+  --cc-btn-secondary-border-color: var(--neutral-border-medium, #d0d0d0);
+  --cc-separator-border-color: var(--neutral-border-weak, #e8e8e8);
+  --cc-toggle-on-bg: var(--brand-background-strong, #0a0a0a);
+  --cc-toggle-off-bg: var(--neutral-border-strong, #aaaaaa);
+  --cc-toggle-on-knob-bg: #ffffff;
+  --cc-toggle-off-knob-bg: #ffffff;
+  --cc-cookie-category-block-bg: var(--neutral-background-weak, #f5f5f5);
+  --cc-cookie-category-block-border: var(--neutral-border-weak, #e8e8e8);
+  --cc-cookie-category-block-hover-bg: var(--neutral-background-medium, #eeeeee);
+  --cc-cookie-category-expanded-block-bg: var(--neutral-background-weak, #f5f5f5);
+  --cc-overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] #cc-main {
+  --cc-bg: var(--neutral-background-strong, #111111);
+  --cc-primary-color: var(--neutral-on-background-strong, #f0f0f0);
+  --cc-secondary-color: var(--neutral-on-background-medium, #aaaaaa);
+  --cc-btn-primary-bg: var(--neutral-on-background-strong, #f0f0f0);
+  --cc-btn-primary-color: var(--neutral-background-strong, #111111);
+  --cc-btn-primary-border-color: var(--neutral-on-background-strong, #f0f0f0);
+  --cc-btn-secondary-color: var(--neutral-on-background-strong, #f0f0f0);
+  --cc-btn-secondary-border-color: var(--neutral-border-medium, #444444);
+  --cc-separator-border-color: var(--neutral-border-weak, #333333);
+  --cc-toggle-off-bg: var(--neutral-border-strong, #666666);
+  --cc-cookie-category-block-bg: var(--neutral-background-weak, #1a1a1a);
+  --cc-cookie-category-block-border: var(--neutral-border-weak, #333333);
+  --cc-cookie-category-block-hover-bg: var(--neutral-background-medium, #222222);
+  --cc-cookie-category-expanded-block-bg: var(--neutral-background-weak, #1a1a1a);
+}
+
 [data-theme="dark"] .tech-stack-icon {
   filter: invert(1);
 }

@@ -3,7 +3,7 @@ import "@/resources/custom.css";
 import classNames from "classnames";
 import Script from "next/script";
 
-import { Footer, Header, Providers, RouteGuard } from "@/components";
+import { CookieConsentBanner, Footer, Header, Providers, RouteGuard } from "@/components";
 import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
 import {
   Background,
@@ -106,6 +106,13 @@ export default async function RootLayout({
             `,
           }}
         />
+        <script
+          suppressHydrationWarning
+          id="consent-default"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',wait_for_update:500});`,
+          }}
+        />
         {process.env.NODE_ENV === "production" && (
           <Script
             id="gtm"
@@ -116,19 +123,6 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KT3HS3JK');`,
-            }}
-          />
-        )}
-        {process.env.NODE_ENV === "production" && (
-          <Script
-            id="clarity"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `(function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "waoc4srrm9");`,
             }}
           />
         )}
@@ -222,6 +216,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </Flex>
           </Flex>
           <Footer />
+          <CookieConsentBanner />
         </Column>
       </Providers>
     </Flex>

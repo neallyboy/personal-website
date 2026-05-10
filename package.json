@@ -39,24 +39,25 @@
     "stockfish": "^18.0.7",
     "transliteration": "^2.3.5",
     "typescript": "^5.8.3",
-    "tzdata": "^1.0.44"
+    "tzdata": "^1.0.44",
+    "vanilla-cookieconsent": "^3.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@playwright/test": "^1.59.1",
-    "eslint": "^9.25.0",
-    "storybook": "^10.3.5",
-    "@storybook/nextjs-vite": "^10.3.5",
     "@chromatic-com/storybook": "^5.1.2",
-    "@storybook/addon-vitest": "^10.3.5",
+    "@playwright/test": "^1.59.1",
     "@storybook/addon-a11y": "^10.3.5",
     "@storybook/addon-docs": "^10.3.5",
     "@storybook/addon-onboarding": "^10.3.5",
-    "vite": "^8.0.8",
-    "eslint-plugin-storybook": "^10.3.5",
-    "vitest": "^4.1.4",
-    "playwright": "^1.59.1",
+    "@storybook/addon-vitest": "^10.3.5",
+    "@storybook/nextjs-vite": "^10.3.5",
     "@vitest/browser-playwright": "^4.1.4",
-    "@vitest/coverage-v8": "^4.1.4"
+    "@vitest/coverage-v8": "^4.1.4",
+    "eslint": "^9.25.0",
+    "eslint-plugin-storybook": "^10.3.5",
+    "playwright": "^1.59.1",
+    "storybook": "^10.3.5",
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
   }
 }
