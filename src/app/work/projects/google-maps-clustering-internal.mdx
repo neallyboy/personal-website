@@ -1,0 +1,462 @@
+---
+title: "Google Maps Clustering — Webflow CMS Integration (Full)"
+navTitle: "Google Maps Clustering"
+publishedAt: "2024-05-24"
+internal: true
+summary: "Implemented Google Maps marker clustering for a client website built on Webflow CMS — integrating the Google Maps JavaScript API to render CMS-driven location pins, adding marker clustering via the @googlemaps/markerclusterer library, and customising the cluster renderer with a branded SVG icon and configurable clustering algorithm."
+images:
+  - "/images/projects/google-maps-clustering/cms-list-map.png"
+team:
+  - name: "Neal Miran"
+    role: "Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/nealmiran"
+---
+
+## Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Key Features](#key-features)
+- [Screenshots](#screenshots)
+- [Technologies Used](#technologies-used)
+- [Implementation](#implementation)
+- [Challenges and Learnings](#challenges-and-learnings)
+- [Outcome](#outcome)
+
+## Overview
+
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Details", key: "details" },
+    ],
+    rows: [
+      [
+        "Project Type",
+        "Interactive map integration with CMS-driven markers and clustering",
+      ],
+      ["Platform", "Webflow CMS"],
+      ["Team", "Neal Miran (Developer)"],
+      [
+        "Tech Stack",
+        "Google Maps JavaScript API, @googlemaps/markerclusterer, JavaScript, Webflow CMS",
+      ],
+      ["Status", "Delivered — 2024"],
+      ["Delivery", "Side project — built to help a friend"],
+    ],
+  }}
+/>
+
+A designer friend needed to add an interactive Google Map to a client website he was building in Webflow. The site already had location data stored in the Webflow CMS, and the goal was to render each CMS entry as a map pin, with an info window showing the listing's image, title, and description when clicked. The initial requirement grew from a basic multi-pin map into a more specific ask: implement marker clustering so that pins at the same zoom level would visually group together rather than stacking on top of each other or cluttering the map at a wider zoom.
+
+The implementation was embedded directly into a Webflow page as a custom code block, pulling location data from the CMS using DOM elements that Webflow renders from its collection list. The Google Maps JavaScript API drove the map, and the `@googlemaps/markerclusterer` library handled clustering. Additional work covered customising the cluster icon to a branded SVG and exploring different clustering algorithms to tune how aggressively nearby pins were grouped.
+
+## Architecture
+
+### Data Flow: CMS to Map
+
+Webflow does not expose its CMS data as a JSON API accessible to client-side scripts. Instead, data is rendered server-side as HTML when Webflow publishes the page. The integration pattern relies on this: the Webflow designer configures a collection list on the page, binding CMS fields (latitude, longitude, title, image URL, description) to hidden DOM elements with specific class names. The map script then reads those class-named elements from the DOM at runtime and builds the locations array from them.
+
+<MermaidDiagram
+  caption="Data flow: Webflow CMS fields are published as hidden DOM elements, which the map script reads to build the marker dataset"
+  chart={`
+flowchart TD
+    A([Webflow CMS\nCollection Editor]) -->|Author content| B[CMS Collection\nlat · lng · title · img · desc]
+    B -->|Publish site| C[Webflow Hosting\nServer-side render]
+    C -->|Hidden DOM elements\nper collection item| D[Browser DOM]
+    D -->|getElementsByClassName\nper field| E[JS: Build locations array\n lat · lng · title · content ]
+    E -->|One marker per entry| F[google.maps.Marker × N]
+    F -->|markers array| G[MarkerClusterer]
+    G -->|GridAlgorithm\ngridDistance: 60| H{Group or\nIndividual?}
+    H -->|2+ in grid cell| I[Cluster: count + centroid]
+    H -->|1 in grid cell| J[Individual Marker\ncustom pin icon]
+    I -->|renderer.render| K[Custom SVG Cluster Marker]
+    K --> L([Rendered Map])
+    J --> L
+`}
+/>
+
+### Script Loading Order
+
+The two external scripts — the `@googlemaps/markerclusterer` library and the Google Maps JavaScript API — must load in a specific order. The clustering library must be available before the Maps API callback fires, because `initializeMap` calls into `markerClusterer.GridAlgorithm` and `markerClusterer.MarkerClusterer` immediately on execution. Loading the Maps API first and letting the callback fire before the clusterer is ready results in silent reference errors.
+
+<MermaidDiagram
+  caption="Script loading dependency chain: markerclusterer must be available before the Maps API callback fires"
+  chart={`
+flowchart LR
+    A([Page Load]) --> B[Webflow renders HTML\nhidden CMS fields in DOM]
+    B --> C[script: @googlemaps/markerclusterer\nunpkg CDN — sync load]
+    C --> D[script: Maps JS API\ncallback=initializeMap — async]
+    D --> E[Maps API ready\ninitializeMap fires]
+    E --> F[createMap executes\nreads DOM elements]
+    F --> G[Map · Markers · Clusterer\nall initialised]
+`}
+/>
+
+### Clustering Pipeline
+
+The `@googlemaps/markerclusterer` library's architecture separates concerns cleanly: the algorithm decides which markers belong in which cluster, and the renderer decides how each cluster looks. These two concerns are configured independently, which is what makes the library's behaviour tunable without forking the library itself.
+
+At runtime, `GridAlgorithm` divides the map viewport into a grid. Any grid cell containing more than one marker produces a cluster, represented by a count and a centroid position. That cluster is passed to the custom renderer, which builds an SVG, base64-encodes it, and returns a `google.maps.Marker` using a data URI as its icon.
+
+<MermaidDiagram
+  caption="Clustering pipeline: GridAlgorithm groups markers by grid cell; custom renderer converts each cluster into an SVG-based marker"
+  chart={`
+flowchart TD
+    A([markers array\nN google.maps.Marker objects]) --> B[MarkerClusterer]
+    B --> C[GridAlgorithm\ngridDistance: 60]
+    C --> D{Markers per\ngrid cell}
+    D -->|1 marker| E[Pass through\nas individual pin]
+    D -->|2+ markers| F[Produce cluster\n count + centroid position ]
+    F --> G[renderer.render called\n count, position ]
+    G --> H[Build SVG string\nouter semi-transparent ring\nsolid inner disc\nwhite centre circle]
+    H --> I[window.btoa\nbase64 encode SVG string]
+    I --> J[data:image/svg+xml;base64,...]
+    J --> K[new google.maps.Marker\nicon: data URI · scaledSize: 50×50\nlabel: count string in brand red]
+    K --> L([Cluster marker rendered\non map at centroid position])
+    E --> M([Individual marker rendered\nwith custom pin icon])
+`}
+/>
+
+### Info Window: Shared Instance Pattern
+
+Rather than instantiating a `google.maps.InfoWindow` per marker, a single `InfoWindow` instance is created once and reused across all markers. When a marker is clicked, the shared `InfoWindow`'s content is updated with that marker's HTML card, and `open` is called pointing to the clicked marker. This means only one info window can be open at any time — clicking a second marker implicitly closes the first — which is the standard UX expectation for a map with multiple pins.
+
+<MermaidDiagram
+  caption="Shared InfoWindow pattern: one instance is created and reused; each click updates content and re-opens on the target marker"
+  chart={`
+flowchart LR
+    A([Single InfoWindow\ninstantiated once]) -->|shared reference| B[attachMarkerInfoWindow\ncalled for each marker]
+    B -->|marker.addListener click| C{User clicks\na marker}
+    C -->|infoWindow.setContent| D[HTML card\nimg · title · desc]
+    D -->|infoWindow.open\nanchor: marker| E([InfoWindow displayed\nabove clicked marker\nprevious auto-closed])
+`}
+/>
+
+### Side Panel Toggle
+
+A separate `DOMContentLoaded` listener wires the panel toggle button independently from the map initialisation. The two concerns are kept separate: map initialisation is gated on the Maps API callback, and the panel toggle is gated on the DOM being ready. This means the toggle works even if the map is still loading.
+
+<MermaidDiagram
+  caption="Panel toggle wired independently from map init — both share the page but do not depend on each other"
+  chart={`
+flowchart LR
+    A([DOMContentLoaded]) --> B[toggleButton listener registered]
+    B -->|user click| C{listing.style.display}
+    C -->|=== none| D[Set to block\nshow listing panel]
+    C -->|!== none| E[Set to none\nhide listing panel]
+    F([Maps API callback]) --> G[initializeMap\nindependent of toggle]
+`}
+/>
+
+## Key Features
+
+- **CMS-Driven Marker Data:** Location data was sourced directly from the Webflow CMS collection list rendered on the page. The map script read latitude, longitude, title, image, and description from hidden DOM elements that Webflow populated from its CMS, avoiding any direct API calls and keeping the data flow within Webflow's standard publishing model.
+- **Info Window on Click:** Each marker opened a custom-styled info window on click, displaying the listing image, title, and description inside a compact card. The info window was shared across all markers and reused rather than instantiated per marker, keeping memory usage low.
+- **Marker Clustering:** The `@googlemaps/markerclusterer` library grouped nearby markers into a single cluster element at lower zoom levels. Without clustering, a dense map with many pins is difficult to read and interact with — clustering resolved this by replacing overlapping markers with a count badge that expands as the user zooms in.
+- **Custom SVG Cluster Renderer:** The default cluster appearance was replaced with a custom renderer that generated an inline SVG directly in JavaScript. The SVG used two concentric circles — a semi-transparent outer ring and a solid inner disc in the client's brand red — with the cluster count rendered in matching red text over a white inner circle. The SVG was base64-encoded and passed as a data URI to a `google.maps.Marker`, giving full visual control without external image assets.
+- **Custom Pin Icon:** Individual markers used a custom location pin image hosted in Webflow's asset library rather than the default Google Maps teardrop, keeping the map visually consistent with the client's branding.
+- **Clustering Algorithm Tuning:** The `@googlemaps/markerclusterer` library supports pluggable clustering algorithms. After testing the default, `GridAlgorithm` was introduced with a configurable `gridDistance` parameter. Increasing the grid distance caused the algorithm to group pins that were further apart, resulting in fewer, larger clusters at the same zoom level. This was noticeable in practice — with the default algorithm the user had to zoom out four steps before pins clustered; with a tuned `GridAlgorithm` at `gridDistance: 60`, clustering kicked in a step earlier at equivalent zoom levels.
+- **Side Panel Toggle:** A button on the page toggled the visibility of a listing panel alongside the map, allowing users to switch between the map view and a list view of the same CMS data. The toggle was wired through a `DOMContentLoaded` listener, independent of the Maps API callback.
+
+## Screenshots
+
+<LightboxCarousel
+  items={[
+    {
+      src: "/images/projects/google-maps-clustering/cms-list-map.png",
+      alt: "CMS list panel alongside the map — cluster visible at zoom level 12",
+      badges: [
+        { label: "CMS List View", variant: "neutral" },
+        { label: "Webflow Integration", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/google-maps-clustering/cluster-zoomed-out.png",
+      alt: "All 6 locations grouped into one cluster at maximum zoom out",
+      badges: [
+        { label: "Marker Clustering", variant: "neutral" },
+        { label: "Zoomed Out", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/google-maps-clustering/cluster-medium-zoom.png",
+      alt: "Locations split into clusters of 4 and 2 as the user zooms in",
+      badges: [
+        { label: "Marker Clustering", variant: "neutral" },
+        { label: "Medium Zoom", variant: "brand" },
+      ],
+    },
+    {
+      src: "/images/projects/google-maps-clustering/cluster-zoomed-in.png",
+      alt: "A cluster of 5 alongside one individual pin as markers begin to separate",
+      badges: [
+        { label: "Marker Clustering", variant: "neutral" },
+        { label: "Zoomed In", variant: "brand" },
+      ],
+    },
+  ]}
+/>
+
+## Technologies Used
+
+<TechStack
+  items={[
+    {
+      name: "Google Maps JavaScript API",
+      iconSrc: "/images/tech-icons/googlemaps.svg",
+      description:
+        "Rendered the map and provided the Marker, InfoWindow, and Map classes used throughout. The API was loaded asynchronously with a callback to the initialisation function, ensuring it fired only after the markerclusterer library was already available in scope.",
+    },
+    {
+      name: "@googlemaps/markerclusterer",
+      iconSrc: "/images/tech-icons/googlemaps.svg",
+      description:
+        "The official Google Maps marker clustering library, loaded from the unpkg CDN synchronously before the Maps API script tag. Provided the MarkerClusterer class, the GridAlgorithm, and the renderer interface that the custom SVG cluster marker plugs into.",
+    },
+    {
+      name: "JavaScript (Vanilla)",
+      iconSrc: "/images/tech-icons/javascript.svg",
+      description:
+        "All map logic was written in vanilla JavaScript embedded as a custom code block in Webflow. No additional frameworks or build tools were used — the constraint of embedding code into Webflow's custom code editor made a minimal, dependency-free approach the right choice.",
+    },
+    {
+      name: "Webflow CMS",
+      iconSrc: "/images/tech-icons/webflow.svg",
+      description:
+        "The client's chosen web builder and CMS. Location data was authored in Webflow's collection editor and rendered onto the page as hidden HTML elements by the Webflow publishing pipeline. The map script consumed these elements directly from the DOM using class-name selectors defined in the Webflow designer.",
+    },
+  ]}
+/>
+
+## Implementation
+
+The following code is embedded directly into the Webflow page as a custom code block. Replace `YOUR_API_KEY` with your Google Maps API key and update the `icon` URL to point to your pin asset in Webflow's asset library.
+
+**Step 1 — Add the CSS to the page's `<head>` custom code:**
+
+```css
+<style>
+.projname {
+  font-family: Sanchezregular, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: black;
+  font-weight: bold;
+  margin-top: 2px;
+  max-width: 170px;
+}
+.projdesc {
+  font-family: Sanchezregular, sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  color: #6d6e70;
+  margin-top: 2px;
+  max-width: 170px;
+}
+.projimg {
+  margin-top: 10px;
+  max-width: 180px !important;
+  height: 120px;
+}
+</style>
+```
+
+**Step 2 — Add the JavaScript and script tags to the page's `</body>` custom code:**
+
+```html
+<script>
+  function initializeMap() {
+    createMap({
+      latitudeClass: "latitude",
+      longitudeClass: "longitude",
+      imageClass: "listing-img",
+      descriptionClass: "listing-description",
+      titleClass: "listing-title",
+    });
+  }
+
+  function createMap(config) {
+    let titles = document.getElementsByClassName(config.titleClass),
+      latitudes = document.getElementsByClassName(config.latitudeClass),
+      longitudes = document.getElementsByClassName(config.longitudeClass),
+      images = document.getElementsByClassName(config.imageClass),
+      descriptions = document.getElementsByClassName(config.descriptionClass),
+      markers = [],
+      locations = [];
+
+    for (let index = 0; index < titles.length; index++) {
+      let imageUrl = images[index].src;
+      if (
+        latitudes[index].innerHTML !== "" &&
+        longitudes[index].innerHTML !== ""
+      ) {
+        locations.push({
+          title: titles[index].innerHTML,
+          lat: Number(latitudes[index].innerHTML),
+          lng: Number(longitudes[index].innerHTML),
+          content:
+            '<div class="info-box">' +
+            '<img class="projimg" src="' +
+            imageUrl +
+            '"/>' +
+            '<p class="projname">' +
+            titles[index].innerHTML +
+            "</p>" +
+            '<p class="projdesc">' +
+            descriptions[index].innerHTML +
+            "</p>" +
+            "</div>",
+        });
+      }
+    }
+
+    const map = new google.maps.Map(document.getElementById("map-wrapper"), {
+      zoom: 5,
+      center: { lat: 1.2789773525290893, lng: 103.83531939391086 },
+      disableDefaultUI: false,
+      mapId: "43d83e943216f158",
+    });
+
+    const infoWindow = new google.maps.InfoWindow();
+
+    locations.forEach(function (location) {
+      let marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        title: location.title,
+        icon: "https://YOUR_WEBFLOW_ASSET_URL/locationPin.png",
+      });
+      markers.push(marker);
+      attachMarkerInfoWindow(marker, location.content);
+    });
+
+    function attachMarkerInfoWindow(marker, content) {
+      marker.addListener("click", function () {
+        infoWindow.setContent(content);
+        infoWindow.open({ anchor: marker, map: map, shouldFocus: false });
+      });
+    }
+
+    // GridAlgorithm groups pins that are further apart — increase gridDistance
+    // to cluster more aggressively at the same zoom level.
+    const algorithm = new markerClusterer.GridAlgorithm({
+      gridDistance: 60,
+    });
+
+    new markerClusterer.MarkerClusterer({
+      map: map,
+      markers: markers,
+      algorithm: algorithm,
+      renderer: {
+        render: function ({ count, position }) {
+          const svgMarkup = [
+            '<svg width="50" height="50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
+            '<g style="opacity:.45;">',
+            '<circle cx="12" cy="12" r="12" style="fill:#e61e28;stroke-width:0px;"/>',
+            "</g>",
+            '<circle cx="12" cy="12" r="10.5" style="fill:#e61e28;stroke-width:0px;"/>',
+            '<circle cx="12" cy="12" r="8.5"  style="fill:#fff;stroke-width:0px;"/>',
+            '<text x="12" y="16" fill="#E61E28" font-size="15" font-family="Arial" text-anchor="middle"></text>',
+            "</svg>",
+          ].join("");
+          const svg = window.btoa(svgMarkup);
+          return new google.maps.Marker({
+            position: position,
+            icon: {
+              url: "data:image/svg+xml;base64," + svg,
+              scaledSize: new google.maps.Size(50, 50),
+            },
+            label: {
+              text: String(count),
+              color: "#E61E28",
+              fontSize: "15px",
+            },
+          });
+        },
+      },
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var toggleButton = document.getElementById("toggleButton");
+    var listing = document.getElementById("listing");
+    toggleButton.addEventListener("click", function () {
+      listing.style.display =
+        listing.style.display === "none" ? "block" : "none";
+    });
+  });
+</script>
+
+<!-- Marker clusterer must load before the Maps API callback fires -->
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initializeMap"></script>
+```
+
+### Why the Script Order Matters
+
+The two `<script>` tags at the bottom are ordered deliberately. The Maps API is loaded with `callback=initializeMap`, which means the browser will call `initializeMap` as soon as the Maps API finishes loading. If `@googlemaps/markerclusterer` has not finished loading at that point, the references to `markerClusterer.GridAlgorithm` and `markerClusterer.MarkerClusterer` inside `createMap` will throw reference errors — with no indication in the browser that it was a load-order problem rather than a naming issue.
+
+Loading the clusterer first (synchronously from unpkg) and the Maps API second (asynchronously with a callback) ensures the clusterer namespace is fully available by the time the callback fires.
+
+### The SVG Cluster Renderer in Detail
+
+The `renderer` option accepts any object with a `render({ count, position })` method that returns a `google.maps.Marker`. The SVG is built as a template string, converted to a base64 string with `window.btoa`, and used as a data URI for the icon — no external hosting or network round-trip required.
+
+The SVG's `<text>` element is intentionally left with an empty string. The count is instead supplied through the `google.maps.Marker`'s `label` property. This keeps the visual geometry (SVG) separate from the dynamic value (count), which is easier to update independently. The label's `color` and `fontSize` properties are styled to match the brand colour so the count appears to float over the white centre circle.
+
+### DOM Selector Contract
+
+The class names passed in the `config` object (`latitude`, `longitude`, `listing-img`, `listing-description`, `listing-title`) must match exactly the class names the Webflow designer has applied to the hidden collection list elements. If any class name diverges — a typo, a rename in the Webflow editor, or a missing field in the collection — the corresponding `getElementsByClassName` call returns an empty collection and that data is silently absent from the locations array. There is no error; the map renders with fewer (or zero) markers.
+
+## Challenges and Learnings
+
+### Reading CMS Data from the DOM
+
+Webflow does not expose its CMS data as a JSON endpoint accessible to client-side scripts — data is rendered as HTML by Webflow's server when the page is published. The approach of reading from hidden DOM elements (using `getElementsByClassName` to collect latitude, longitude, title, image, and description fields rendered by a Webflow collection list) is a well-known pattern in the Webflow community but requires careful coordination between the Webflow designer's collection list structure and the class names the JavaScript expects. Any mismatch — a renamed class, a missing field, a collection list not on the page — silently produces an empty map.
+
+This is a structural fragility that has no runtime signal. The contract between the Webflow designer and the JavaScript is maintained by convention, not by a type system or a schema validator. A defensive approach is to log the extracted `locations` array to the console at startup so that a blank map can be distinguished from "zero locations in the CMS" versus "the selector contract is broken."
+
+### Implementing the Custom Cluster Renderer
+
+The `@googlemaps/markerclusterer` library's default renderer can be replaced by providing a `renderer` object with a `render` method that receives the cluster's `count` and `position` and returns a `google.maps.Marker`. Generating a branded SVG inside JavaScript — building the SVG markup as a template string, base64-encoding it with `window.btoa`, and wrapping it in a data URI — was the most self-contained approach, avoiding external asset hosting while allowing full control over the visual.
+
+Getting the label text to overlay the SVG correctly required coordinating the SVG's `<text>` element (which controlled placement and fill) with the `google.maps.Marker`'s `label` property (which controlled what the Google Maps layer drew on top). The SVG text element in this implementation is intentionally left blank; the count is supplied exclusively through the marker label. Trying to render the count through both the SVG text and the marker label simultaneously caused the count to appear twice, offset from each other, which required working through the rendering layers to understand why.
+
+### Tuning the Clustering Algorithm
+
+Marker clustering behaviour is a function of two things: the algorithm and its parameters. The default algorithm did not produce the grouping density the client wanted — pins were only clustering at a zoom level where the map was already too far out to be useful for navigation. Switching to `GridAlgorithm` and exposing `gridDistance` as a tunable parameter made the clustering tighter at practical zoom levels.
+
+The tradeoff is that a higher `gridDistance` can group markers that are geographically further apart than the user might expect — worth testing against the actual data distribution of the client's locations. For a site with all locations in a single dense urban area, a lower `gridDistance` is likely the right default. For locations spread across a country, a higher value makes individual city clusters more readable at the zoom level where the client is likely to land. The right value is always data-dependent and should be tested against the real location set.
+
+### Migrating Away from the Legacy Google Maps API
+
+The existing map implementation on the site used an older version of the Google Maps JavaScript API — one that relied on the legacy `google.maps.Marker` constructor and the now-deprecated script loading pattern. Google has been progressively deprecating parts of the older Maps API in favour of the newer `google.maps.marker.AdvancedMarkerElement` class, and some of the library behaviours the original code depended on had shifted or been removed in the version the project was targeting.
+
+Adding marker clustering was not as straightforward as dropping in the `@googlemaps/markerclusterer` library on top of the existing code — the clustering library expected a consistent marker interface, and the API version mismatch surfaced as silent failures and missing features rather than clear error messages. Aligning the API version, the clustering library version, and the existing custom code required working through the changes incrementally to identify which parts of the original script broke under the newer API and which could carry over unchanged.
+
+The `mapId` property — required for certain newer Maps API features — was added during this migration. Without it, some API behaviours are unavailable, but its presence also subtly changes how the map is initialised. Any future migration to `AdvancedMarkerElement` will require a `mapId` to be set, so its inclusion here was both a current requirement and forward-compatible.
+
+### No Dedicated Webflow Development Environment
+
+Working on a Webflow project as an outside contributor without familiarity with the Webflow editor added friction. Webflow's interface is tailored to designers, and the relevant custom code blocks and collection list structure are not immediately obvious without experience in the tool. Testing the JavaScript changes required republishing the page each time, since Webflow does not offer a local preview for custom code in the standard workflow.
+
+A reference project that could be cloned and inspected — in this case a community-built CMS map template — was the fastest path to understanding the existing structure before making changes. Without that reference, understanding which hidden elements corresponded to which CMS fields, and how the collection list was structured in the Webflow designer, would have required significantly more back-and-forth with the designer to explain and reproduce the setup.
+
+The lack of a local development loop (edit → refresh → test) slowed iteration. Each change required: update the custom code block in the Webflow editor, publish the site, open the live URL, and inspect the result. For straightforward changes this is acceptable; for debugging the SVG rendering or the script loading order it added meaningful friction compared to a standard local dev environment.
+
+### The `window.btoa` Encoding Constraint
+
+`window.btoa` encodes a binary string to base64, but it only handles ASCII characters. An SVG that includes non-ASCII content — extended characters in labels, international text, or certain Unicode symbols — will throw a `DOMException: Failed to execute 'btoa' on 'Window': The string to be encoded contains characters outside of the Latin1 range.` For this project the SVG content was entirely ASCII, so this was not an issue in practice. A production-grade renderer targeting internationalised content would need to use `encodeURIComponent` plus a manual base64 encoder, or skip the data URI approach and host the SVG as a static asset.
+
+## Outcome
+
+The map was successfully updated to include marker clustering with a custom branded cluster renderer. Pins that were previously overlapping or visually dense at common zoom levels were grouped into labelled clusters, improving readability without any loss of data — zooming in expanded each cluster back to its individual markers.
+
+The custom SVG renderer gave the client visual control over the cluster appearance, tying it to the site's brand colour without requiring external image assets or additional hosting. The `GridAlgorithm` configuration gave a concrete lever for adjusting clustering sensitivity to match the density of the client's actual location data.
+
+The project illustrates a practical constraint of Webflow CMS integrations: when the platform does not expose data as an API, the DOM becomes the data transport layer. The DOM-as-data-source pattern is workable but requires a maintained contract between the designer's class naming and the script's selectors, with no framework-level enforcement. In a larger project with more locations, more fields, or a team making ongoing changes to the Webflow site, that contract would benefit from documentation or a shared naming convention enforced by convention across both the Webflow designer and the consuming script.
+
+The `@googlemaps/markerclusterer` library's pluggable algorithm and renderer interfaces proved to be the right abstraction for this kind of customisation — both concerns were fully configurable without modifying the library, and the two could be tuned independently without one change affecting the other.
