@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 const BLOG_SLUGS = [
   "building-a-chess-game-with-ai-commentary",
   "building-a-tic-tac-toe-game-for-jasper",
+  "building-robot-brawl-for-the-kids",
 ];
 
 test.describe("Blog Index", () => {
@@ -56,7 +57,9 @@ test.describe("Blog Post Detail Pages", () => {
       expect(text?.trim().length).toBeGreaterThan(200);
     });
 
-    test(`/blog/${slug} has article metadata (date/summary)`, async ({ page }) => {
+    test(`/blog/${slug} has article metadata (date/summary)`, async ({
+      page,
+    }) => {
       await page.goto(`/blog/${slug}`);
       // MDX posts have publishedAt date rendered on the page
       const body = await page.locator("body").textContent();
@@ -75,6 +78,12 @@ test.describe("Blog Post Detail Pages", () => {
     await page.goto("/blog/building-a-tic-tac-toe-game-for-jasper");
     const body = await page.locator("body").textContent();
     expect(body?.toLowerCase()).toMatch(/tic.?tac.?toe|jasper/i);
+  });
+
+  test("robot brawl blog post contains relevant content", async ({ page }) => {
+    await page.goto("/blog/building-robot-brawl-for-the-kids");
+    const body = await page.locator("body").textContent();
+    expect(body?.toLowerCase()).toMatch(/robot|brawl|fight/i);
   });
 
   test("blog post images load without 404", async ({ page }) => {

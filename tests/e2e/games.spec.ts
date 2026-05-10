@@ -17,14 +17,25 @@ test.describe("Games Hub", () => {
     expect(text).toContain("Games");
   });
 
-  test("chess game card is visible and links to /games/chess", async ({ page }) => {
+  test("chess game card is visible and links to /games/chess", async ({
+    page,
+  }) => {
     const chessLink = page.locator('a[href="/games/chess"]');
     await expect(chessLink).toBeVisible();
   });
 
-  test("tic-tac-toe game card is visible and links to /games/tictactoe", async ({ page }) => {
+  test("tic-tac-toe game card is visible and links to /games/tictactoe", async ({
+    page,
+  }) => {
     const tttLink = page.locator('a[href="/games/tictactoe"]');
     await expect(tttLink).toBeVisible();
+  });
+
+  test("robot fight game card is visible and links to /games/robot-fight", async ({
+    page,
+  }) => {
+    const robotLink = page.locator('a[href="/games/robot-fight"]');
+    await expect(robotLink).toBeVisible();
   });
 
   test("clicking chess card navigates to /games/chess", async ({ page }) => {
@@ -32,9 +43,18 @@ test.describe("Games Hub", () => {
     await expect(page).toHaveURL("/games/chess");
   });
 
-  test("clicking tic-tac-toe card navigates to /games/tictactoe", async ({ page }) => {
+  test("clicking tic-tac-toe card navigates to /games/tictactoe", async ({
+    page,
+  }) => {
     await page.locator('a[href="/games/tictactoe"]').click();
     await expect(page).toHaveURL("/games/tictactoe");
+  });
+
+  test("clicking robot fight card navigates to /games/robot-fight", async ({
+    page,
+  }) => {
+    await page.locator('a[href="/games/robot-fight"]').click();
+    await expect(page).toHaveURL("/games/robot-fight");
   });
 });
 
@@ -52,9 +72,11 @@ test.describe("Chess Game", () => {
 
   test("chess board renders", async ({ page }) => {
     // Chess board should have 64 squares or piece elements
-    const board = page.locator(
-      '[class*="board"], [class*="chess"], table, [data-testid*="board"]'
-    ).first();
+    const board = page
+      .locator(
+        '[class*="board"], [class*="chess"], table, [data-testid*="board"]',
+      )
+      .first();
     await expect(page.locator("main")).toBeVisible();
   });
 
@@ -62,7 +84,7 @@ test.describe("Chess Game", () => {
     await page.waitForTimeout(1000); // allow board to initialize
     // Pieces are typically rendered as images or SVG or spans with piece symbols
     const pieces = page.locator(
-      'img[alt*="pawn" i], img[alt*="rook" i], img[alt*="knight" i], img[alt*="bishop" i], img[alt*="queen" i], img[alt*="king" i], [class*="piece"]'
+      'img[alt*="pawn" i], img[alt*="rook" i], img[alt*="knight" i], img[alt*="bishop" i], img[alt*="queen" i], img[alt*="king" i], [class*="piece"]',
     );
     const count = await pieces.count();
     // Should have pieces or at minimum the board container
@@ -73,7 +95,7 @@ test.describe("Chess Game", () => {
   test("difficulty selector is present", async ({ page }) => {
     // The game has 5 difficulty levels
     const difficultyControl = page.locator(
-      'select, [role="listbox"], [class*="difficulty"], [class*="level"]'
+      'select, [role="listbox"], [class*="difficulty"], [class*="level"]',
     );
     const body = await page.locator("body").textContent();
     // Difficulty options like Beginner, Easy, Medium, etc.
@@ -111,7 +133,7 @@ test.describe("Chess Game", () => {
       body?.toLowerCase().includes("reset") ||
       body?.toLowerCase().includes("restart");
     const resetBtn = page.locator(
-      'button:has-text("New Game"), button:has-text("Reset"), button:has-text("Restart")'
+      'button:has-text("New Game"), button:has-text("Reset"), button:has-text("Restart")',
     );
     const hasReset = hasResetButton || (await resetBtn.count()) > 0;
     expect(hasReset).toBeTruthy();
@@ -119,7 +141,7 @@ test.describe("Chess Game", () => {
 
   test("mute / sound toggle is present", async ({ page }) => {
     const muteBtn = page.locator(
-      'button[aria-label*="mute" i], button[aria-label*="sound" i], button[class*="mute"], button[class*="sound"]'
+      'button[aria-label*="mute" i], button[aria-label*="sound" i], button[class*="mute"], button[class*="sound"]',
     );
     const body = await page.locator("body").textContent();
     // Sound/mute control or at least no crash
@@ -142,7 +164,7 @@ test.describe("Tic-Tac-Toe Game", () => {
     await page.waitForTimeout(500);
     // 3x3 board cells
     const cells = page.locator(
-      '[class*="cell"], [class*="square"], td, [data-testid*="cell"]'
+      '[class*="cell"], [class*="square"], td, [data-testid*="cell"]',
     );
     const count = await cells.count();
     // Should have at least 9 clickable cells, or a board container
@@ -150,12 +172,16 @@ test.describe("Tic-Tac-Toe Game", () => {
     await expect(main).toBeVisible();
   });
 
-  test("game title / heading contains Tic-Tac-Toe or Jasper", async ({ page }) => {
+  test("game title / heading contains Tic-Tac-Toe or Jasper", async ({
+    page,
+  }) => {
     const body = await page.locator("body").textContent();
     expect(body?.toLowerCase()).toMatch(/tic.?tac.?toe|jasper/i);
   });
 
-  test("difficulty options are present (Easy/Medium/Hard)", async ({ page }) => {
+  test("difficulty options are present (Easy/Medium/Hard)", async ({
+    page,
+  }) => {
     const body = await page.locator("body").textContent();
     const hasDifficulty =
       body?.toLowerCase().includes("easy") ||
@@ -167,7 +193,7 @@ test.describe("Tic-Tac-Toe Game", () => {
   test("player can make a move by clicking a cell", async ({ page }) => {
     await page.waitForTimeout(500);
     const cells = page.locator('[class*="cell"], [class*="square"]').first();
-    if (await cells.count() > 0) {
+    if ((await cells.count()) > 0) {
       await cells.click({ force: true });
     }
     // After clicking, X or O should appear, or at minimum no crash
@@ -189,7 +215,10 @@ test.describe("Tic-Tac-Toe Game", () => {
     if (count >= 3) {
       // Click up to 5 cells (won't always be valid but shouldn't crash)
       for (let i = 0; i < Math.min(5, count); i++) {
-        await cells.nth(i).click({ force: true }).catch(() => {});
+        await cells
+          .nth(i)
+          .click({ force: true })
+          .catch(() => {});
         await page.waitForTimeout(300);
       }
     }
@@ -199,9 +228,9 @@ test.describe("Tic-Tac-Toe Game", () => {
   test("new game / reset button resets the board", async ({ page }) => {
     await page.waitForTimeout(500);
     const resetBtn = page.locator(
-      'button:has-text("New Game"), button:has-text("Reset"), button:has-text("Play Again"), button:has-text("Restart")'
+      'button:has-text("New Game"), button:has-text("Reset"), button:has-text("Play Again"), button:has-text("Restart")',
     );
-    if (await resetBtn.count() > 0) {
+    if ((await resetBtn.count()) > 0) {
       await resetBtn.first().click();
       await expect(page.locator("main")).toBeVisible();
     } else {
@@ -214,11 +243,55 @@ test.describe("Tic-Tac-Toe Game", () => {
     await page.waitForTimeout(500);
     // Jasper has witty commentary
     const cells = page.locator('[class*="cell"], [class*="square"]').first();
-    if (await cells.count() > 0) {
+    if ((await cells.count()) > 0) {
       await cells.click({ force: true });
       await page.waitForTimeout(1000);
     }
     // Commentary might appear after a move
     await expect(page.locator("main")).toBeVisible();
+  });
+});
+
+test.describe("Robot Brawl Game", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/games/robot-fight");
+    await page.waitForLoadState("domcontentloaded");
+  });
+
+  test("page loads with 200 status", async ({ page }) => {
+    const response = await page.goto("/games/robot-fight");
+    expect(response?.status()).toBe(200);
+  });
+
+  test("page title references Robot Brawl or fighting", async ({ page }) => {
+    const body = await page.locator("body").textContent();
+    expect(body?.toLowerCase()).toMatch(/robot|brawl|fight/i);
+  });
+
+  test("game canvas or main container renders", async ({ page }) => {
+    await page.waitForTimeout(1000);
+    await expect(page.locator("main")).toBeVisible();
+  });
+
+  test("player characters are visible", async ({ page }) => {
+    await page.waitForTimeout(1000);
+    const body = await page.locator("body").textContent();
+    // Characters: Jasper, Julien, Mommy, Daddy
+    const hasCharacter =
+      body?.toLowerCase().includes("jasper") ||
+      body?.toLowerCase().includes("julien") ||
+      body?.toLowerCase().includes("daddy") ||
+      body?.toLowerCase().includes("mommy") ||
+      body?.toLowerCase().includes("robot");
+    expect(hasCharacter).toBeTruthy();
+  });
+
+  test("game does not crash on load", async ({ page }) => {
+    await page.waitForTimeout(1500);
+    await expect(page.locator("main")).toBeVisible();
+    const errors: string[] = [];
+    page.on("pageerror", (err) => errors.push(err.message));
+    await page.waitForTimeout(500);
+    expect(errors.filter((e) => !e.includes("analytics"))).toHaveLength(0);
   });
 });

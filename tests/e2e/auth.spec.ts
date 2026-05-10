@@ -4,6 +4,8 @@ const INTERNAL_ROUTES = [
   "/internal/work",
   "/internal/blog",
   "/internal/gallery",
+  "/internal/tools",
+  "/internal/tools/audit",
 ];
 
 test.describe("Authentication - Login Page", () => {
@@ -21,12 +23,11 @@ test.describe("Authentication - Login Page", () => {
   test("GitHub login button is visible", async ({ page }) => {
     await page.goto("/login");
     const githubBtn = page.locator(
-      'button:has-text("GitHub"), a:has-text("GitHub"), [class*="github"]'
+      'button:has-text("GitHub"), a:has-text("GitHub"), [class*="github"]',
     );
     const body = await page.locator("body").textContent();
     const hasGitHub =
-      body?.toLowerCase().includes("github") ||
-      (await githubBtn.count()) > 0;
+      body?.toLowerCase().includes("github") || (await githubBtn.count()) > 0;
     expect(hasGitHub).toBeTruthy();
   });
 
@@ -38,7 +39,9 @@ test.describe("Authentication - Login Page", () => {
 
 test.describe("Protected Routes - Unauthenticated Access", () => {
   for (const route of INTERNAL_ROUTES) {
-    test(`${route} redirects or blocks unauthenticated users`, async ({ page }) => {
+    test(`${route} redirects or blocks unauthenticated users`, async ({
+      page,
+    }) => {
       const response = await page.goto(route);
       const status = response?.status() ?? 0;
       const currentUrl = page.url();
@@ -57,7 +60,7 @@ test.describe("Protected Routes - Unauthenticated Access", () => {
 
   test("internal project detail is protected", async ({ page }) => {
     const response = await page.goto(
-      "/work/oxford-corporate-website-reskin-internal"
+      "/work/oxford-corporate-website-reskin-internal",
     );
     const status = response?.status() ?? 0;
     const currentUrl = page.url();
@@ -82,7 +85,9 @@ test.describe("Auth API", () => {
     expect(body.authenticated).toBe(false);
   });
 
-  test("/api/auth/providers returns NextAuth providers", async ({ request }) => {
+  test("/api/auth/providers returns NextAuth providers", async ({
+    request,
+  }) => {
     const response = await request.get("/api/auth/providers");
     // NextAuth providers endpoint
     expect([200, 404]).toContain(response.status());

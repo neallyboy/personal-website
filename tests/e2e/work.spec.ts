@@ -1,8 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 const PUBLIC_PROJECTS = [
-  "oxford-corporate-website-reskin",
   "ford-web-scraper",
+  "google-maps-clustering",
+  "oxford-corporate-website-reskin",
   "demand-intake-application",
   "310maxx-oxfordmaxxsupport-rebrand",
   "transparency-and-insights",
@@ -34,7 +35,7 @@ test.describe("Work / Projects Index", () => {
     const firstLink = page.locator('a[href^="/work/"]').first();
     const href = await firstLink.getAttribute("href");
     await firstLink.click();
-    await expect(page).toHaveURL(new RegExp("/work/"));
+    await expect(page).toHaveURL(/\/work\//u);
     expect(page.url()).toContain(href ?? "/work/");
   });
 });
@@ -59,7 +60,6 @@ test.describe("Work / Project Detail Pages", () => {
   test("project page has back/breadcrumb navigation", async ({ page }) => {
     await page.goto(`/work/${PUBLIC_PROJECTS[0]}`);
     // There should be a way back to /work
-    const workLink = page.locator('a[href="/work"]');
     // Not all designs have breadcrumbs — just verify page renders
     const main = page.locator("main");
     await expect(main).toBeVisible();
@@ -81,7 +81,9 @@ test.describe("Work / Project Detail Pages", () => {
   });
 
   test("internal projects redirect unauthenticated users", async ({ page }) => {
-    const response = await page.goto("/work/oxford-corporate-website-reskin-internal");
+    const response = await page.goto(
+      "/work/oxford-corporate-website-reskin-internal",
+    );
     // Should either be 404, redirect to login, or 401
     const status = response?.status() ?? 0;
     const url = page.url();
