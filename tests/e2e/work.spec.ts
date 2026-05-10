@@ -35,7 +35,7 @@ test.describe("Work / Projects Index", () => {
     const firstLink = page.locator('a[href^="/work/"]').first();
     const href = await firstLink.getAttribute("href");
     await firstLink.click();
-    await expect(page).toHaveURL(/\/work\//u);
+    await page.waitForURL(/\/work\//u);
     expect(page.url()).toContain(href ?? "/work/");
   });
 });

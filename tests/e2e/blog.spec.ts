@@ -39,7 +39,7 @@ test.describe("Blog Index", () => {
   test("clicking a blog post navigates to it", async ({ page }) => {
     const firstLink = page.locator('a[href^="/blog/"]').first();
     await firstLink.click();
-    await expect(page).toHaveURL(/\/blog\/.+/);
+    await page.waitForURL(/\/blog\/.+/);
   });
 });
 
