@@ -4,6 +4,7 @@ import { LightboxCarousel } from "@/components/LightboxCarousel";
 import { MermaidDiagram } from "@/components/MermaidDiagram";
 import { TechStack } from "@/components/TechStack";
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
+import { isValidElement } from "react";
 import { slugify as transliterate } from "transliteration";
 
 import {
@@ -88,7 +89,7 @@ function createImage({ alt, src, ...props }: MediaProps & { src: string }) {
 function getNodeText(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node);
   if (Array.isArray(node)) return node.map(getNodeText).join("");
-  if (React.isValidElement(node))
+  if (isValidElement(node))
     return getNodeText((node.props as { children?: ReactNode }).children);
   return "";
 }
