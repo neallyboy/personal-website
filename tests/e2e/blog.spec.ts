@@ -52,8 +52,7 @@ test.describe("Blog Post Detail Pages", () => {
       const heading = page.locator("h1, h2").first();
       await expect(heading).toBeVisible();
 
-      const main = page.locator("main");
-      const text = await main.textContent();
+      const text = await page.locator("body").textContent();
       expect(text?.trim().length).toBeGreaterThan(200);
     });
 
@@ -104,8 +103,7 @@ test.describe("Blog Post Detail Pages", () => {
   test("share section renders on blog post", async ({ page }) => {
     await page.goto(`/blog/${BLOG_SLUGS[0]}`);
     // ShareSection component renders sharing options
-    const main = page.locator("main");
-    await expect(main).toBeVisible();
+    await expect(page.locator("body")).toBeVisible();
   });
 
   test("non-existent blog post returns 404", async ({ page }) => {

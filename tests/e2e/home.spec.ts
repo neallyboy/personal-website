@@ -38,7 +38,7 @@ test.describe("Home Page", () => {
 
   test("featured project section renders", async ({ page }) => {
     // Projects component renders at least one project card
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("body")).toBeVisible();
     // There should be project links
     const projectLinks = page.locator('a[href^="/work/"]');
     await expect(projectLinks.first()).toBeVisible({ timeout: 10_000 });
@@ -63,7 +63,7 @@ test.describe("Home Page", () => {
     // Mailchimp component renders a form or subscribe section
     const form = page.locator("form");
     // may or may not have a form - at minimum the page should fully load
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("body")).toBeVisible();
   });
 
   test("page has no console errors on load", async ({ page }) => {

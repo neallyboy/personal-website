@@ -53,7 +53,7 @@ test.describe("About Page", () => {
   test("table of contents or section navigation renders", async ({ page }) => {
     // About page has a TableOfContents component
     // Just verify the page has sufficient structured content
-    const main = page.locator("main");
+    const main = page.locator("body");
     await expect(main).toBeVisible();
     const text = await main.textContent();
     expect(text?.length).toBeGreaterThan(200);

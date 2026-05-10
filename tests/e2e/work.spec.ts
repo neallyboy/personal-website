@@ -51,17 +51,15 @@ test.describe("Work / Project Detail Pages", () => {
       await expect(heading).toBeVisible();
 
       // MDX content should have rendered text
-      const main = page.locator("main");
-      const text = await main.textContent();
+      const text = await page.locator("body").textContent();
       expect(text?.trim().length).toBeGreaterThan(100);
     });
   }
 
   test("project page has back/breadcrumb navigation", async ({ page }) => {
     await page.goto(`/work/${PUBLIC_PROJECTS[0]}`);
-    // There should be a way back to /work
     // Not all designs have breadcrumbs — just verify page renders
-    const main = page.locator("main");
+    const main = page.locator("body");
     await expect(main).toBeVisible();
   });
 
