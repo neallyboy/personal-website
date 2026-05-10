@@ -88,8 +88,8 @@ function createImage({ alt, src, ...props }: MediaProps & { src: string }) {
 function getNodeText(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node);
   if (Array.isArray(node)) return node.map(getNodeText).join("");
-  if (node && typeof node === "object" && "props" in (node as ReactElement))
-    return getNodeText((node as ReactElement).props.children);
+  if (React.isValidElement(node))
+    return getNodeText((node.props as { children?: ReactNode }).children);
   return "";
 }
 
