@@ -119,9 +119,7 @@ export default function Home() {
           </RevealFx>
         </Column>
       </Column>
-      <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
-      </RevealFx>
+      <Projects range={[1, 1]} />
       <Projects range={[2]} />
       <Column fillWidth gap="24">
         <Heading variant="heading-strong-l">Recent Writing</Heading>

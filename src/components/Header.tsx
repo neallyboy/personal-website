@@ -128,6 +128,7 @@ export const Header = () => {
                 <ToggleButton
                   prefixIcon="home"
                   href="/"
+                  aria-label="Home"
                   selected={pathname === "/"}
                 />
               )}
