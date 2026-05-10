@@ -66,24 +66,22 @@ test.describe("Robots.txt", () => {
     const response = await request.get("/robots.txt");
     const body = await response.text();
     // Internal routes should be disallowed
-    expect(body.toLowerCase()).toMatch(/disallow.*internal|internal.*disallow/i);
+    expect(body.toLowerCase()).toMatch(
+      /disallow.*internal|internal.*disallow/i,
+    );
   });
 });
 
 test.describe("OG Image Generation", () => {
   test("GET /api/og/generate returns an image", async ({ request }) => {
-    const response = await request.get(
-      "/api/og/generate?title=Test+Page"
-    );
+    const response = await request.get("/api/og/generate?title=Test+Page");
     expect(response.status()).toBe(200);
     const contentType = response.headers()["content-type"];
     expect(contentType).toMatch(/image/i);
   });
 
   test("OG image generates for home page title", async ({ request }) => {
-    const response = await request.get(
-      "/api/og/generate?title=Portfolio"
-    );
+    const response = await request.get("/api/og/generate?title=Portfolio");
     expect(response.status()).toBe(200);
   });
 });

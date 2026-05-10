@@ -22,7 +22,9 @@ test.describe("About Page", () => {
   });
 
   test("avatar / profile image renders", async ({ page }) => {
-    const avatar = page.locator('img[src*="avatar"], img[alt*="Neal"], img[alt*="avatar"]').first();
+    const avatar = page
+      .locator('img[src*="avatar"], img[alt*="Neal"], img[alt*="avatar"]')
+      .first();
     // Avatar may be rendered - check it doesn't 404 if present
     const avatarCount = await avatar.count();
     if (avatarCount > 0) {

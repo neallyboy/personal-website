@@ -57,7 +57,8 @@ test.describe("SEO - Structured Data", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
     const count = await page.evaluate(
-      () => document.querySelectorAll('script[type="application/ld+json"]').length,
+      () =>
+        document.querySelectorAll('script[type="application/ld+json"]').length,
     );
     expect(count).toBeGreaterThan(0);
   });
@@ -65,7 +66,8 @@ test.describe("SEO - Structured Data", () => {
   test("blog post has JSON-LD schema", async ({ page }) => {
     await page.goto("/blog/building-a-chess-game-with-ai-commentary");
     const count = await page.evaluate(
-      () => document.querySelectorAll('script[type="application/ld+json"]').length,
+      () =>
+        document.querySelectorAll('script[type="application/ld+json"]').length,
     );
     expect(count).toBeGreaterThanOrEqual(0); // JSON-LD is optional on blog posts
   });
@@ -73,7 +75,8 @@ test.describe("SEO - Structured Data", () => {
   test("work project has JSON-LD schema", async ({ page }) => {
     await page.goto("/work/ford-web-scraper");
     const count = await page.evaluate(
-      () => document.querySelectorAll('script[type="application/ld+json"]').length,
+      () =>
+        document.querySelectorAll('script[type="application/ld+json"]').length,
     );
     expect(count).toBeGreaterThanOrEqual(0); // JSON-LD is optional on work project pages
   });
@@ -82,8 +85,8 @@ test.describe("SEO - Structured Data", () => {
 test.describe("SEO - Canonical & Twitter Cards", () => {
   test("home page has canonical URL", async ({ page }) => {
     await page.goto("/");
-    const canonical = await page.evaluate(
-      () => document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    const canonical = await page.evaluate(() =>
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
     );
     if (!canonical) {
       test.skip();
@@ -130,7 +133,9 @@ test.describe("Performance - Resource Loading", () => {
 });
 
 test.describe("Accessibility Basics", () => {
-  test("home page has a single <h1> or meaningful heading structure", async ({ page }) => {
+  test("home page has a single <h1> or meaningful heading structure", async ({
+    page,
+  }) => {
     await page.goto("/");
     const headings = page.locator("h1, h2");
     const count = await headings.count();

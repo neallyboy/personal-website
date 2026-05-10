@@ -25,7 +25,9 @@ test.describe("Home Page", () => {
     expect(body?.length).toBeGreaterThan(100);
   });
 
-  test("About button / CTA is present and links to /about", async ({ page }) => {
+  test("About button / CTA is present and links to /about", async ({
+    page,
+  }) => {
     const aboutLink = page.locator('a[href="/about"]').first();
     await expect(aboutLink).toBeVisible();
   });
@@ -79,7 +81,7 @@ test.describe("Home Page", () => {
         !e.includes("gtag") &&
         !e.includes("clarity") &&
         !e.includes("analytics") &&
-        !e.includes("GTM")
+        !e.includes("GTM"),
     );
     expect(criticalErrors).toHaveLength(0);
   });

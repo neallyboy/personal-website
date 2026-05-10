@@ -52,7 +52,7 @@ test.describe("Gallery Page", () => {
       await firstImage.click();
       // Lightbox / carousel should appear — look for an overlay or dialog
       const lightbox = page.locator(
-        '[role="dialog"], [class*="lightbox"], [class*="carousel"], [class*="overlay"]'
+        '[role="dialog"], [class*="lightbox"], [class*="carousel"], [class*="overlay"]',
       );
       const lightboxCount = await lightbox.count();
       // If lightbox opened verify it's visible, otherwise the click may just select
@@ -65,11 +65,11 @@ test.describe("Gallery Page", () => {
   test("lightbox shows navigation controls", async ({ page }) => {
     await page.waitForLoadState("networkidle");
     const firstImage = page.locator("main img").first();
-    if (await firstImage.count() > 0) {
+    if ((await firstImage.count()) > 0) {
       await firstImage.click();
       // Navigation arrows or buttons in lightbox
       const navButtons = page.locator(
-        'button[aria-label*="next" i], button[aria-label*="prev" i], button[aria-label*="close" i]'
+        'button[aria-label*="next" i], button[aria-label*="prev" i], button[aria-label*="close" i]',
       );
       // Just verify the page didn't crash
       await expect(page.locator("body")).toBeVisible();
@@ -79,7 +79,7 @@ test.describe("Gallery Page", () => {
   test("keyboard navigation works in lightbox", async ({ page }) => {
     await page.waitForLoadState("networkidle");
     const firstImage = page.locator("main img").first();
-    if (await firstImage.count() > 0) {
+    if ((await firstImage.count()) > 0) {
       await firstImage.click();
       await page.keyboard.press("Escape");
       await page.keyboard.press("ArrowRight");
