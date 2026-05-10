@@ -80,3 +80,29 @@
 [data-theme="dark"] .tech-stack-icon {
   filter: invert(1);
 }
+
+/* Override badge shine animation: use transform instead of left to avoid layout thrash and CLS */
+#badge::before {
+  left: 0 !important;
+  animation-name: shineFix !important;
+}
+
+#badge:hover::before {
+  animation-name: shineHoverFix !important;
+}
+
+@keyframes shineFix {
+  0%   { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
+  1%   { transform: skewX(-20deg) translateX(-100%); opacity: 1; }
+  15%  { transform: skewX(-20deg) translateX(100%);  opacity: 1; }
+  16%  { opacity: 0; }
+  100% { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
+}
+
+@keyframes shineHoverFix {
+  0%   { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
+  1%   { transform: skewX(-20deg) translateX(-100%); opacity: 1; }
+  45%  { transform: skewX(-20deg) translateX(100%);  opacity: 1; }
+  46%  { opacity: 0; }
+  100% { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
+}

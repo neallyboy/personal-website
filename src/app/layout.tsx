@@ -15,13 +15,18 @@ import {
 } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  return Meta.generate({
-    title: home.title,
-    description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
-  });
+  return {
+    ...Meta.generate({
+      title: home.title,
+      description: home.description,
+      baseURL: baseURL,
+      path: home.path,
+      image: home.image,
+    }),
+    icons: {
+      icon: [{ url: "/icon.webp", type: "image/webp" }],
+    },
+  };
 }
 
 export default async function RootLayout({
