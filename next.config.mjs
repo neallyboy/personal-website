@@ -49,6 +49,15 @@ const nextConfig = {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
   },
+  webpack(config) {
+    // once-ui ships without "sideEffects: false" so webpack can't tree-shake it.
+    // Marking it here lets webpack drop unused component code from bundles.
+    config.module.rules.push({
+      test: /node_modules\/@once-ui-system\/core\/dist\/.+\.js$/,
+      sideEffects: false,
+    });
+    return config;
+  },
 };
 
 export default withMDX(nextConfig);

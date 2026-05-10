@@ -7,9 +7,9 @@ import {
   Badge,
   Button,
   Column,
+  Flex,
   Heading,
   Meta,
-  RevealFx,
   Row,
   Schema,
   Text,
@@ -44,7 +44,7 @@ export default function Home() {
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
           {home.featured.display && (
-            <RevealFx
+            <Flex
               fillWidth
               horizontal="center"
               paddingTop="16"
@@ -62,25 +62,14 @@ export default function Home() {
               >
                 <Row paddingY="2">{home.featured.title}</Row>
               </Badge>
-            </RevealFx>
+            </Flex>
           )}
-          <RevealFx
-            translateY="4"
-            fillWidth
-            horizontal="center"
-            paddingBottom="16"
-          >
+          <Flex fillWidth horizontal="center" paddingBottom="16">
             <Heading wrap="balance" variant="display-strong-l">
               {home.headline}
             </Heading>
-          </RevealFx>
-          <RevealFx
-            translateY="8"
-            delay={0.2}
-            fillWidth
-            horizontal="center"
-            paddingBottom="32"
-          >
+          </Flex>
+          <Flex fillWidth horizontal="center" paddingBottom="32">
             <Text
               wrap="balance"
               onBackground="neutral-weak"
@@ -88,13 +77,8 @@ export default function Home() {
             >
               {home.subline}
             </Text>
-          </RevealFx>
-          <RevealFx
-            paddingTop="12"
-            delay={0.4}
-            horizontal="center"
-            paddingLeft="12"
-          >
+          </Flex>
+          <Flex paddingTop="12" horizontal="center" paddingLeft="12">
             <Button
               id="about"
               data-border="rounded"
@@ -116,7 +100,7 @@ export default function Home() {
                 {about.title}
               </Row>
             </Button>
-          </RevealFx>
+          </Flex>
         </Column>
       </Column>
       <Projects range={[1, 1]} />

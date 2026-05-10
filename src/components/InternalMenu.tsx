@@ -49,6 +49,7 @@ export function InternalMenu() {
       <Flex hide s={{ hide: false }}>
         <ToggleButton
           prefixIcon="lock"
+          aria-label="Internal"
           selected={isActive || open}
           onClick={() => setOpen((o) => !o)}
         />

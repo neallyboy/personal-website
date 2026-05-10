@@ -10,7 +10,6 @@ import {
   Column,
   Flex,
   Meta,
-  RevealFx,
   type SpacingToken,
   type opacity,
 } from "@once-ui-system/core";
@@ -168,7 +167,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               />
             </noscript>
           )}
-          <RevealFx fill position="absolute">
+          <Flex fill position="absolute">
             <Background
               mask={{
                 x: effects.mask.x,
@@ -209,7 +208,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 color: effects.lines.color,
               }}
             />
-          </RevealFx>
+          </Flex>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>

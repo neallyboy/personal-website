@@ -1,6 +1,12 @@
 @import "@once-ui-system/core/css/styles.css";
 @import "@once-ui-system/core/css/tokens.css";
 
+/* Alias body and label to the single Geist font instance */
+:root {
+  --font-body: var(--font-heading);
+  --font-label: var(--font-heading);
+}
+
 /* :root {
   /*
   /* Override default variables here */

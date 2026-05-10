@@ -43,23 +43,15 @@ const protectedRoutes: ProtectedRoutesConfig = Object.fromEntries(
 import { Geist } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 
+// Single Geist instance — body and label are aliased via CSS in custom.css
 const heading = Geist({
   variable: "--font-heading",
   subsets: ["latin"],
   display: "swap",
 });
 
-const body = Geist({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const label = Geist({
-  variable: "--font-label",
-  subsets: ["latin"],
-  display: "swap",
-});
+const body = heading;
+const label = heading;
 
 const code = Geist_Mono({
   variable: "--font-code",
