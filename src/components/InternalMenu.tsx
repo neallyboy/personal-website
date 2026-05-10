@@ -1,9 +1,8 @@
 "use client";
 
-import { Column, ToggleButton } from "@once-ui-system/core";
+import { Column, Flex, ToggleButton } from "@once-ui-system/core";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import styles from "./Header.module.scss";
 
 const SECTIONS = [
   { icon: "grid" as const, label: "Work", href: "/internal/work" },
@@ -38,25 +37,40 @@ export function InternalMenu() {
   return (
     <div ref={ref} style={{ position: "relative" }}>
       {/* Desktop: with label */}
-      <div className={styles.desktopOnly}>
+      <Flex s={{ hide: true }}>
         <ToggleButton
           prefixIcon="lock"
           label="Internal"
           selected={isActive || open}
           onClick={() => setOpen((o) => !o)}
         />
-      </div>
+      </Flex>
       {/* Mobile: icon only */}
-      <div className={styles.mobileOnly}>
+      <Flex hide s={{ hide: false }}>
         <ToggleButton
           prefixIcon="lock"
           selected={isActive || open}
           onClick={() => setOpen((o) => !o)}
         />
-      </div>
+      </Flex>
 
       {open && (
-        <div className={styles.dropdown}>
+        <Column
+          position="absolute"
+          top="12"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            whiteSpace: "nowrap",
+            zIndex: 100,
+          }}
+          s={{
+            style: {
+              top: "auto",
+              bottom: "calc(100% + 8px)",
+            },
+          }}
+        >
           <Column
             background="page"
             border="neutral-alpha-weak"
@@ -75,7 +89,7 @@ export function InternalMenu() {
               />
             ))}
           </Column>
-        </div>
+        </Column>
       )}
     </div>
   );

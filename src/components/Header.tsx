@@ -5,8 +5,16 @@ import { useEffect, useState } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { about, blog, display, gallery, games, person, routes, work } from "@/resources";
-import styles from "./Header.module.scss";
+import {
+  about,
+  blog,
+  display,
+  gallery,
+  games,
+  person,
+  routes,
+  work,
+} from "@/resources";
 import { InternalMenu } from "./InternalMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,7 +23,10 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-US" }) => {
+const TimeDisplay: React.FC<TimeDisplayProps> = ({
+  timeZone,
+  locale = "en-US",
+}) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
@@ -54,7 +65,13 @@ export const Header = () => {
 
   return (
     <>
-      <Fade s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade
+        s={{ hide: true }}
+        fillWidth
+        position="fixed"
+        height="80"
+        zIndex={9}
+      />
       <Fade
         hide
         s={{ hide: false }}
@@ -67,8 +84,8 @@ export const Header = () => {
       />
       <Row
         fitHeight
-        className={styles.position}
         position="sticky"
+        top="24"
         as="header"
         zIndex={9}
         fillWidth
@@ -77,9 +94,18 @@ export const Header = () => {
         data-border="rounded"
         s={{
           position: "fixed",
+          style: {
+            top: "auto",
+          },
+          bottom: "24",
         }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
+        <Row
+          paddingLeft="12"
+          fillWidth
+          vertical="center"
+          textVariant="body-default-s"
+        >
           {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
         </Row>
         <Row fillWidth horizontal="center">
@@ -92,9 +118,18 @@ export const Header = () => {
             horizontal="center"
             zIndex={1}
           >
-            <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
+            <Row
+              gap="4"
+              vertical="center"
+              textVariant="body-default-s"
+              suppressHydrationWarning
+            >
               {routes["/"] && (
-                <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
+                <ToggleButton
+                  prefixIcon="home"
+                  href="/"
+                  selected={pathname === "/"}
+                />
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
               {routes["/about"] && (

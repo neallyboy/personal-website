@@ -1,3 +1,6 @@
+@import "@once-ui-system/core/css/styles.css";
+@import "@once-ui-system/core/css/tokens.css";
+
 /* :root {
   /*
   /* Override default variables here */
