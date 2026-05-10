@@ -23,7 +23,6 @@ test.describe("SEO - Meta Tags", () => {
         .locator('meta[name="description"]')
         .getAttribute("content");
       expect(description).toBeTruthy();
-      expect(description!.length).toBeGreaterThan(0);
     });
 
     test(`${name} (${path}) has Open Graph title`, async ({ page }) => {
