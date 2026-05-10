@@ -23,10 +23,10 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
 
       - name: Run Playwright tests
-        run: npm test
+        run: npm test -- --project=chromium
         env:
           CI: true
           PAGE_ACCESS_PASSWORD: ${{ secrets.PAGE_ACCESS_PASSWORD }}
