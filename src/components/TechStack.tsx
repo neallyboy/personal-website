@@ -21,6 +21,7 @@ export function TechStack({ items }: TechStackProps) {
               alt={item.name}
               width={20}
               height={20}
+              className="tech-stack-icon"
               style={{ flexShrink: 0, marginTop: "3px" }}
             />
           ) : (

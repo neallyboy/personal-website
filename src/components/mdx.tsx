@@ -85,6 +85,14 @@ function createImage({ alt, src, ...props }: MediaProps & { src: string }) {
   );
 }
 
+function getNodeText(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(getNodeText).join("");
+  if (node && typeof node === "object" && "props" in (node as ReactElement))
+    return getNodeText((node as ReactElement).props.children);
+  return "";
+}
+
 function slugify(str: string): string {
   const strWithAnd = str.replace(/&/g, " and "); // Replace & with 'and'
   return transliterate(strWithAnd, {
@@ -98,9 +106,15 @@ function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
     children,
     ...props
   }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id">) => {
-    const slug = slugify(children as string);
+    const slug = slugify(getNodeText(children));
     return (
-      <HeadingLink marginTop="24" marginBottom="12" as={as} id={slug} {...props}>
+      <HeadingLink
+        marginTop="24"
+        marginBottom="12"
+        as={as}
+        id={slug}
+        {...props}
+      >
         {children}
       </HeadingLink>
     );
@@ -163,7 +177,9 @@ function createCodeBlock(props: CodePreProps) {
 }
 
 function createList(as: "ul" | "ol") {
-  return ({ children }: { children: ReactNode }) => <List as={as}>{children}</List>;
+  return ({ children }: { children: ReactNode }) => (
+    <List as={as}>{children}</List>
+  );
 }
 
 function createListItem({ children }: { children: ReactNode }) {
