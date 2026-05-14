@@ -1,32 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import * as CookieConsent from "vanilla-cookieconsent";
+import CookieConsent from "vanilla-cookieconsent";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
-
-const CLARITY_ID = "waoc4srrm9";
 
 function grantAnalytics() {
   if (typeof window === "undefined") return;
   if ("gtag" in window) {
-    (window as any).gtag("consent", "update", { analytics_storage: "granted" });
-  }
-  if (!document.getElementById("clarity-script")) {
-    const s = document.createElement("script");
-    s.id = "clarity-script";
-    s.async = true;
-    s.innerHTML = `(function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","${CLARITY_ID}");`;
-    document.head.appendChild(s);
+    (window as { gtag: (...args: unknown[]) => void }).gtag("consent", "update", { analytics_storage: "granted" });
   }
 }
 
 function denyAnalytics() {
   if (typeof window !== "undefined" && "gtag" in window) {
-    (window as any).gtag("consent", "update", { analytics_storage: "denied" });
+    (window as { gtag: (...args: unknown[]) => void }).gtag("consent", "update", { analytics_storage: "denied" });
   }
 }
 
@@ -40,10 +27,7 @@ export function CookieConsentBanner() {
         },
         analytics: {
           autoClear: {
-            cookies: [
-              { name: /^(_ga|_gid|_gat)/ },
-              { name: /^(_clsk|_clck)/ },
-            ],
+            cookies: [{ name: /^(_ga|_gid|_gat)/ }, { name: /^(_clsk|_clck)/ }],
           },
         },
       },

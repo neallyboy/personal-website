@@ -3,7 +3,13 @@ import "@/resources/custom.css";
 import classNames from "classnames";
 import Script from "next/script";
 
-import { CookieConsentBanner, Footer, Header, Providers, RouteGuard } from "@/components";
+import {
+  CookieConsentBanner,
+  Footer,
+  Header,
+  Providers,
+  RouteGuard,
+} from "@/components";
 import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
 import {
   Background,
@@ -125,24 +131,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-KT3HS3JK');`,
             }}
           />
-        )}
-        {process.env.NODE_ENV === "production" && (
-          <>
-            <Script
-              src="https://www.googletagmanager.com/gtag/js?id=G-ZPW1EKDFMT"
-              strategy="afterInteractive"
-            />
-            <Script
-              id="ga4"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ZPW1EKDFMT');`,
-              }}
-            />
-          </>
         )}
       </head>
       <Providers>
