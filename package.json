@@ -39,8 +39,7 @@
     "stockfish": "^18.0.7",
     "transliteration": "^2.3.5",
     "typescript": "^5.8.3",
-    "tzdata": "^1.0.44",
-    "vanilla-cookieconsent": "^3.1.0"
+    "tzdata": "^1.0.44"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

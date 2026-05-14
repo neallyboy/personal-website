@@ -4,7 +4,6 @@ import classNames from "classnames";
 import Script from "next/script";
 
 import {
-  CookieConsentBanner,
   Footer,
   Header,
   Providers,
@@ -204,7 +203,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </Flex>
           </Flex>
           <Footer />
-          <CookieConsentBanner />
         </Column>
       </Providers>
     </Flex>

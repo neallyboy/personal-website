@@ -1,4 +1,3 @@
-export { CookieConsentBanner } from "@/components/CookieConsent";
 export { Header } from "@/components/Header";
 export { Footer } from "@/components/Footer";
 export { Mailchimp } from "@/components/Mailchimp";
