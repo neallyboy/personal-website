@@ -43,6 +43,8 @@ export function useStockfish() {
     worker.onerror = () => {
       setLoading(false);
       setError(true);
+      worker.terminate();
+      workerRef.current = null;
     };
 
     worker.postMessage('uci');

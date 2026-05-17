@@ -2,7 +2,7 @@
 
 import { Column, Flex, IconButton, Media, Row, Tag } from "@once-ui-system/core";
 import type { ColorScheme } from "@once-ui-system/core";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface CarouselBadge {
   label: string;
@@ -25,15 +25,15 @@ export function LightboxCarousel({ items }: LightboxCarouselProps) {
 
   const current = items[activeIndex];
 
-  const prev = (e: React.MouseEvent) => {
+  const prev = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setActiveIndex((i) => Math.max(0, i - 1));
-  };
+  }, []);
 
-  const next = (e: React.MouseEvent) => {
+  const next = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setActiveIndex((i) => Math.min(items.length - 1, i + 1));
-  };
+  }, [items.length]);
 
   return (
     <>

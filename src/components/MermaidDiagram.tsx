@@ -10,6 +10,14 @@ interface MermaidDiagramProps {
 
 let idCounter = 0;
 
+// Static config that never changes — initialize once at module level
+mermaid.initialize({
+  startOnLoad: false,
+  theme: "default",
+  securityLevel: "loose",
+  fontFamily: "inherit",
+});
+
 export function MermaidDiagram({ chart, caption }: MermaidDiagramProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [id] = useState(() => `mermaid-${++idCounter}`);
@@ -19,12 +27,8 @@ export function MermaidDiagram({ chart, caption }: MermaidDiagramProps) {
     const theme =
       document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "default";
 
-    mermaid.initialize({
-      startOnLoad: false,
-      theme,
-      securityLevel: "loose",
-      fontFamily: "inherit",
-    });
+    // Only update the theme — avoids re-running full initialization on every render
+    mermaid.initialize({ theme });
 
     mermaid
       .render(currentId, currentChart.trim())

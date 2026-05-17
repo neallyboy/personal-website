@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
@@ -23,7 +23,7 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({
+const TimeDisplay: React.FC<TimeDisplayProps> = memo(({
   timeZone,
   locale = "en-US",
 }) => {
@@ -56,7 +56,9 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
   }, [timeZone, locale]);
 
   return <>{currentTime}</>;
-};
+});
+
+TimeDisplay.displayName = "TimeDisplay";
 
 export default TimeDisplay;
 
