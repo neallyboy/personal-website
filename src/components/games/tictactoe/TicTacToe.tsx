@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getBestMove } from "@/lib/tictactoe/ai";
 import {
   generateAIMoveCommentary,
@@ -155,7 +155,7 @@ export function TicTacToe() {
     return () => {
       if (aiTimer.current) clearTimeout(aiTimer.current);
     };
-  }, [game.currentTurn, game.status, difficulty, say]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [game.currentTurn, game.status, difficulty, say]);
 
   const handleCellClick = useCallback(
     (index: number) => {
@@ -205,7 +205,7 @@ export function TicTacToe() {
     [addMessage, speak],
   );
 
-  const statusText = () => {
+  const statusText = useMemo(() => {
     if (thinking) return "Jasper is thinking…";
     switch (game.status) {
       case "win":
@@ -215,9 +215,9 @@ export function TicTacToe() {
       default:
         return game.currentTurn === "X" ? "Your turn (X)" : "Jasper's turn (O)";
     }
-  };
+  }, [thinking, game.status, game.winner, game.currentTurn]);
 
-  const winSet = new Set(game.winLine ?? []);
+  const winSet = useMemo(() => new Set(game.winLine ?? []), [game.winLine]);
 
   return (
     <div
@@ -253,7 +253,7 @@ export function TicTacToe() {
           letterSpacing: "0.01em",
         }}
       >
-        {statusText()}
+        {statusText}
       </div>
 
       {/* Board + Chat */}
