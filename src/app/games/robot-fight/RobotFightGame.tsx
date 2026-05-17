@@ -636,7 +636,7 @@ export default function RobotFightGame() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;;
+    if (!ctx) return;
 
     const mkGS = (char: CharId | null, pWins = 0, aWins = 0): GS => ({
       phase: char ? 'countdown' : 'select',

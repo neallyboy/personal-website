@@ -1,4 +1,4 @@
-import { TicTacToe } from '@/components/games/tictactoe/TicTacToe';
+import { TicTacToeDynamic } from '@/components/games/tictactoe/TicTacToeDynamic';
 import { baseURL } from '@/resources';
 import { Column, Heading, Meta } from '@once-ui-system/core';
 
@@ -18,7 +18,7 @@ export default function TicTacToePage() {
       <Heading marginBottom="l" variant="heading-strong-xl">
         Jasper&apos;s Tic-Tac-Toe
       </Heading>
-      <TicTacToe />
+      <TicTacToeDynamic />
     </Column>
   );
 }

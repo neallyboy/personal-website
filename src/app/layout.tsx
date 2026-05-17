@@ -53,6 +53,9 @@ export default async function RootLayout({
       )}
     >
       <head suppressHydrationWarning>
+        {/* Warm up third-party domains before scripts load */}
+        <link rel="preconnect" href="https://nealmiran.com" />
+        <link rel="dns-prefetch" href="https://nealmiran.com" />
         <script
           suppressHydrationWarning
           id="theme-init"
