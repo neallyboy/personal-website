@@ -1,35 +1,36 @@
 "use client";
 
-import { Row, ToggleButton, useTheme } from "@once-ui-system/core";
+import { ToggleButton, useTheme } from "@once-ui-system/core";
 import type React from "react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
-export const ThemeToggle: React.FC = () => {
+function resolveTheme(theme: string): string {
+  if (theme === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  return theme || "light";
+}
+
+export const ThemeToggle: React.FC = memo(() => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState("light");
 
   useEffect(() => {
     setMounted(true);
-    setCurrentTheme(document.documentElement.getAttribute("data-theme") || "light");
   }, []);
 
-  useEffect(() => {
-    if (theme === "system") {
-      setCurrentTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    } else {
-      setCurrentTheme(theme || "light");
-    }
-  }, [theme]);
-
-  const icon = currentTheme === "dark" ? "light" : "dark";
+  // Derive current theme at render time — no separate state needed.
+  // Falls back to "light" before mount to avoid hydration mismatch.
+  const currentTheme = mounted ? resolveTheme(theme) : "light";
   const nextTheme = currentTheme === "light" ? "dark" : "light";
 
   return (
     <ToggleButton
-      prefixIcon={icon}
+      prefixIcon={currentTheme === "dark" ? "light" : "dark"}
       onClick={() => setTheme(nextTheme)}
       aria-label={`Switch to ${nextTheme} mode`}
     />
   );
-};
+});
+
+ThemeToggle.displayName = "ThemeToggle";

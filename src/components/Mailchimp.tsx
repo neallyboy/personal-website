@@ -3,7 +3,7 @@
 import { mailchimp, newsletter } from "@/resources";
 import { Background, Button, Column, Heading, Input, Row, Text } from "@once-ui-system/core";
 import type { SpacingToken, opacity } from "@once-ui-system/core";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 // biome-ignore lint/suspicious/noExplicitAny: any[] is required for the generic debounce constraint
 function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T {
@@ -14,39 +14,33 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
   }) as T;
 }
 
+// Hoisted to module scope — avoids recreating the regex on every validation call
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateEmail(email: string): boolean {
+  return email === "" || EMAIL_PATTERN.test(email);
+}
+
 export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...flex }) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
 
-  const validateEmail = (email: string): boolean => {
-    if (email === "") {
-      return true;
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
+    setError(validateEmail(value) ? "" : "Please enter a valid email address.");
+  }, []);
 
-    if (!validateEmail(value)) {
-      setError("Please enter a valid email address.");
-    } else {
-      setError("");
-    }
-  };
+  // Stable debounced reference — recreated only if handleChange identity changes
+  const debouncedHandleChange = useMemo(() => debounce(handleChange, 2000), [handleChange]);
 
-  const debouncedHandleChange = debounce(handleChange, 2000);
-
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     setTouched(true);
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
     }
-  };
+  }, [email]);
 
   if (newsletter.display === false) return null;
 

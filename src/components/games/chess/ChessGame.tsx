@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { evaluatePosition, getBestMove } from "@/lib/chess/ai";
 import {
   generateAIMoveCommentary,
@@ -291,7 +291,7 @@ export function ChessGame() {
     [game, selected, legalMoves, thinking, say],
   );
 
-  const reset = () => {
+  const reset = useCallback(() => {
     if (aiTimer.current) clearTimeout(aiTimer.current);
     setGame(createInitialState());
     setSelected(null);
@@ -302,14 +302,14 @@ export function ChessGame() {
     const g = generateGreeting();
     addMessage(g);
     speak(g);
-  };
+  }, [addMessage, speak]);
 
-  const handleEngineChange = (next: Engine) => {
+  const handleEngineChange = useCallback((next: Engine) => {
     setEngine(next);
     reset();
-  };
+  }, [reset]);
 
-  const statusText = () => {
+  const statusText = useMemo(() => {
     if (engine === "stockfish" && sf.loading)
       return "Loading Stockfish engine…";
     if (engine === "stockfish" && sf.error) return "Engine failed to load";
@@ -326,10 +326,11 @@ export function ChessGame() {
       default:
         return game.turn === "w" ? "Your turn (White)" : "AI's turn (Black)";
     }
-  };
+  }, [engine, sf.loading, sf.error, sf.ready, thinking, game.turn, game.status]);
 
-  const legalTargets = new Set(
-    legalMoves.map((m) => `${m.to.row},${m.to.col}`),
+  const legalTargets = useMemo(
+    () => new Set(legalMoves.map((m) => `${m.to.row},${m.to.col}`)),
+    [legalMoves],
   );
 
   return (
@@ -402,7 +403,7 @@ export function ChessGame() {
           letterSpacing: "0.01em",
         }}
       >
-        {statusText()}
+        {statusText}
       </div>
 
       {/* Board + Chat row */}

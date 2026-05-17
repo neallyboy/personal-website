@@ -76,6 +76,18 @@ function posBonus(type: string, row: number, col: number, color: 'w' | 'b'): num
   return table[r][col];
 }
 
+/** Compact string key for a board position — used by the transposition table. */
+function boardKey(state: GameState): string {
+  let key = state.turn;
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = state.board[r][c];
+      key += p ? `${p.color}${p.type}` : '.';
+    }
+  }
+  return key;
+}
+
 export function evaluatePosition(state: GameState): number {
   if (state.status === 'checkmate') return state.turn === 'w' ? -100000 : 100000;
   if (state.status === 'stalemate') return 0;
@@ -92,42 +104,64 @@ export function evaluatePosition(state: GameState): number {
   return score;
 }
 
-function minimax(state: GameState, depth: number, alpha: number, beta: number, maximizing: boolean): number {
+/**
+ * Alpha-beta minimax with a per-search transposition table.
+ * The table is created fresh in getBestMove so it doesn't persist stale
+ * evaluations across different game states.
+ */
+function minimax(
+  state: GameState,
+  depth: number,
+  alpha: number,
+  beta: number,
+  maximizing: boolean,
+  table: Map<string, number>,
+): number {
   if (depth === 0 || state.status === 'checkmate' || state.status === 'stalemate') {
     return evaluatePosition(state);
   }
 
+  const key = boardKey(state);
+  if (table.has(key)) return table.get(key)!;
+
   const moves = getAllLegalMoves(state);
+  let result: number;
 
   if (maximizing) {
     let best = -Infinity;
     for (const move of moves) {
-      best = Math.max(best, minimax(applyMove(state, move), depth - 1, alpha, beta, false));
+      best = Math.max(best, minimax(applyMove(state, move), depth - 1, alpha, beta, false, table));
       alpha = Math.max(alpha, best);
       if (beta <= alpha) break;
     }
-    return best;
+    result = best;
   } else {
     let best = Infinity;
     for (const move of moves) {
-      best = Math.min(best, minimax(applyMove(state, move), depth - 1, alpha, beta, true));
+      best = Math.min(best, minimax(applyMove(state, move), depth - 1, alpha, beta, true, table));
       beta = Math.min(beta, best);
       if (beta <= alpha) break;
     }
-    return best;
+    result = best;
   }
+
+  table.set(key, result);
+  return result;
 }
 
 export function getBestMove(state: GameState, depth = 3): Move | null {
   const moves = getAllLegalMoves(state);
   if (moves.length === 0) return null;
 
+  // Fresh transposition table per search — avoids stale cross-move cache entries
+  const table = new Map<string, number>();
+
   const maximizing = state.turn === 'w';
   let bestMove = moves[0];
   let bestScore = maximizing ? -Infinity : Infinity;
 
   for (const move of moves) {
-    const score = minimax(applyMove(state, move), depth - 1, -Infinity, Infinity, !maximizing);
+    const score = minimax(applyMove(state, move), depth - 1, -Infinity, Infinity, !maximizing, table);
     if (maximizing ? score > bestScore : score < bestScore) {
       bestScore = score;
       bestMove = move;

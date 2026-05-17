@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 type Team = {
   name: string;
@@ -73,7 +74,10 @@ function getMDXData(dir: string) {
   });
 }
 
-export function getPosts(customPath = ["", "", "", ""]) {
+// cache() deduplicates repeated calls with the same path within a single
+// server render pass — prevents redundant fs.readdir / fs.readFile calls
+// when Projects and Posts are composed on the same page.
+export const getPosts = cache(function getPosts(customPath = ["", "", "", ""]) {
   const postsDir = path.join(process.cwd(), ...customPath);
   return getMDXData(postsDir);
-}
+});

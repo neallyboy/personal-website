@@ -1,4 +1,4 @@
-import { ChessGame } from '@/components/games/chess/ChessGame';
+import { ChessGameDynamic } from '@/components/games/chess/ChessGameDynamic';
 import { baseURL } from '@/resources';
 import { Column, Heading, Meta } from '@once-ui-system/core';
 
@@ -18,7 +18,7 @@ export default function ChessPage() {
       <Heading marginBottom="l" variant="heading-strong-xl">
         Julien's AI Chess
       </Heading>
-      <ChessGame />
+      <ChessGameDynamic />
     </Column>
   );
 }
