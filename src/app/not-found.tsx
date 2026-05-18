@@ -5,7 +5,7 @@ import { Column, Heading, Text } from "@once-ui-system/core";
 
 export default function NotFound() {
   useEffect(() => {
-    (window.dataLayer as unknown[]).push({ event: "page_not_found" });
+    ((window as Window & { dataLayer?: unknown[] }).dataLayer ??= []).push({ event: "page_not_found" });
   }, []);
 
   return (
