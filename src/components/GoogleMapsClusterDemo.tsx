@@ -20,8 +20,20 @@ const RAC_BUILDINGS = [
   { title: "Simcoe Place", address: "200 Front St W, Toronto", lat: 43.6456, lng: -79.3873 },
 ];
 
-const MAP_CENTER = { lat: 43.6483, lng: -79.3834 };
-const INITIAL_ZOOM = 14;
+// Oxford Properties — ROYAL complex, Vaughan Industrial Park
+const ROYAL_BUILDINGS = [
+  { title: "71 Royal Group Crescent", address: "71 Royal Group Crescent, Vaughan", lat: 43.7658, lng: -79.6251 },
+  { title: "91 Royal Group Crescent", address: "91 Royal Group Crescent, Vaughan", lat: 43.7665, lng: -79.626 },
+  { title: "100 Royal Group Crescent", address: "100 Royal Group Crescent, Vaughan", lat: 43.7672, lng: -79.627 },
+  { title: "101 Royal Group Crescent", address: "101 Royal Group Crescent, Vaughan", lat: 43.7679, lng: -79.628 },
+  { title: "111 Royal Group Crescent", address: "111 Royal Group Crescent, Vaughan", lat: 43.7692, lng: -79.6291 },
+];
+
+const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS];
+
+// Centered between Toronto Financial District and Vaughan to show both clusters
+const MAP_CENTER = { lat: 43.708, lng: -79.505 };
+const INITIAL_ZOOM = 10;
 
 function clusterSvg(count: number) {
   return [
@@ -83,7 +95,7 @@ export function GoogleMapsClusterDemo() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: any[] = [];
 
-        for (const building of RAC_BUILDINGS) {
+        for (const building of ALL_BUILDINGS) {
           const marker = new window.google.maps.Marker({
             position: { lat: building.lat, lng: building.lng },
             map,
@@ -213,8 +225,9 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Oxford Properties RAC complex — zoom out to see all 5 properties cluster into one
-        marker, zoom in to reveal individual building pins.
+        Two Oxford Properties complexes — the RAC complex in Toronto's Financial District and the
+        Vaughan Industrial Park (ROYAL complex). Zoom out to see each group cluster, zoom in to
+        reveal individual building pins.
       </figcaption>
     </figure>
   );
