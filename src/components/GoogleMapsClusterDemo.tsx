@@ -62,7 +62,13 @@ const METROCTR_BUILDINGS = [
   { title: "MetroCentre — Retail",          address: "225 King St W, Toronto", lat: 43.6466, lng: -79.3884 },
 ];
 
-const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS, ...METROCTR_BUILDINGS];
+// Oxford Properties — Centennial Place, Calgary Eau Claire
+const CENTENNIAL_BUILDINGS = [
+  { title: "Centennial Place — East Tower", address: "Centennial Place, Calgary", lat: 51.0508, lng: -114.0722 },
+  { title: "Centennial Place — West Tower", address: "Centennial Place, Calgary", lat: 51.0507, lng: -114.0729 },
+];
+
+const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS, ...METROCTR_BUILDINGS, ...CENTENNIAL_BUILDINGS];
 
 // Centered over Canada to show Toronto/Vaughan and Edmonton clusters
 const MAP_CENTER = { lat: 50.5, lng: -96.0 };
@@ -258,10 +264,10 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Five Oxford Properties complexes across Canada — RAC (Toronto), MetroCentre (Toronto),
-        Vaughan Industrial Park (Vaughan), James Snow Business Park (Milton), and Cityview Business
-        Park (Edmonton). Zoom in on any cluster to reveal individual building pins; click a pin to
-        see its address.
+        Six Oxford Properties complexes across Canada — RAC and MetroCentre (Toronto), Vaughan
+        Industrial Park (Vaughan), James Snow Business Park (Milton), Cityview Business Park
+        (Edmonton), and Centennial Place (Calgary). Zoom in on any cluster to reveal individual
+        building pins; click a pin to see its address.
       </figcaption>
     </figure>
   );
