@@ -1,6 +1,13 @@
+"use client";
+
+import { useEffect } from "react";
 import { Column, Heading, Text } from "@once-ui-system/core";
 
 export default function NotFound() {
+  useEffect(() => {
+    (window.dataLayer as unknown[]).push({ event: "page_not_found" });
+  }, []);
+
   return (
     <Column as="section" fill center paddingBottom="160">
       <Text marginBottom="s" variant="display-strong-xl">

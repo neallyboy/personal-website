@@ -639,6 +639,7 @@ export function ChessGame() {
       <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
         <button
           type="button"
+          data-gtm-event="game_started"
           onClick={reset}
           style={{
             padding: "8px 28px",
