@@ -32,8 +32,10 @@ export function useSpeech() {
       synthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      if (voiceRef.current) utterance.voice = voiceRef.current;
-      utterance.lang = voiceRef.current?.lang || "en-GB";
+      if (voiceRef.current) {
+        utterance.voice = voiceRef.current;
+        utterance.lang = voiceRef.current.lang;
+      }
       utterance.rate = 0.92;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
@@ -88,10 +90,19 @@ export function useSpeech() {
 
       if (!pendingText || muted) return;
 
-      // Speak synchronously within the gesture — no cancel, no timeout.
+      // Clear any stuck/queued state before speaking. Unlike speakNow(), we
+      // are still within the user-gesture window here so cancel() does not
+      // revoke Chrome's permission grant (there is no 40 ms timeout gap).
+      synthesis.cancel();
+
+      // Speak synchronously within the gesture — no timeout.
       const utterance = new SpeechSynthesisUtterance(pendingText);
-      if (voiceRef.current) utterance.voice = voiceRef.current;
-      utterance.lang = voiceRef.current?.lang || "en-GB";
+      if (voiceRef.current) {
+        utterance.voice = voiceRef.current;
+        utterance.lang = voiceRef.current.lang;
+      }
+      // Do NOT set utterance.lang as a fallback when no voice is matched —
+      // specifying a lang Chrome cannot satisfy causes a silent failure.
       utterance.rate = 0.92;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
@@ -116,7 +127,7 @@ export function useSpeech() {
       window.removeEventListener("keydown", unlockSpeech);
       window.removeEventListener("touchend", unlockSpeech);
     };
-  }, [clearPendingSpeak, muted, speakNow]);
+  }, [clearPendingSpeak, muted]);
 
   const speak = useCallback(
     (text: string) => {
