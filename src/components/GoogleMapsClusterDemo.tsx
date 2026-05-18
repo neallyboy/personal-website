@@ -47,7 +47,15 @@ const CITYVIEW_BUILDINGS = [
   { title: "Cityview — Retail",                    address: "Cityview Business Park, Edmonton", lat: 53.4972, lng: -113.4172 },
 ];
 
-const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS];
+// Oxford Properties — James Snow Business Park, Milton
+const JAMES_SNOW_BUILDINGS = [
+  { title: "10725 Louis St. Laurent Avenue", address: "10725 Louis St. Laurent Ave, Milton", lat: 43.5057, lng: -79.8385 },
+  { title: "6440 Fifth Line",                address: "6440 Fifth Line, Milton",             lat: 43.5246, lng: -79.8146 },
+  { title: "905 James Snow Parkway S",       address: "905 James Snow Pkwy S, Milton",       lat: 43.5343, lng: -79.8486 },
+  { title: "955 James Snow Parkway S",       address: "955 James Snow Pkwy S, Milton",       lat: 43.5328, lng: -79.8379 },
+];
+
+const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS];
 
 // Centered over Canada to show Toronto/Vaughan and Edmonton clusters
 const MAP_CENTER = { lat: 50.5, lng: -96.0 };
@@ -243,9 +251,9 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Three Oxford Properties complexes across Canada — RAC (Toronto), Vaughan Industrial Park
-        (Vaughan), and Cityview Business Park (Edmonton). Zoom in on any cluster to reveal
-        individual building pins; click a pin to see its address.
+        Four Oxford Properties complexes across Canada — RAC (Toronto), Vaughan Industrial Park
+        (Vaughan), James Snow Business Park (Milton), and Cityview Business Park (Edmonton). Zoom
+        in on any cluster to reveal individual building pins; click a pin to see its address.
       </figcaption>
     </figure>
   );
