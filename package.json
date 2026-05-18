@@ -17,6 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@googlemaps/markerclusterer": "^2.6.2",
     "@mdx-js/loader": "^3.1.0",
     "@next/mdx": "^16.0.10",
     "@once-ui-system/core": "latest",
