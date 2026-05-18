@@ -77,10 +77,66 @@ const BRAMPTON_BUILDINGS = [
   { title: "255 Chrysler Drive", address: "255 Chrysler Dr, Brampton",  lat: 43.7459, lng: -79.7105 },
 ];
 
-const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS, ...METROCTR_BUILDINGS, ...CENTENNIAL_BUILDINGS, ...BRAMPTON_BUILDINGS];
+// Oxford Properties — Canada Square, Toronto (Yonge & Eglinton)
+const CANADASQ_BUILDINGS = [
+  { title: "2200 Yonge Street", address: "2200 Yonge St, Toronto", lat: 43.7058, lng: -79.3985 },
+  { title: "2190 Yonge Street", address: "2190 Yonge St, Toronto", lat: 43.7052, lng: -79.3984 },
+  { title: "2180 Yonge Street", address: "2180 Yonge St, Toronto", lat: 43.7046, lng: -79.3983 },
+];
 
-// Centered over Canada to show Toronto/Vaughan and Edmonton clusters
-const MAP_CENTER = { lat: 50.5, lng: -96.0 };
+// Oxford Properties — Oxford Airport Business Park, Calgary NE
+const AIRPORTTRL_BUILDINGS = [
+  { title: "OABP Building B", address: "Oxford Airport Business Park, Calgary", lat: 51.14,   lng: -114.0245 },
+  { title: "OABP Building D", address: "Oxford Airport Business Park, Calgary", lat: 51.1396, lng: -114.0238 },
+  { title: "OABP Building E", address: "Oxford Airport Business Park, Calgary", lat: 51.1392, lng: -114.0231 },
+  { title: "OABP Building F", address: "Oxford Airport Business Park, Calgary", lat: 51.1404, lng: -114.0231 },
+  { title: "OABP Building G", address: "Oxford Airport Business Park, Calgary", lat: 51.1388, lng: -114.0245 },
+  { title: "OABP Building H", address: "Oxford Airport Business Park, Calgary", lat: 51.1408, lng: -114.0238 },
+  { title: "OABP Building I", address: "Oxford Airport Business Park, Calgary", lat: 51.1384, lng: -114.0224 },
+  { title: "OABP Building L", address: "Oxford Airport Business Park, Calgary", lat: 51.1412, lng: -114.0252 },
+];
+
+// Oxford Properties — Queensborough Logistics Park, New Westminster BC
+const BOYD501_BUILDINGS = [
+  { title: "Queensborough Logistics Park — Damco Building", address: "Queensborough Logistics Park, New Westminster", lat: 49.1862, lng: -122.9462 },
+  { title: "Queensborough Logistics Park — Building 2",    address: "Queensborough Logistics Park, New Westminster", lat: 49.1858, lng: -122.9456 },
+  { title: "Queensborough Logistics Park — Building 3",    address: "Queensborough Logistics Park, New Westminster", lat: 49.1854, lng: -122.945  },
+];
+
+// Oxford Properties — Riverbend Business Park, Burnaby BC
+const WIGGINS_BUILDINGS = [
+  { title: "Riverbend Business Park — Building 1", address: "Riverbend Business Park, Burnaby", lat: 49.1855, lng: -122.9742 },
+  { title: "Riverbend Business Park — Building 2", address: "Riverbend Business Park, Burnaby", lat: 49.1852, lng: -122.9736 },
+  { title: "Riverbend Business Park — Building 3", address: "Riverbend Business Park, Burnaby", lat: 49.1849, lng: -122.973  },
+  { title: "Riverbend Business Park — Building 4", address: "Riverbend Business Park, Burnaby", lat: 49.1858, lng: -122.973  },
+  { title: "Riverbend Business Park — Building 5", address: "Riverbend Business Park, Burnaby", lat: 49.1846, lng: -122.9742 },
+  { title: "Riverbend Business Park — Building 6", address: "Riverbend Business Park, Burnaby", lat: 49.1862, lng: -122.9748 },
+];
+
+// Oxford Properties — WaterPark Place, Toronto Waterfront
+const WATERPRK_BUILDINGS = [
+  { title: "WaterPark Place — 20 Bay Street",      address: "20 Bay St, Toronto",       lat: 43.6416, lng: -79.3779 },
+  { title: "WaterPark Place — 10 Bay Street",      address: "10 Bay St, Toronto",       lat: 43.6412, lng: -79.3776 },
+  { title: "RBC WaterPark Place — 88 Queens Quay", address: "88 Queens Quay W, Toronto",lat: 43.6409, lng: -79.3782 },
+];
+
+const ALL_BUILDINGS = [
+  ...RAC_BUILDINGS,
+  ...ROYAL_BUILDINGS,
+  ...CITYVIEW_BUILDINGS,
+  ...JAMES_SNOW_BUILDINGS,
+  ...METROCTR_BUILDINGS,
+  ...CENTENNIAL_BUILDINGS,
+  ...BRAMPTON_BUILDINGS,
+  ...CANADASQ_BUILDINGS,
+  ...AIRPORTTRL_BUILDINGS,
+  ...BOYD501_BUILDINGS,
+  ...WIGGINS_BUILDINGS,
+  ...WATERPRK_BUILDINGS,
+];
+
+// Centered to show Ontario, Alberta, and BC clusters
+const MAP_CENTER = { lat: 50.0, lng: -100.0 };
 const INITIAL_ZOOM = 4;
 
 function clusterSvg(count: number) {
@@ -273,10 +329,9 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Seven Oxford Properties complexes across Canada — RAC and MetroCentre (Toronto), Vaughan
-        Industrial Park (Vaughan), Brampton Business Park (Brampton), James Snow Business Park
-        (Milton), Cityview Business Park (Edmonton), and Centennial Place (Calgary). Zoom in on
-        any cluster to reveal individual building pins; click a pin to see its address.
+        Twelve Oxford Properties complexes across Canada — clusters in Ontario (Toronto, Vaughan,
+        Brampton, Milton), Alberta (Calgary, Edmonton), and BC (Burnaby, New Westminster). Zoom in
+        on any cluster to reveal individual building pins; click a pin to see its address.
       </figcaption>
     </figure>
   );
