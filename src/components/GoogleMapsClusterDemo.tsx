@@ -29,11 +29,29 @@ const ROYAL_BUILDINGS = [
   { title: "111 Royal Group Crescent", address: "111 Royal Group Crescent, Vaughan", lat: 43.7692, lng: -79.6291 },
 ];
 
-const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS];
+// Oxford Properties — CITYVIEW complex, Edmonton South Industrial District
+const CITYVIEW_BUILDINGS = [
+  { title: "Cityview Business Park — Building 1",  address: "Cityview Business Park, Edmonton", lat: 53.5002, lng: -113.422 },
+  { title: "Cityview Business Park — Building 2",  address: "Cityview Business Park, Edmonton", lat: 53.4998, lng: -113.4212 },
+  { title: "Cityview Business Park — Building 3",  address: "Cityview Business Park, Edmonton", lat: 53.4994, lng: -113.4204 },
+  { title: "Cityview Business Park — Building 4",  address: "Cityview Business Park, Edmonton", lat: 53.499,  lng: -113.4196 },
+  { title: "Cityview Business Park — Building 5",  address: "Cityview Business Park, Edmonton", lat: 53.4986, lng: -113.4188 },
+  { title: "Cityview Business Park — Building 6",  address: "Cityview Business Park, Edmonton", lat: 53.4982, lng: -113.418 },
+  { title: "Cityview Business Park — Building 7",  address: "Cityview Business Park, Edmonton", lat: 53.4978, lng: -113.4172 },
+  { title: "Cityview Business Park — Building 8",  address: "Cityview Business Park, Edmonton", lat: 53.4974, lng: -113.4164 },
+  { title: "Cityview Business Park — Building 9",  address: "Cityview Business Park, Edmonton", lat: 53.497,  lng: -113.4156 },
+  { title: "Cityview Business Park — Building 10", address: "Cityview Business Park, Edmonton", lat: 53.4966, lng: -113.4148 },
+  { title: "Cityview Business Park — Building 11", address: "Cityview Business Park, Edmonton", lat: 53.4996, lng: -113.4148 },
+  { title: "Cityview Business Park — Building 12", address: "Cityview Business Park, Edmonton", lat: 53.4988, lng: -113.4156 },
+  { title: "Cityview Business Park — Building 14", address: "Cityview Business Park, Edmonton", lat: 53.498,  lng: -113.4164 },
+  { title: "Cityview — Retail",                    address: "Cityview Business Park, Edmonton", lat: 53.4972, lng: -113.4172 },
+];
 
-// Centered between Toronto Financial District and Vaughan to show both clusters
-const MAP_CENTER = { lat: 43.708, lng: -79.505 };
-const INITIAL_ZOOM = 10;
+const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS];
+
+// Centered over Canada to show Toronto/Vaughan and Edmonton clusters
+const MAP_CENTER = { lat: 50.5, lng: -96.0 };
+const INITIAL_ZOOM = 4;
 
 function clusterSvg(count: number) {
   return [
@@ -225,9 +243,9 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Two Oxford Properties complexes — the RAC complex in Toronto's Financial District and the
-        Vaughan Industrial Park (ROYAL complex). Zoom out to see each group cluster, zoom in to
-        reveal individual building pins.
+        Three Oxford Properties complexes across Canada — RAC (Toronto), Vaughan Industrial Park
+        (Vaughan), and Cityview Business Park (Edmonton). Zoom in on any cluster to reveal
+        individual building pins; click a pin to see its address.
       </figcaption>
     </figure>
   );
