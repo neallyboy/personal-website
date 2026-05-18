@@ -23,6 +23,25 @@ export function useSpeech() {
     }
   }, []);
 
+  // Speaks a truly silent utterance to satisfy Chrome's autoplay policy.
+  // Must be called synchronously within a user-gesture handler.
+  // Do NOT cancel it immediately — let it finish on its own (it's instant at
+  // rate=10). Canceling before it starts may prevent Chrome from registering
+  // the unlock.
+  const primeSpeech = useCallback(() => {
+    const synthesis = getSpeechSynthesis();
+    if (!synthesis) return;
+
+    try {
+      const primer = new SpeechSynthesisUtterance("​"); // zero-width space
+      primer.volume = 0;
+      primer.rate = 10; // finish as fast as possible
+      synthesis.speak(primer);
+    } catch {
+      // Ignore priming failures and keep normal speech available.
+    }
+  }, []);
+
   const speakNow = useCallback(
     (text: string) => {
       const synthesis = getSpeechSynthesis();
@@ -36,12 +55,18 @@ export function useSpeech() {
         utterance.voice = voiceRef.current;
         utterance.lang = voiceRef.current.lang;
       }
+      // Do NOT set utterance.lang as a fallback when no voice is matched —
+      // specifying a lang Chrome cannot fulfill causes a silent failure.
       utterance.rate = 0.92;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
       pendingSpeakTimeoutRef.current = window.setTimeout(() => {
-        synthesis.speak(utterance);
+        const syn = getSpeechSynthesis();
+        if (!syn || muted) return;
+        // Resume synthesis if it ended up in a paused state (e.g. page blur).
+        if (syn.paused) syn.resume();
+        syn.speak(utterance);
         pendingSpeakTimeoutRef.current = null;
       }, 40);
     },
@@ -73,46 +98,35 @@ export function useSpeech() {
         null;
     };
 
-    // Called on first user gesture. Speaks any pending text synchronously
-    // within the gesture handler — this is the only reliable way to satisfy
-    // Chrome's speech synthesis permission requirement.
+    // Called on first user gesture. primeSpeech() unlocks Chrome's synthesis
+    // permission within the gesture window. speakNow() then cancels the silent
+    // primer and queues the real text with a 40 ms delay. By that point
+    // synthesis is already unlocked, so the delayed speak() succeeds.
     //
-    // We intentionally do NOT go through speakNow() here because:
-    //   1. speakNow calls synthesis.cancel() which revokes Chrome's permission
-    //      grant before the 40 ms timeout fires.
-    //   2. The 40 ms setTimeout itself exits the user-gesture activation window,
-    //      causing Chrome to block the speak() call silently.
-    const unlockSpeech = () => {
-      unlockedRef.current = true;
-
-      const pendingText = pendingTextRef.current;
-      pendingTextRef.current = null;
-
-      if (!pendingText || muted) return;
-
-      // Clear any stuck/queued state before speaking. Unlike speakNow(), we
-      // are still within the user-gesture window here so cancel() does not
-      // revoke Chrome's permission grant (there is no 40 ms timeout gap).
-      synthesis.cancel();
-
-      // Speak synchronously within the gesture — no timeout.
-      const utterance = new SpeechSynthesisUtterance(pendingText);
-      if (voiceRef.current) {
-        utterance.voice = voiceRef.current;
-        utterance.lang = voiceRef.current.lang;
-      }
-      // Do NOT set utterance.lang as a fallback when no voice is matched —
-      // specifying a lang Chrome cannot satisfy causes a silent failure.
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      synthesis.speak(utterance);
-    };
-
+    // We do NOT call synthesis.speak(realText) directly here because:
+    //   synthesis.cancel() (inside speakNow) + 40 ms timeout is the reliable
+    //   pattern for clearing any stale queue before the real utterance.
+    //   The primer ensures synthesis is unlocked before that timeout fires.
+    //
     // Do NOT pre-unlock based on navigator.userActivation.hasBeenActive.
     // Even when true, calling synthesis.speak() from a useEffect or setTimeout
     // (not a gesture handler) is silently blocked by Chrome. Always wait for
-    // a real gesture so unlockSpeech can speak synchronously.
+    // a real gesture so primeSpeech can unlock synthesis synchronously.
+    const unlockSpeech = () => {
+      if (unlockedRef.current) return; // already unlocked — skip primer
+      unlockedRef.current = true;
+
+      // Unlock synthesis within the gesture, regardless of pending text.
+      primeSpeech();
+
+      if (pendingTextRef.current) {
+        const text = pendingTextRef.current;
+        pendingTextRef.current = null;
+        // speakNow cancels the primer and speaks after 40 ms; synthesis is
+        // already unlocked by the primeSpeech() call above.
+        speakNow(text);
+      }
+    };
 
     pickVoice();
     synthesis.addEventListener("voiceschanged", pickVoice);
@@ -127,7 +141,7 @@ export function useSpeech() {
       window.removeEventListener("keydown", unlockSpeech);
       window.removeEventListener("touchend", unlockSpeech);
     };
-  }, [clearPendingSpeak, muted]);
+  }, [clearPendingSpeak, primeSpeech, speakNow]);
 
   const speak = useCallback(
     (text: string) => {
