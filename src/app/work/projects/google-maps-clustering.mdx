@@ -16,6 +16,7 @@ team:
 
 - [Overview](#overview)
 - [Key Features](#key-features)
+- [Live Demo](#live-demo)
 - [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
 - [Implementation](#implementation)
@@ -60,6 +61,12 @@ The implementation was embedded directly into a Webflow page as a custom code bl
 - **Custom Pin Icon:** Individual markers used a custom location pin image hosted in Webflow's asset library rather than the default Google Maps teardrop, keeping the map visually consistent with the client's branding.
 - **Clustering Algorithm Tuning:** The `@googlemaps/markerclusterer` library supports pluggable clustering algorithms. After testing the default, `GridAlgorithm` was introduced with a configurable `gridDistance` parameter. Increasing the grid distance caused the algorithm to group pins that were further apart, resulting in fewer, larger clusters at the same zoom level. This was noticeable in practice — with the default algorithm the user had to zoom out four steps before pins clustered; with a tuned `GridAlgorithm` at `gridDistance: 60`, clustering kicked in a step earlier at equivalent zoom levels.
 - **Side Panel Toggle:** A button on the page toggled the visibility of a listing panel alongside the map, allowing users to switch between the map view and a list view of the same CMS data. The toggle was wired through a `DOMContentLoaded` listener.
+
+## Live Demo
+
+The map below shows five [Oxford Properties RAC complex](https://www.oxfordproperties.com/lease/complex/RAC) buildings in Toronto's Financial District. At the default zoom level the markers cluster into a single badge — zoom in to watch them split apart and reveal individual building pins. Click any pin to see the building name and address.
+
+<GoogleMapsClusterDemo />
 
 ## Screenshots
 
