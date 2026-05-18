@@ -8,6 +8,48 @@ function getSpeechSynthesis(): SpeechSynthesis | null {
   return window.speechSynthesis;
 }
 
+// Build and configure an utterance. voiceRef may be null on first call
+// (voices not yet loaded); Chrome will use its default voice in that case.
+function makeUtterance(
+  text: string,
+  voice: SpeechSynthesisVoice | null,
+): SpeechSynthesisUtterance {
+  const u = new SpeechSynthesisUtterance(text);
+  if (voice) {
+    u.voice = voice;
+    u.lang = voice.lang;
+  }
+  u.rate = 0.92;
+  u.pitch = 1.0;
+  u.volume = 1.0;
+  return u;
+}
+
+// Pick the best available English voice. Prefer non-local (browser-built-in)
+// voices first because macOS "enhanced quality" system voices (Daniel, Alex)
+// are silently ignored by Chrome's speech-synthesis layer even though
+// getVoices() lists them. Chrome's own voices (Google …) and compact system
+// voices work reliably across all browsers.
+function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  return (
+    // Chrome built-in voices (localService = false) — always work in Chrome
+    voices.find((v) => !v.localService && v.name.includes("Google UK English Male")) ||
+    voices.find((v) => !v.localService && v.name.includes("Google UK English")) ||
+    voices.find((v) => !v.localService && v.lang === "en-GB") ||
+    voices.find((v) => !v.localService && v.lang.startsWith("en-")) ||
+    voices.find((v) => !v.localService && v.lang.startsWith("en")) ||
+    // System voices — work in Firefox / VS Code / Safari; may fail silently
+    // in Chrome on macOS with enhanced-quality voices
+    voices.find((v) => v.name === "Daniel") ||
+    voices.find((v) => v.name === "Alex") ||
+    voices.find((v) => v.name.includes("Microsoft David")) ||
+    voices.find((v) => v.lang === "en-GB" && !v.name.toLowerCase().includes("female")) ||
+    voices.find((v) => v.lang.startsWith("en-") && !v.name.toLowerCase().includes("female")) ||
+    voices.find((v) => v.lang.startsWith("en")) ||
+    null
+  );
+}
+
 export function useSpeech() {
   const [muted, setMuted] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -21,32 +63,18 @@ export function useSpeech() {
 
     setSupported(true);
 
-    const pickVoice = () => {
-      const voices = synthesis.getVoices();
-      voiceRef.current =
-        voices.find((v) => v.name === "Daniel") || // macOS UK male
-        voices.find((v) => v.name === "Alex") || // macOS US male
-        voices.find((v) => v.name.includes("Google UK English Male")) ||
-        voices.find((v) => v.name.includes("Microsoft David")) ||
-        voices.find(
-          (v) => v.lang === "en-GB" && !v.name.toLowerCase().includes("female"),
-        ) ||
-        voices.find(
-          (v) =>
-            v.lang.startsWith("en-") &&
-            !v.name.toLowerCase().includes("female"),
-        ) ||
-        voices.find((v) => v.lang.startsWith("en")) ||
-        null;
+    const updateVoice = () => {
+      voiceRef.current = pickVoice(synthesis.getVoices());
     };
 
-    // Called on first user gesture. Speaks any pending text synchronously
-    // within the gesture handler — the only reliable way to satisfy Chrome's
-    // speech synthesis permission requirement.
+    // Called on first user gesture. Speaks the pending text synchronously
+    // within the gesture window — required by Chrome's speech synthesis policy.
     //
-    // We do NOT call synthesis.cancel() here because the queue is empty on
-    // first interaction, and cancel() would delay the utterance from starting.
-    // We also do NOT use a setTimeout — that exits the user-gesture window.
+    // Uses 'click' (not 'pointerdown') because Chrome's speech-synthesis
+    // permission check recognises 'click' more reliably as a user gesture.
+    //
+    // No synthesis.cancel() call here: the queue is empty on first interaction
+    // so cancel is unnecessary, and calling it can delay audio start.
     const unlockSpeech = () => {
       if (unlockedRef.current) return;
       unlockedRef.current = true;
@@ -56,28 +84,20 @@ export function useSpeech() {
 
       if (!pendingText || muted) return;
 
-      const utterance = new SpeechSynthesisUtterance(pendingText);
-      if (voiceRef.current) {
-        utterance.voice = voiceRef.current;
-        utterance.lang = voiceRef.current.lang;
-      }
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      synthesis.speak(utterance);
+      synthesis.speak(makeUtterance(pendingText, voiceRef.current));
     };
 
-    pickVoice();
-    synthesis.addEventListener("voiceschanged", pickVoice);
-    window.addEventListener("pointerdown", unlockSpeech, { passive: true });
+    updateVoice();
+    synthesis.addEventListener("voiceschanged", updateVoice);
+    // 'click' covers mouse clicks AND touch taps (the browser fires a
+    // synthetic click after touchend). 'keydown' covers keyboard users.
+    window.addEventListener("click", unlockSpeech);
     window.addEventListener("keydown", unlockSpeech);
-    window.addEventListener("touchend", unlockSpeech, { passive: true });
 
     return () => {
-      synthesis.removeEventListener("voiceschanged", pickVoice);
-      window.removeEventListener("pointerdown", unlockSpeech);
+      synthesis.removeEventListener("voiceschanged", updateVoice);
+      window.removeEventListener("click", unlockSpeech);
       window.removeEventListener("keydown", unlockSpeech);
-      window.removeEventListener("touchend", unlockSpeech);
     };
   }, [muted]);
 
@@ -87,28 +107,16 @@ export function useSpeech() {
       if (!synthesis || muted) return;
 
       if (!unlockedRef.current) {
-        // Store for playback on first user gesture
         pendingTextRef.current = text;
         return;
       }
 
-      // Skip rather than cancel — the Daniel voice (and other high-quality
-      // voices) has significant startup latency. Calling synthesis.cancel()
-      // to make way for a new utterance causes the previous one to be killed
-      // before it produces a single audio frame, resulting in silence.
-      // Instead, let the current utterance finish and only queue the next one
-      // when the synthesis engine is idle.
+      // Skip rather than cancel — cancelling kills utterances before they
+      // produce audio (high-quality voices have significant startup latency).
+      // Let the current utterance finish; only queue the next one when idle.
       if (synthesis.speaking || synthesis.pending) return;
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      if (voiceRef.current) {
-        utterance.voice = voiceRef.current;
-        utterance.lang = voiceRef.current.lang;
-      }
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      synthesis.speak(utterance);
+      synthesis.speak(makeUtterance(text, voiceRef.current));
     },
     [muted],
   );
