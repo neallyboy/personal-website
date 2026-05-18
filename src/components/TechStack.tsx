@@ -14,7 +14,7 @@ export function TechStack({ items }: TechStackProps) {
   return (
     <Column gap="12" marginTop="8" marginBottom="12">
       {items.map((item, index) => (
-        <Row key={item.iconSrc ?? `${index}-${item.name}`} gap="12" vertical="start">
+        <Row key={index} gap="12" vertical="start">
           {item.iconSrc ? (
             <img
               src={item.iconSrc}
