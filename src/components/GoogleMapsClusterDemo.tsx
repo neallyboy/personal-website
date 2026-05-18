@@ -68,7 +68,16 @@ const CENTENNIAL_BUILDINGS = [
   { title: "Centennial Place — West Tower", address: "Centennial Place, Calgary", lat: 51.0507, lng: -114.0729 },
 ];
 
-const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS, ...METROCTR_BUILDINGS, ...CENTENNIAL_BUILDINGS];
+// Oxford Properties — Brampton Business Park (BRMDISCT)
+const BRAMPTON_BUILDINGS = [
+  { title: "9050 Airport Road",  address: "9050 Airport Rd, Brampton",  lat: 43.7474, lng: -79.7014 },
+  { title: "9150 Airport Road",  address: "9150 Airport Rd, Brampton",  lat: 43.7501, lng: -79.705  },
+  { title: "9200 Airport Road",  address: "9200 Airport Rd, Brampton",  lat: 43.7515, lng: -79.7068 },
+  { title: "9250 Airport Road",  address: "9250 Airport Rd, Brampton",  lat: 43.7484, lng: -79.7041 },
+  { title: "255 Chrysler Drive", address: "255 Chrysler Dr, Brampton",  lat: 43.7459, lng: -79.7105 },
+];
+
+const ALL_BUILDINGS = [...RAC_BUILDINGS, ...ROYAL_BUILDINGS, ...CITYVIEW_BUILDINGS, ...JAMES_SNOW_BUILDINGS, ...METROCTR_BUILDINGS, ...CENTENNIAL_BUILDINGS, ...BRAMPTON_BUILDINGS];
 
 // Centered over Canada to show Toronto/Vaughan and Edmonton clusters
 const MAP_CENTER = { lat: 50.5, lng: -96.0 };
@@ -264,10 +273,10 @@ export function GoogleMapsClusterDemo() {
           textAlign: "center",
         }}
       >
-        Six Oxford Properties complexes across Canada — RAC and MetroCentre (Toronto), Vaughan
-        Industrial Park (Vaughan), James Snow Business Park (Milton), Cityview Business Park
-        (Edmonton), and Centennial Place (Calgary). Zoom in on any cluster to reveal individual
-        building pins; click a pin to see its address.
+        Seven Oxford Properties complexes across Canada — RAC and MetroCentre (Toronto), Vaughan
+        Industrial Park (Vaughan), Brampton Business Park (Brampton), James Snow Business Park
+        (Milton), Cityview Business Park (Edmonton), and Centennial Place (Calgary). Zoom in on
+        any cluster to reveal individual building pins; click a pin to see its address.
       </figcaption>
     </figure>
   );
