@@ -136,9 +136,11 @@ export function TicTacToe() {
 
       let text: string;
       if (next.status === "win" && next.winner === "O") {
+        (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "lose" });
         text = generateWinCommentary("O");
         setTimeout(() => playWinSound(), 300);
       } else if (next.status === "draw") {
+        (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "draw" });
         text = generateDrawCommentary();
         setTimeout(() => playDrawSound(), 300);
       } else if (commentType === "win") {
@@ -172,12 +174,14 @@ export function TicTacToe() {
       setGame(next);
 
       if (next.status === "win" && next.winner === "X") {
+        (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "win" });
         const text = generateWinCommentary("X");
         setTimeout(() => {
           say(text);
           playWinSound();
         }, 300);
       } else if (next.status === "draw") {
+        (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "draw" });
         const text = generateDrawCommentary();
         setTimeout(() => {
           say(text);
