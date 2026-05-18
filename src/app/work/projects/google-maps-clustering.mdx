@@ -64,7 +64,33 @@ The implementation was embedded directly into a Webflow page as a custom code bl
 
 ## Live Demo
 
-The map below shows twelve Oxford Properties complexes across Canada — [RAC](https://www.oxfordproperties.com/lease/complex/RAC), [MetroCentre](https://www.oxfordproperties.com/lease/complex/METROCTR), [Canada Square](https://www.oxfordproperties.com/lease/complex/CANADASQ), and [WaterPark Place](https://www.oxfordproperties.com/lease/complex/WATERPRK) in Toronto; [Vaughan Industrial Park](https://www.oxfordproperties.com/lease/complex/ROYAL) in Vaughan; [Brampton Business Park](https://www.oxfordproperties.com/lease/complex/BRMDISCT) in Brampton; [James Snow Business Park](https://www.oxfordproperties.com/lease/complex/JamesSnowBusinessPark) in Milton; [Centennial Place](https://www.oxfordproperties.com/lease/complex/CENTENNIAL) and [Oxford Airport Business Park](https://www.oxfordproperties.com/lease/complex/AIRPORTTRL) in Calgary; [Cityview Business Park](https://www.oxfordproperties.com/lease/complex/CITYVIEW) in Edmonton; and [Queensborough Logistics Park](https://www.oxfordproperties.com/lease/complex/501BOYD) in New Westminster and [Riverbend Business Park](https://www.oxfordproperties.com/lease/complex/WIGGINS) in Burnaby. At the default zoom, Ontario, Alberta, and BC each appear as regional clusters — zoom in to watch any cluster expand into individual building pins. Click any pin to see the building name and address.
+The map plots twelve Oxford Properties complexes across three provinces. At the default zoom Ontario, Alberta, and BC each appear as a regional cluster — zoom in to watch any cluster expand into individual building pins, then click a pin to see its address.
+
+<Table
+  data={{
+    headers: [
+      { content: "Complex", key: "complex" },
+      { content: "City", key: "city" },
+      { content: "Province", key: "province" },
+      { content: "Type", key: "type" },
+      { content: "Buildings", key: "buildings" },
+    ],
+    rows: [
+      ["[RAC](https://www.oxfordproperties.com/lease/complex/RAC)", "Toronto", "ON", "Office", "5"],
+      ["[MetroCentre](https://www.oxfordproperties.com/lease/complex/METROCTR)", "Toronto", "ON", "Office / Retail", "3"],
+      ["[Canada Square](https://www.oxfordproperties.com/lease/complex/CANADASQ)", "Toronto", "ON", "Office", "3"],
+      ["[WaterPark Place](https://www.oxfordproperties.com/lease/complex/WATERPRK)", "Toronto", "ON", "Office", "3"],
+      ["[Vaughan Industrial Park](https://www.oxfordproperties.com/lease/complex/ROYAL)", "Vaughan", "ON", "Industrial", "5"],
+      ["[Brampton Business Park](https://www.oxfordproperties.com/lease/complex/BRMDISCT)", "Brampton", "ON", "Industrial", "5"],
+      ["[James Snow Business Park](https://www.oxfordproperties.com/lease/complex/JamesSnowBusinessPark)", "Milton", "ON", "Industrial", "4"],
+      ["[Centennial Place](https://www.oxfordproperties.com/lease/complex/CENTENNIAL)", "Calgary", "AB", "Office", "2"],
+      ["[Oxford Airport Business Park](https://www.oxfordproperties.com/lease/complex/AIRPORTTRL)", "Calgary", "AB", "Industrial", "8"],
+      ["[Cityview Business Park](https://www.oxfordproperties.com/lease/complex/CITYVIEW)", "Edmonton", "AB", "Industrial", "14"],
+      ["[Queensborough Logistics Park](https://www.oxfordproperties.com/lease/complex/501BOYD)", "New Westminster", "BC", "Industrial", "3"],
+      ["[Riverbend Business Park](https://www.oxfordproperties.com/lease/complex/WIGGINS)", "Burnaby", "BC", "Industrial", "6"],
+    ],
+  }}
+/>
 
 <GoogleMapsClusterDemo />
 
