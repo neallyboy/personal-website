@@ -23,22 +23,6 @@ export function useSpeech() {
     }
   }, []);
 
-  const primeSpeech = useCallback(() => {
-    const synthesis = getSpeechSynthesis();
-    if (!synthesis) return;
-
-    try {
-      // Speak a truly silent utterance to satisfy Chrome's autoplay policy.
-      // Do NOT cancel it — canceling immediately may revoke the permission grant.
-      const primer = new SpeechSynthesisUtterance('\u200B'); // zero-width space
-      primer.volume = 0;
-      primer.rate = 10; // finish as fast as possible
-      synthesis.speak(primer);
-    } catch {
-      // Ignore priming failures and keep normal speech available.
-    }
-  }, []);
-
   const speakNow = useCallback(
     (text: string) => {
       const synthesis = getSpeechSynthesis();
@@ -87,20 +71,37 @@ export function useSpeech() {
         null;
     };
 
+    // Called on first user gesture. Speaks any pending text synchronously
+    // within the gesture handler — this is the only reliable way to satisfy
+    // Chrome's speech synthesis permission requirement.
+    //
+    // We intentionally do NOT go through speakNow() here because:
+    //   1. speakNow calls synthesis.cancel() which revokes Chrome's permission
+    //      grant before the 40 ms timeout fires.
+    //   2. The 40 ms setTimeout itself exits the user-gesture activation window,
+    //      causing Chrome to block the speak() call silently.
     const unlockSpeech = () => {
       unlockedRef.current = true;
-      primeSpeech();
 
-      if (pendingTextRef.current) {
-        const text = pendingTextRef.current;
-        pendingTextRef.current = null;
-        speakNow(text);
-      }
+      const pendingText = pendingTextRef.current;
+      pendingTextRef.current = null;
+
+      if (!pendingText || muted) return;
+
+      // Speak synchronously within the gesture — no cancel, no timeout.
+      const utterance = new SpeechSynthesisUtterance(pendingText);
+      if (voiceRef.current) utterance.voice = voiceRef.current;
+      utterance.lang = voiceRef.current?.lang || "en-GB";
+      utterance.rate = 0.92;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      synthesis.speak(utterance);
     };
 
-    if (navigator.userActivation?.hasBeenActive) {
-      unlockedRef.current = true;
-    }
+    // Do NOT pre-unlock based on navigator.userActivation.hasBeenActive.
+    // Even when true, calling synthesis.speak() from a useEffect or setTimeout
+    // (not a gesture handler) is silently blocked by Chrome. Always wait for
+    // a real gesture so unlockSpeech can speak synchronously.
 
     pickVoice();
     synthesis.addEventListener("voiceschanged", pickVoice);
@@ -115,7 +116,7 @@ export function useSpeech() {
       window.removeEventListener("keydown", unlockSpeech);
       window.removeEventListener("touchend", unlockSpeech);
     };
-  }, [clearPendingSpeak, primeSpeech, speakNow]);
+  }, [clearPendingSpeak, muted, speakNow]);
 
   const speak = useCallback(
     (text: string) => {
@@ -123,6 +124,7 @@ export function useSpeech() {
       if (!synthesis || muted) return;
 
       if (!unlockedRef.current) {
+        // Store for playback on first user gesture
         pendingTextRef.current = text;
         return;
       }
