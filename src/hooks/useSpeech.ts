@@ -14,64 +14,6 @@ export function useSpeech() {
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
   const unlockedRef = useRef(false);
   const pendingTextRef = useRef<string | null>(null);
-  const pendingSpeakTimeoutRef = useRef<number | null>(null);
-
-  const clearPendingSpeak = useCallback(() => {
-    if (pendingSpeakTimeoutRef.current !== null) {
-      window.clearTimeout(pendingSpeakTimeoutRef.current);
-      pendingSpeakTimeoutRef.current = null;
-    }
-  }, []);
-
-  // Speaks a truly silent utterance to satisfy Chrome's autoplay policy.
-  // Must be called synchronously within a user-gesture handler.
-  // Do NOT cancel it immediately — let it finish on its own (it's instant at
-  // rate=10). Canceling before it starts may prevent Chrome from registering
-  // the unlock.
-  const primeSpeech = useCallback(() => {
-    const synthesis = getSpeechSynthesis();
-    if (!synthesis) return;
-
-    try {
-      const primer = new SpeechSynthesisUtterance("​"); // zero-width space
-      primer.volume = 0;
-      primer.rate = 10; // finish as fast as possible
-      synthesis.speak(primer);
-    } catch {
-      // Ignore priming failures and keep normal speech available.
-    }
-  }, []);
-
-  const speakNow = useCallback(
-    (text: string) => {
-      const synthesis = getSpeechSynthesis();
-      if (!synthesis || muted || !unlockedRef.current) return;
-
-      clearPendingSpeak();
-      synthesis.cancel();
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      if (voiceRef.current) {
-        utterance.voice = voiceRef.current;
-        utterance.lang = voiceRef.current.lang;
-      }
-      // Do NOT set utterance.lang as a fallback when no voice is matched —
-      // specifying a lang Chrome cannot fulfill causes a silent failure.
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-
-      pendingSpeakTimeoutRef.current = window.setTimeout(() => {
-        const syn = getSpeechSynthesis();
-        if (!syn || muted) return;
-        // Resume synthesis if it ended up in a paused state (e.g. page blur).
-        if (syn.paused) syn.resume();
-        syn.speak(utterance);
-        pendingSpeakTimeoutRef.current = null;
-      }, 40);
-    },
-    [clearPendingSpeak, muted],
-  );
 
   useEffect(() => {
     const synthesis = getSpeechSynthesis();
@@ -98,34 +40,31 @@ export function useSpeech() {
         null;
     };
 
-    // Called on first user gesture. primeSpeech() unlocks Chrome's synthesis
-    // permission within the gesture window. speakNow() then cancels the silent
-    // primer and queues the real text with a 40 ms delay. By that point
-    // synthesis is already unlocked, so the delayed speak() succeeds.
+    // Called on first user gesture. Speaks any pending text synchronously
+    // within the gesture handler — the only reliable way to satisfy Chrome's
+    // speech synthesis permission requirement.
     //
-    // We do NOT call synthesis.speak(realText) directly here because:
-    //   synthesis.cancel() (inside speakNow) + 40 ms timeout is the reliable
-    //   pattern for clearing any stale queue before the real utterance.
-    //   The primer ensures synthesis is unlocked before that timeout fires.
-    //
-    // Do NOT pre-unlock based on navigator.userActivation.hasBeenActive.
-    // Even when true, calling synthesis.speak() from a useEffect or setTimeout
-    // (not a gesture handler) is silently blocked by Chrome. Always wait for
-    // a real gesture so primeSpeech can unlock synthesis synchronously.
+    // We do NOT call synthesis.cancel() here because the queue is empty on
+    // first interaction, and cancel() would delay the utterance from starting.
+    // We also do NOT use a setTimeout — that exits the user-gesture window.
     const unlockSpeech = () => {
-      if (unlockedRef.current) return; // already unlocked — skip primer
+      if (unlockedRef.current) return;
       unlockedRef.current = true;
 
-      // Unlock synthesis within the gesture, regardless of pending text.
-      primeSpeech();
+      const pendingText = pendingTextRef.current;
+      pendingTextRef.current = null;
 
-      if (pendingTextRef.current) {
-        const text = pendingTextRef.current;
-        pendingTextRef.current = null;
-        // speakNow cancels the primer and speaks after 40 ms; synthesis is
-        // already unlocked by the primeSpeech() call above.
-        speakNow(text);
+      if (!pendingText || muted) return;
+
+      const utterance = new SpeechSynthesisUtterance(pendingText);
+      if (voiceRef.current) {
+        utterance.voice = voiceRef.current;
+        utterance.lang = voiceRef.current.lang;
       }
+      utterance.rate = 0.92;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      synthesis.speak(utterance);
     };
 
     pickVoice();
@@ -135,13 +74,12 @@ export function useSpeech() {
     window.addEventListener("touchend", unlockSpeech, { passive: true });
 
     return () => {
-      clearPendingSpeak();
       synthesis.removeEventListener("voiceschanged", pickVoice);
       window.removeEventListener("pointerdown", unlockSpeech);
       window.removeEventListener("keydown", unlockSpeech);
       window.removeEventListener("touchend", unlockSpeech);
     };
-  }, [clearPendingSpeak, primeSpeech, speakNow]);
+  }, [muted]);
 
   const speak = useCallback(
     (text: string) => {
@@ -154,23 +92,38 @@ export function useSpeech() {
         return;
       }
 
-      speakNow(text);
+      // Skip rather than cancel — the Daniel voice (and other high-quality
+      // voices) has significant startup latency. Calling synthesis.cancel()
+      // to make way for a new utterance causes the previous one to be killed
+      // before it produces a single audio frame, resulting in silence.
+      // Instead, let the current utterance finish and only queue the next one
+      // when the synthesis engine is idle.
+      if (synthesis.speaking || synthesis.pending) return;
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (voiceRef.current) {
+        utterance.voice = voiceRef.current;
+        utterance.lang = voiceRef.current.lang;
+      }
+      utterance.rate = 0.92;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      synthesis.speak(utterance);
     },
-    [muted, speakNow],
+    [muted],
   );
 
   const toggleMute = useCallback(() => {
     setMuted((m) => {
       const synthesis = getSpeechSynthesis();
       if (!m && synthesis) {
-        clearPendingSpeak();
         pendingTextRef.current = null;
         synthesis.cancel();
       }
 
       return !m;
     });
-  }, [clearPendingSpeak]);
+  }, []);
 
   return { speak, muted, toggleMute, supported };
 }
