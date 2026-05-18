@@ -161,7 +161,7 @@ export function ChessGame() {
 
         let text: string;
         if (next.status === "checkmate") {
-          (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "lose" });
+          (window.dataLayer ??= []).push({ event: "game_completed", game_outcome: "lose" });
           text = generateAIMoveCommentary({
             piece: piece.type,
             isCapture: false,
@@ -173,7 +173,7 @@ export function ChessGame() {
             evalScore: evalAfter,
           });
         } else if (next.status === "stalemate") {
-          (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "draw" });
+          (window.dataLayer ??= []).push({ event: "game_completed", game_outcome: "draw" });
           text = generateGameEndCommentary("stalemate");
         } else {
           text = generateAIMoveCommentary({
@@ -251,13 +251,13 @@ export function ChessGame() {
 
           // Check if player just won or stalemated
           if (next.status === "checkmate") {
-            (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "win" });
+            (window.dataLayer ??= []).push({ event: "game_completed", game_outcome: "win" });
             setTimeout(
               () => say(generateGameEndCommentary("player_wins")),
               400,
             );
           } else if (next.status === "stalemate") {
-            (window.dataLayer as unknown[]).push({ event: "game_completed", game_outcome: "draw" });
+            (window.dataLayer ??= []).push({ event: "game_completed", game_outcome: "draw" });
             setTimeout(() => say(generateGameEndCommentary("stalemate")), 400);
           } else {
             const captured = game.board[move.to.row][move.to.col];
