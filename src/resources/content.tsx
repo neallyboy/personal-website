@@ -436,6 +436,44 @@ const about: About = {
         logo: "/images/tech-icons/userway.svg",
         href: "https://userway.org",
       },
+      {
+        name: "GitHub",
+        description:
+          "Source repository hosting version control, commit history, and CI/CD pipeline triggers for every deployment.",
+        logo: "/images/tech-icons/github.svg",
+        href: "https://github.com",
+      },
+      {
+        name: "Playwright",
+        description:
+          "Automated end-to-end and accessibility testing across Chromium, Firefox, and WebKit on every commit.",
+        logo: "/images/tech-icons/playwright.svg",
+        href: "https://playwright.dev",
+      },
+      {
+        name: "SEO Ready",
+        description:
+          "Structured metadata, canonical URLs, sitemap, and robots.txt optimised for search engine crawlers.",
+        logo: "/images/tech-icons/seo.svg",
+      },
+      {
+        name: "GEO Ready",
+        description:
+          "JSON-LD schema markup and structured data signals tuned for generative AI engines like ChatGPT and Perplexity.",
+        logo: "/images/tech-icons/geo.svg",
+      },
+      {
+        name: "Open Graph",
+        description:
+          "Dynamic OG image generation and full meta tag coverage for rich social previews on every page.",
+        logo: "/images/tech-icons/og.svg",
+      },
+      {
+        name: "AEO Ready",
+        description:
+          "FAQ and SpeakableSpecification schema markup enabling answer-engine features in voice and AI assistants.",
+        logo: "/images/tech-icons/aeo.svg",
+      },
     ],
   },
 };
