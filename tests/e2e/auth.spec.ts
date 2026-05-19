@@ -33,7 +33,7 @@ test.describe("Authentication - Login Page", () => {
 
   test("login page renders without crashing", async ({ page }) => {
     await page.goto("/login");
-    await expect(page.locator("main, body")).toBeVisible();
+    await expect(page.locator("body")).toBeVisible();
   });
 });
 
