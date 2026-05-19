@@ -559,10 +559,10 @@ export function GoogleMapsClusterDemo() {
           marker.addListener("click", () => {
             infoWindow.setContent(
               `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
+                `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:8px">${building.title}</strong>` +
                 `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
-                `<strong style="font-size:13px;line-height:1.4;display:block">${building.title}</strong>` +
-                `<span style="font-size:11px;color:#666;display:block;margin-top:2px">${building.address}</span>` +
-                `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:inline-block;margin-top:6px">View property &rarr;</a>` +
+                `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
+                `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
                 `</div>`,
             );
             infoWindow.open({ anchor: marker, map });
