@@ -176,28 +176,36 @@ function clusterLabel(
   return "";
 }
 
-function clusterSvg(count: number, label: string): string {
+// Returns both the SVG string and the total width so the renderer can set scaledSize + anchor.
+function clusterSvg(count: number, label: string): { svg: string; width: number; height: number } {
   const hasLabel = label.length > 0;
+
+  // Approximate pill width: ~5.8 px per char at font-size 9 + 16 px horizontal padding
+  const pillW = hasLabel ? Math.max(50, Math.ceil(label.length * 5.8) + 16) : 50;
+  const svgW = pillW;
+  const cx = svgW / 2;
   const totalH = hasLabel ? 68 : 50;
-  // Truncate long city names to fit the pill
-  const displayLabel = label.length > 13 ? `${label.slice(0, 12)}…` : label;
 
   const pill = hasLabel
     ? [
-        `<rect x="1" y="52" width="48" height="15" rx="7.5" fill="#1a73e8"/>`,
-        `<text x="25" y="63" fill="white" font-size="9" font-family="Arial" font-weight="bold" text-anchor="middle">${displayLabel}</text>`,
+        `<rect x="1" y="52" width="${svgW - 2}" height="15" rx="7.5" fill="#1a73e8"/>`,
+        `<text x="${cx}" y="63" fill="white" font-size="9" font-family="Arial" font-weight="bold" text-anchor="middle">${label}</text>`,
       ].join("")
     : "";
 
-  return [
-    `<svg width="50" height="${totalH}" viewBox="0 0 50 ${totalH}" xmlns="http://www.w3.org/2000/svg">`,
-    `<circle cx="25" cy="25" r="25" fill="#1a73e8" fill-opacity="0.25"/>`,
-    `<circle cx="25" cy="25" r="20" fill="#1a73e8"/>`,
-    `<circle cx="25" cy="25" r="16" fill="white"/>`,
-    `<text x="25" y="30" fill="#1a73e8" font-size="13" font-family="Arial" font-weight="bold" text-anchor="middle">${count}</text>`,
-    pill,
-    `</svg>`,
-  ].join("");
+  return {
+    svg: [
+      `<svg width="${svgW}" height="${totalH}" viewBox="0 0 ${svgW} ${totalH}" xmlns="http://www.w3.org/2000/svg">`,
+      `<circle cx="${cx}" cy="25" r="25" fill="#1a73e8" fill-opacity="0.25"/>`,
+      `<circle cx="${cx}" cy="25" r="20" fill="#1a73e8"/>`,
+      `<circle cx="${cx}" cy="25" r="16" fill="white"/>`,
+      `<text x="${cx}" y="30" fill="#1a73e8" font-size="13" font-family="Arial" font-weight="bold" text-anchor="middle">${count}</text>`,
+      pill,
+      `</svg>`,
+    ].join(""),
+    width: svgW,
+    height: totalH,
+  };
 }
 
 function loadMapsScript(apiKey: string): Promise<void> {
@@ -280,16 +288,14 @@ export function GoogleMapsClusterDemo() {
             render(cluster) {
               const { count, position, markers: clusterMarkers = [] } = cluster;
               const label = clusterLabel(clusterMarkers, markerMeta);
-              const hasLabel = label.length > 0;
-              const iconH = hasLabel ? 68 : 50;
+              const { svg, width: iconW, height: iconH } = clusterSvg(count, label);
 
               return new window.google.maps.Marker({
                 position,
                 icon: {
-                  url: `data:image/svg+xml,${encodeURIComponent(clusterSvg(count, label))}`,
-                  scaledSize: new window.google.maps.Size(50, iconH),
-                  // Keep the circle centred on the geo point; label extends below
-                  anchor: new window.google.maps.Point(25, 25),
+                  url: `data:image/svg+xml,${encodeURIComponent(svg)}`,
+                  scaledSize: new window.google.maps.Size(iconW, iconH),
+                  anchor: new window.google.maps.Point(iconW / 2, 25),
                 },
                 zIndex: 1000 + count,
               });
