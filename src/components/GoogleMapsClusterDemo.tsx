@@ -145,6 +145,21 @@ const ALL_BUILDINGS: Building[] = [
   ...WATERPRK_BUILDINGS,
 ];
 
+const COMPLEX_IMAGES: Record<string, string> = {
+  RAC:                  "https://dam.oxfordproperties.com/transform/8134856f-740d-4673-85f9-7091c9911f1a/OP_130AdelaideW-RAC-Lobby_PHO_RGB",
+  MetroCentre:          "https://dam.oxfordproperties.com/transform/0c4ca5c2-6c4e-4807-b2b5-c9af3f4a1c2b/OP_225KingStW-Metrocentre-Exterior-3_PHO_RGB",
+  "Canada Square":      "https://resource.oxfordproperties.com/content/images/canadaSQ.jpg",
+  "WaterPark Place":    "https://resource.oxfordproperties.com/content/images/20BayStreet.jpg",
+  "Vaughan Ind. Park":  "https://dam.oxfordproperties.com/transform/34e649f2-357c-4f51-baec-f24102bd837b/OP_101RoyalGroup-Vaughan-IndPark-Exterior-Sep2020_PHO_RGB",
+  "Brampton Bus. Park": "https://dam.oxfordproperties.com/transform/3f4882f1-2ff2-4a4e-a130-c2b39a89c5e2/OP_9050AirportRd-BramptonBusPark-Exterior7_LowRes_RGB",
+  "James Snow":         "https://dam.oxfordproperties.com/transform/f338a61c-5df7-44e4-b25a-42fa2b3ee51d/OP_James-Snow-Park-Aerial_1_PHO",
+  "Centennial Place":   "https://dam.oxfordproperties.com/transform/b8c2cdd8-8d00-4909-aecf-7ab2c902e691/OP_CentennialPlace-Calgary-Exterior-402-003_PHO_RGB",
+  "Oxford Airport":     "https://dam.oxfordproperties.com/transform/a1821a02-6242-402b-a385-cf10bd1bc299/OP_AirportBusinessPark_Aerial2_IMG_0719_PHO",
+  Cityview:             "https://dam.oxfordproperties.com/transform/094cb1b3-8104-40c9-8b62-264de42b9e52/OP_CityviewBusinessPark_Aerial02_PHO",
+  Queensborough:        "https://dam.oxfordproperties.com/transform/8092763a-11a8-409b-993c-a35dd64c16e7/OP_QueensboroughLogisticsPark_Building3_QLC3_01_PHO",
+  Riverbend:            "https://dam.oxfordproperties.com/transform/ec0813e2-b3f8-4b3c-927d-643f841055dc/OP_RiverbendBusinessPark_Aerial_Amazon_Exterior-06a_PHO_RGB",
+};
+
 // Centered to show Ontario, Alberta, and BC clusters
 const MAP_CENTER = { lat: 50.0, lng: -100.0 };
 const INITIAL_ZOOM = 4;
@@ -268,10 +283,15 @@ export function GoogleMapsClusterDemo() {
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
 
           marker.addListener("click", () => {
+            const imgSrc = COMPLEX_IMAGES[building.complex];
+            const imgHtml = imgSrc
+              ? `<img src="${imgSrc}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />`
+              : "";
             infoWindow.setContent(
-              `<div style="padding:4px 2px;font-family:sans-serif">` +
-                `<strong style="font-size:14px">${building.title}</strong><br/>` +
-                `<span style="color:#555;font-size:12px">${building.address}</span>` +
+              `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
+                imgHtml +
+                `<strong style="font-size:13px;line-height:1.4;display:block">${building.title}</strong>` +
+                `<span style="font-size:11px;color:#666;display:block;margin-top:2px">${building.complex} &middot; ${building.city}, ${building.province}</span>` +
                 `</div>`,
             );
             infoWindow.open({ anchor: marker, map });
