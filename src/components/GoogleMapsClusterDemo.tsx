@@ -516,7 +516,7 @@ function loadMapsScript(apiKey: string): Promise<void> {
   });
 }
 
-export function GoogleMapsClusterDemo() {
+export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number }) {
   const mapDivRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "missing-key" | "error">("loading");
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -684,7 +684,7 @@ export function GoogleMapsClusterDemo() {
             Loading map…
           </div>
         )}
-        <div ref={mapDivRef} style={{ width: "100%", height: "460px" }} />
+        <div ref={mapDivRef} style={{ width: "100%", height: `${mapHeight}px` }} />
       </div>
       <figcaption
         style={{

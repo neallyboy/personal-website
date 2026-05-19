@@ -9,3 +9,4 @@ export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
 export { MermaidDiagram } from "@/components/MermaidDiagram";
+export { ConditionalShell } from "@/components/ConditionalShell";

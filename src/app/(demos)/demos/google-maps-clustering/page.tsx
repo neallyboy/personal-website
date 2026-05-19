@@ -1,5 +1,5 @@
 import { GoogleMapsClusterDemo } from "@/components/GoogleMapsClusterDemo";
 
 export default function GoogleMapsClusteringDemoPage() {
-  return <GoogleMapsClusterDemo />;
+  return <GoogleMapsClusterDemo mapHeight={640} />;
 }

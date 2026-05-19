@@ -4,8 +4,7 @@ import classNames from "classnames";
 import Script from "next/script";
 
 import {
-  Footer,
-  Header,
+  ConditionalShell,
   Providers,
   RouteGuard,
 } from "@/components";
@@ -235,14 +234,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               }}
             />
           </Flex>
-          <Flex fillWidth minHeight="16" s={{ hide: true }} />
-          <Header />
-          <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
-            <Flex horizontal="center" fillWidth minHeight="0">
-              <RouteGuard>{children}</RouteGuard>
-            </Flex>
-          </Flex>
-          <Footer />
+          <ConditionalShell>
+            <RouteGuard>{children}</RouteGuard>
+          </ConditionalShell>
         </Column>
       </Providers>
     </Flex>
