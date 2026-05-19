@@ -542,11 +542,12 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
           mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? "DEMO_MAP_ID",
         });
 
-        const infoWindow = new window.google.maps.InfoWindow();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: any[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markerMeta = new Map<any, { city: string; province: string; complex: string }>();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const markerInfoWindows = new Map<any, any>();
 
         for (const building of ALL_BUILDINGS) {
           const pin = new window.google.maps.marker.PinElement({
@@ -564,22 +565,25 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
 
+          const infoWindowContent =
+            `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
+            `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
+            `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;color:#000;font-weight:bold">${building.title}</strong>` +
+            `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
+            `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
+            `</div>`;
+
+          const iw = new window.google.maps.InfoWindow({ content: infoWindowContent });
+          markerInfoWindows.set(marker, iw);
+
           marker.addListener("gmp-click", () => {
-            infoWindow.setContent(
-              `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
-                `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
-                `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;color:#000;font-weight:bold">${building.title}</strong>` +
-                `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
-                `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
-                `</div>`,
-            );
-            infoWindow.open({ anchor: marker, map });
+            iw.open({ anchor: marker, map });
           });
 
           markers.push(marker);
         }
 
-        new MarkerClusterer({
+        const clusterer = new MarkerClusterer({
           map,
           markers,
           algorithm: new GridAlgorithm({ gridSize: 60 }),
@@ -601,6 +605,37 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
               });
             },
           },
+        });
+
+        // Auto-open InfoWindows for standalone pins; close them when re-clustered.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.google.maps.event.addListener(clusterer, "clusteringend", (c: any) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const clusteredSet = new Set<any>();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          for (const cluster of (c.clusters ?? []) as any[]) {
+            if ((cluster.markers?.length ?? 0) > 1) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              for (const m of cluster.markers as any[]) {
+                clusteredSet.add(m);
+              }
+            }
+          }
+
+          const bounds = map.getBounds();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          markerInfoWindows.forEach((iw: any, marker: any) => {
+            if (clusteredSet.has(marker)) {
+              iw.close();
+            } else {
+              const pos = marker.position;
+              if (bounds && pos && bounds.contains(pos)) {
+                iw.open({ anchor: marker, map });
+              } else {
+                iw.close();
+              }
+            }
+          });
         });
 
         if (!cancelled) setStatus("ready");
