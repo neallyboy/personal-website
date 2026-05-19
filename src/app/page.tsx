@@ -101,7 +101,7 @@ export default function Home() {
                     size="m"
                   />
                 )}
-                {about.title}
+                {about.label}
               </Row>
             </Button>
           </Flex>
@@ -110,7 +110,7 @@ export default function Home() {
       <Projects range={[1, 1]} />
       <Projects range={[2]} />
       <Column fillWidth gap="24">
-        <Heading variant="heading-strong-l">Recent Writing</Heading>
+        <Heading as="h2" variant="heading-strong-l">Recent Writing</Heading>
         <Posts range={[1, 1]} columns="1" thumbnail direction="row" />
         <Button
           href={blog.path}
@@ -119,7 +119,7 @@ export default function Home() {
           weight="default"
           arrowIcon
         >
-          View all posts
+          All blog posts
         </Button>
       </Column>
       <Mailchimp />

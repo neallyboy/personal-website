@@ -62,6 +62,18 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
   return (
     <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
       {children}
+      <span
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {" "}(opens in new tab)
+      </span>
     </a>
   );
 }
