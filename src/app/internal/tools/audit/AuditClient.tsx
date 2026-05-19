@@ -35,6 +35,20 @@ const PASS_STATE_COLOR: Record<PassState, string> = {
   unknown: "var(--neutral-on-background-weak)",
 };
 
+const PASS_STATE_LABEL: Record<PassState, string> = {
+  pass: "Pass",
+  fail: "Fail",
+  partial: "Partial",
+  unknown: "Unknown",
+};
+
+const PASS_STATE_TEXT_COLOR: Record<PassState, string> = {
+  pass: "var(--success-on-background-strong)",
+  fail: "var(--danger-on-background-strong)",
+  partial: "var(--warning-on-background-strong)",
+  unknown: "var(--neutral-on-background-medium)",
+};
+
 const STAT_DOT_COLOR: Record<Status, string> = {
   critical: "var(--danger-background-strong)",
   high: "var(--warning-background-strong)",
@@ -87,7 +101,18 @@ function AuditRow({ item }: { item: AuditCriterion }) {
       {/* Status */}
       <div className={styles.statusCell}>
         <span className={styles.mobileLabel}>Status</span>
-        <StatusTag status={item.status} />
+        <div className={styles.statusStack}>
+          <StatusTag status={item.status} />
+          <span
+            className={styles.passStateBadge}
+            style={{
+              backgroundColor: PASS_STATE_COLOR[item.passState],
+              color: PASS_STATE_TEXT_COLOR[item.passState],
+            }}
+          >
+            {PASS_STATE_LABEL[item.passState]}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -95,14 +120,25 @@ function AuditRow({ item }: { item: AuditCriterion }) {
 
 function AuditSection({ category, items }: { category: Category; items: AuditCriterion[] }) {
   const sorted = [...items].sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
+  const passCount = items.filter((i) => i.passState === "pass").length;
+  const total = items.length;
+  const scoreColor =
+    passCount === total
+      ? "var(--success-on-background-strong)"
+      : passCount === 0
+        ? "var(--danger-on-background-strong)"
+        : "var(--warning-on-background-strong)";
   return (
     <div className={styles.section}>
       <div className={styles.sectionHeader}>
         <span className={styles.sectionTitle}>{category}</span>
         <span className={styles.sectionSubtitle}>{CATEGORY_LABELS[category]}</span>
-        <Text variant="label-default-s" onBackground="neutral-weak" style={{ marginLeft: "auto" }}>
-          {items.length} {items.length === 1 ? "check" : "checks"}
-        </Text>
+        <div className={styles.sectionScore} style={{ marginLeft: "auto" }}>
+          <span className={styles.sectionScoreFraction} style={{ color: scoreColor }}>
+            {passCount}/{total}
+          </span>
+          <span className={styles.sectionScoreLabel}>passing</span>
+        </div>
       </div>
 
       <div className={styles.tableHead}>
