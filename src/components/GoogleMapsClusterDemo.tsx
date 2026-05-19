@@ -509,7 +509,7 @@ function loadMapsScript(apiKey: string): Promise<void> {
     }
     window.initGoogleMapsDemo = resolve;
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&callback=initGoogleMapsDemo`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&loading=async&callback=initGoogleMapsDemo`;
     script.async = true;
     script.onerror = reject;
     document.head.appendChild(script);
