@@ -559,7 +559,7 @@ export function GoogleMapsClusterDemo() {
             position: { lat: building.lat, lng: building.lng },
             map,
             title: building.title,
-            content: pin.element,
+            content: pin,
           });
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
