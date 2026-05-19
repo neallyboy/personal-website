@@ -18,115 +18,116 @@ type Building = {
   lng: number;
   city: string;
   province: string;
+  complex: string;
 };
 
 // Oxford Properties — RAC complex, Toronto Financial District
 const RAC_BUILDINGS: Building[] = [
-  { title: "Scotia Plaza",       address: "40 King St W, Toronto",    lat: 43.6489, lng: -79.3813, city: "Toronto", province: "ON" },
-  { title: "Exchange Tower",     address: "130 King St W, Toronto",   lat: 43.6488, lng: -79.3831, city: "Toronto", province: "ON" },
-  { title: "145 King West",      address: "145 King St W, Toronto",   lat: 43.6484, lng: -79.384,  city: "Toronto", province: "ON" },
-  { title: "100 Adelaide West",  address: "100 Adelaide St W, Toronto", lat: 43.65, lng: -79.3811, city: "Toronto", province: "ON" },
-  { title: "Simcoe Place",       address: "200 Front St W, Toronto",  lat: 43.6456, lng: -79.3873, city: "Toronto", province: "ON" },
+  { title: "Scotia Plaza",       address: "40 King St W, Toronto",      lat: 43.6489, lng: -79.3813, city: "Toronto", province: "ON", complex: "RAC" },
+  { title: "Exchange Tower",     address: "130 King St W, Toronto",     lat: 43.6488, lng: -79.3831, city: "Toronto", province: "ON", complex: "RAC" },
+  { title: "145 King West",      address: "145 King St W, Toronto",     lat: 43.6484, lng: -79.384,  city: "Toronto", province: "ON", complex: "RAC" },
+  { title: "100 Adelaide West",  address: "100 Adelaide St W, Toronto", lat: 43.65,   lng: -79.3811, city: "Toronto", province: "ON", complex: "RAC" },
+  { title: "Simcoe Place",       address: "200 Front St W, Toronto",    lat: 43.6456, lng: -79.3873, city: "Toronto", province: "ON", complex: "RAC" },
 ];
 
 // Oxford Properties — ROYAL complex, Vaughan Industrial Park
 const ROYAL_BUILDINGS: Building[] = [
-  { title: "71 Royal Group Crescent",  address: "71 Royal Group Crescent, Vaughan",  lat: 43.7658, lng: -79.6251, city: "Vaughan", province: "ON" },
-  { title: "91 Royal Group Crescent",  address: "91 Royal Group Crescent, Vaughan",  lat: 43.7665, lng: -79.626,  city: "Vaughan", province: "ON" },
-  { title: "100 Royal Group Crescent", address: "100 Royal Group Crescent, Vaughan", lat: 43.7672, lng: -79.627,  city: "Vaughan", province: "ON" },
-  { title: "101 Royal Group Crescent", address: "101 Royal Group Crescent, Vaughan", lat: 43.7679, lng: -79.628,  city: "Vaughan", province: "ON" },
-  { title: "111 Royal Group Crescent", address: "111 Royal Group Crescent, Vaughan", lat: 43.7692, lng: -79.6291, city: "Vaughan", province: "ON" },
+  { title: "71 Royal Group Crescent",  address: "71 Royal Group Crescent, Vaughan",  lat: 43.7658, lng: -79.6251, city: "Vaughan", province: "ON", complex: "Vaughan Ind. Park" },
+  { title: "91 Royal Group Crescent",  address: "91 Royal Group Crescent, Vaughan",  lat: 43.7665, lng: -79.626,  city: "Vaughan", province: "ON", complex: "Vaughan Ind. Park" },
+  { title: "100 Royal Group Crescent", address: "100 Royal Group Crescent, Vaughan", lat: 43.7672, lng: -79.627,  city: "Vaughan", province: "ON", complex: "Vaughan Ind. Park" },
+  { title: "101 Royal Group Crescent", address: "101 Royal Group Crescent, Vaughan", lat: 43.7679, lng: -79.628,  city: "Vaughan", province: "ON", complex: "Vaughan Ind. Park" },
+  { title: "111 Royal Group Crescent", address: "111 Royal Group Crescent, Vaughan", lat: 43.7692, lng: -79.6291, city: "Vaughan", province: "ON", complex: "Vaughan Ind. Park" },
 ];
 
 // Oxford Properties — CITYVIEW complex, Edmonton South Industrial District
 const CITYVIEW_BUILDINGS: Building[] = [
-  { title: "Cityview Business Park — Building 1",  address: "Cityview Business Park, Edmonton", lat: 53.5002, lng: -113.422,  city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 2",  address: "Cityview Business Park, Edmonton", lat: 53.4998, lng: -113.4212, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 3",  address: "Cityview Business Park, Edmonton", lat: 53.4994, lng: -113.4204, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 4",  address: "Cityview Business Park, Edmonton", lat: 53.499,  lng: -113.4196, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 5",  address: "Cityview Business Park, Edmonton", lat: 53.4986, lng: -113.4188, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 6",  address: "Cityview Business Park, Edmonton", lat: 53.4982, lng: -113.418,  city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 7",  address: "Cityview Business Park, Edmonton", lat: 53.4978, lng: -113.4172, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 8",  address: "Cityview Business Park, Edmonton", lat: 53.4974, lng: -113.4164, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 9",  address: "Cityview Business Park, Edmonton", lat: 53.497,  lng: -113.4156, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 10", address: "Cityview Business Park, Edmonton", lat: 53.4966, lng: -113.4148, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 11", address: "Cityview Business Park, Edmonton", lat: 53.4996, lng: -113.4148, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 12", address: "Cityview Business Park, Edmonton", lat: 53.4988, lng: -113.4156, city: "Edmonton", province: "AB" },
-  { title: "Cityview Business Park — Building 14", address: "Cityview Business Park, Edmonton", lat: 53.498,  lng: -113.4164, city: "Edmonton", province: "AB" },
-  { title: "Cityview — Retail",                    address: "Cityview Business Park, Edmonton", lat: 53.4972, lng: -113.4172, city: "Edmonton", province: "AB" },
+  { title: "Cityview Business Park — Building 1",  address: "Cityview Business Park, Edmonton", lat: 53.5002, lng: -113.422,  city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 2",  address: "Cityview Business Park, Edmonton", lat: 53.4998, lng: -113.4212, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 3",  address: "Cityview Business Park, Edmonton", lat: 53.4994, lng: -113.4204, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 4",  address: "Cityview Business Park, Edmonton", lat: 53.499,  lng: -113.4196, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 5",  address: "Cityview Business Park, Edmonton", lat: 53.4986, lng: -113.4188, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 6",  address: "Cityview Business Park, Edmonton", lat: 53.4982, lng: -113.418,  city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 7",  address: "Cityview Business Park, Edmonton", lat: 53.4978, lng: -113.4172, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 8",  address: "Cityview Business Park, Edmonton", lat: 53.4974, lng: -113.4164, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 9",  address: "Cityview Business Park, Edmonton", lat: 53.497,  lng: -113.4156, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 10", address: "Cityview Business Park, Edmonton", lat: 53.4966, lng: -113.4148, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 11", address: "Cityview Business Park, Edmonton", lat: 53.4996, lng: -113.4148, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 12", address: "Cityview Business Park, Edmonton", lat: 53.4988, lng: -113.4156, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview Business Park — Building 14", address: "Cityview Business Park, Edmonton", lat: 53.498,  lng: -113.4164, city: "Edmonton", province: "AB", complex: "Cityview" },
+  { title: "Cityview — Retail",                    address: "Cityview Business Park, Edmonton", lat: 53.4972, lng: -113.4172, city: "Edmonton", province: "AB", complex: "Cityview" },
 ];
 
 // Oxford Properties — James Snow Business Park, Milton
 const JAMES_SNOW_BUILDINGS: Building[] = [
-  { title: "10725 Louis St. Laurent Avenue", address: "10725 Louis St. Laurent Ave, Milton", lat: 43.5057, lng: -79.8385, city: "Milton", province: "ON" },
-  { title: "6440 Fifth Line",                address: "6440 Fifth Line, Milton",             lat: 43.5246, lng: -79.8146, city: "Milton", province: "ON" },
-  { title: "905 James Snow Parkway S",       address: "905 James Snow Pkwy S, Milton",       lat: 43.5343, lng: -79.8486, city: "Milton", province: "ON" },
-  { title: "955 James Snow Parkway S",       address: "955 James Snow Pkwy S, Milton",       lat: 43.5328, lng: -79.8379, city: "Milton", province: "ON" },
+  { title: "10725 Louis St. Laurent Avenue", address: "10725 Louis St. Laurent Ave, Milton", lat: 43.5057, lng: -79.8385, city: "Milton", province: "ON", complex: "James Snow" },
+  { title: "6440 Fifth Line",                address: "6440 Fifth Line, Milton",             lat: 43.5246, lng: -79.8146, city: "Milton", province: "ON", complex: "James Snow" },
+  { title: "905 James Snow Parkway S",       address: "905 James Snow Pkwy S, Milton",       lat: 43.5343, lng: -79.8486, city: "Milton", province: "ON", complex: "James Snow" },
+  { title: "955 James Snow Parkway S",       address: "955 James Snow Pkwy S, Milton",       lat: 43.5328, lng: -79.8379, city: "Milton", province: "ON", complex: "James Snow" },
 ];
 
 // Oxford Properties — MetroCentre complex, Toronto Financial District
 const METROCTR_BUILDINGS: Building[] = [
-  { title: "MetroCentre — King Tower",       address: "225 King St W, Toronto", lat: 43.6468, lng: -79.3882, city: "Toronto", province: "ON" },
-  { title: "MetroCentre — Wellington Tower", address: "225 King St W, Toronto", lat: 43.6467, lng: -79.388,  city: "Toronto", province: "ON" },
-  { title: "MetroCentre — Retail",           address: "225 King St W, Toronto", lat: 43.6466, lng: -79.3884, city: "Toronto", province: "ON" },
+  { title: "MetroCentre — King Tower",       address: "225 King St W, Toronto", lat: 43.6468, lng: -79.3882, city: "Toronto", province: "ON", complex: "MetroCentre" },
+  { title: "MetroCentre — Wellington Tower", address: "225 King St W, Toronto", lat: 43.6467, lng: -79.388,  city: "Toronto", province: "ON", complex: "MetroCentre" },
+  { title: "MetroCentre — Retail",           address: "225 King St W, Toronto", lat: 43.6466, lng: -79.3884, city: "Toronto", province: "ON", complex: "MetroCentre" },
 ];
 
 // Oxford Properties — Centennial Place, Calgary Eau Claire
 const CENTENNIAL_BUILDINGS: Building[] = [
-  { title: "Centennial Place — East Tower", address: "Centennial Place, Calgary", lat: 51.0508, lng: -114.0722, city: "Calgary", province: "AB" },
-  { title: "Centennial Place — West Tower", address: "Centennial Place, Calgary", lat: 51.0507, lng: -114.0729, city: "Calgary", province: "AB" },
+  { title: "Centennial Place — East Tower", address: "Centennial Place, Calgary", lat: 51.0508, lng: -114.0722, city: "Calgary", province: "AB", complex: "Centennial Place" },
+  { title: "Centennial Place — West Tower", address: "Centennial Place, Calgary", lat: 51.0507, lng: -114.0729, city: "Calgary", province: "AB", complex: "Centennial Place" },
 ];
 
 // Oxford Properties — Brampton Business Park
 const BRAMPTON_BUILDINGS: Building[] = [
-  { title: "9050 Airport Road",  address: "9050 Airport Rd, Brampton", lat: 43.7474, lng: -79.7014, city: "Brampton", province: "ON" },
-  { title: "9150 Airport Road",  address: "9150 Airport Rd, Brampton", lat: 43.7501, lng: -79.705,  city: "Brampton", province: "ON" },
-  { title: "9200 Airport Road",  address: "9200 Airport Rd, Brampton", lat: 43.7515, lng: -79.7068, city: "Brampton", province: "ON" },
-  { title: "9250 Airport Road",  address: "9250 Airport Rd, Brampton", lat: 43.7484, lng: -79.7041, city: "Brampton", province: "ON" },
-  { title: "255 Chrysler Drive", address: "255 Chrysler Dr, Brampton", lat: 43.7459, lng: -79.7105, city: "Brampton", province: "ON" },
+  { title: "9050 Airport Road",  address: "9050 Airport Rd, Brampton", lat: 43.7474, lng: -79.7014, city: "Brampton", province: "ON", complex: "Brampton Bus. Park" },
+  { title: "9150 Airport Road",  address: "9150 Airport Rd, Brampton", lat: 43.7501, lng: -79.705,  city: "Brampton", province: "ON", complex: "Brampton Bus. Park" },
+  { title: "9200 Airport Road",  address: "9200 Airport Rd, Brampton", lat: 43.7515, lng: -79.7068, city: "Brampton", province: "ON", complex: "Brampton Bus. Park" },
+  { title: "9250 Airport Road",  address: "9250 Airport Rd, Brampton", lat: 43.7484, lng: -79.7041, city: "Brampton", province: "ON", complex: "Brampton Bus. Park" },
+  { title: "255 Chrysler Drive", address: "255 Chrysler Dr, Brampton", lat: 43.7459, lng: -79.7105, city: "Brampton", province: "ON", complex: "Brampton Bus. Park" },
 ];
 
 // Oxford Properties — Canada Square, Toronto (Yonge & Eglinton)
 const CANADASQ_BUILDINGS: Building[] = [
-  { title: "2200 Yonge Street", address: "2200 Yonge St, Toronto", lat: 43.7058, lng: -79.3985, city: "Toronto", province: "ON" },
-  { title: "2190 Yonge Street", address: "2190 Yonge St, Toronto", lat: 43.7052, lng: -79.3984, city: "Toronto", province: "ON" },
-  { title: "2180 Yonge Street", address: "2180 Yonge St, Toronto", lat: 43.7046, lng: -79.3983, city: "Toronto", province: "ON" },
+  { title: "2200 Yonge Street", address: "2200 Yonge St, Toronto", lat: 43.7058, lng: -79.3985, city: "Toronto", province: "ON", complex: "Canada Square" },
+  { title: "2190 Yonge Street", address: "2190 Yonge St, Toronto", lat: 43.7052, lng: -79.3984, city: "Toronto", province: "ON", complex: "Canada Square" },
+  { title: "2180 Yonge Street", address: "2180 Yonge St, Toronto", lat: 43.7046, lng: -79.3983, city: "Toronto", province: "ON", complex: "Canada Square" },
 ];
 
 // Oxford Properties — Oxford Airport Business Park, Calgary NE
 const AIRPORTTRL_BUILDINGS: Building[] = [
-  { title: "OABP Building B", address: "Oxford Airport Business Park, Calgary", lat: 51.14,   lng: -114.0245, city: "Calgary", province: "AB" },
-  { title: "OABP Building D", address: "Oxford Airport Business Park, Calgary", lat: 51.1396, lng: -114.0238, city: "Calgary", province: "AB" },
-  { title: "OABP Building E", address: "Oxford Airport Business Park, Calgary", lat: 51.1392, lng: -114.0231, city: "Calgary", province: "AB" },
-  { title: "OABP Building F", address: "Oxford Airport Business Park, Calgary", lat: 51.1404, lng: -114.0231, city: "Calgary", province: "AB" },
-  { title: "OABP Building G", address: "Oxford Airport Business Park, Calgary", lat: 51.1388, lng: -114.0245, city: "Calgary", province: "AB" },
-  { title: "OABP Building H", address: "Oxford Airport Business Park, Calgary", lat: 51.1408, lng: -114.0238, city: "Calgary", province: "AB" },
-  { title: "OABP Building I", address: "Oxford Airport Business Park, Calgary", lat: 51.1384, lng: -114.0224, city: "Calgary", province: "AB" },
-  { title: "OABP Building L", address: "Oxford Airport Business Park, Calgary", lat: 51.1412, lng: -114.0252, city: "Calgary", province: "AB" },
+  { title: "OABP Building B", address: "Oxford Airport Business Park, Calgary", lat: 51.14,   lng: -114.0245, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building D", address: "Oxford Airport Business Park, Calgary", lat: 51.1396, lng: -114.0238, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building E", address: "Oxford Airport Business Park, Calgary", lat: 51.1392, lng: -114.0231, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building F", address: "Oxford Airport Business Park, Calgary", lat: 51.1404, lng: -114.0231, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building G", address: "Oxford Airport Business Park, Calgary", lat: 51.1388, lng: -114.0245, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building H", address: "Oxford Airport Business Park, Calgary", lat: 51.1408, lng: -114.0238, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building I", address: "Oxford Airport Business Park, Calgary", lat: 51.1384, lng: -114.0224, city: "Calgary", province: "AB", complex: "Oxford Airport" },
+  { title: "OABP Building L", address: "Oxford Airport Business Park, Calgary", lat: 51.1412, lng: -114.0252, city: "Calgary", province: "AB", complex: "Oxford Airport" },
 ];
 
 // Oxford Properties — Queensborough Logistics Park, New Westminster BC
 const BOYD501_BUILDINGS: Building[] = [
-  { title: "Queensborough Logistics Park — Damco Building", address: "Queensborough Logistics Park, New Westminster", lat: 49.1862, lng: -122.9462, city: "New Westminster", province: "BC" },
-  { title: "Queensborough Logistics Park — Building 2",     address: "Queensborough Logistics Park, New Westminster", lat: 49.1858, lng: -122.9456, city: "New Westminster", province: "BC" },
-  { title: "Queensborough Logistics Park — Building 3",     address: "Queensborough Logistics Park, New Westminster", lat: 49.1854, lng: -122.945,  city: "New Westminster", province: "BC" },
+  { title: "Queensborough Logistics Park — Damco Building", address: "Queensborough Logistics Park, New Westminster", lat: 49.1862, lng: -122.9462, city: "New Westminster", province: "BC", complex: "Queensborough" },
+  { title: "Queensborough Logistics Park — Building 2",     address: "Queensborough Logistics Park, New Westminster", lat: 49.1858, lng: -122.9456, city: "New Westminster", province: "BC", complex: "Queensborough" },
+  { title: "Queensborough Logistics Park — Building 3",     address: "Queensborough Logistics Park, New Westminster", lat: 49.1854, lng: -122.945,  city: "New Westminster", province: "BC", complex: "Queensborough" },
 ];
 
 // Oxford Properties — Riverbend Business Park, Burnaby BC
 const WIGGINS_BUILDINGS: Building[] = [
-  { title: "Riverbend Business Park — Building 1", address: "Riverbend Business Park, Burnaby", lat: 49.1855, lng: -122.9742, city: "Burnaby", province: "BC" },
-  { title: "Riverbend Business Park — Building 2", address: "Riverbend Business Park, Burnaby", lat: 49.1852, lng: -122.9736, city: "Burnaby", province: "BC" },
-  { title: "Riverbend Business Park — Building 3", address: "Riverbend Business Park, Burnaby", lat: 49.1849, lng: -122.973,  city: "Burnaby", province: "BC" },
-  { title: "Riverbend Business Park — Building 4", address: "Riverbend Business Park, Burnaby", lat: 49.1858, lng: -122.973,  city: "Burnaby", province: "BC" },
-  { title: "Riverbend Business Park — Building 5", address: "Riverbend Business Park, Burnaby", lat: 49.1846, lng: -122.9742, city: "Burnaby", province: "BC" },
-  { title: "Riverbend Business Park — Building 6", address: "Riverbend Business Park, Burnaby", lat: 49.1862, lng: -122.9748, city: "Burnaby", province: "BC" },
+  { title: "Riverbend Business Park — Building 1", address: "Riverbend Business Park, Burnaby", lat: 49.1855, lng: -122.9742, city: "Burnaby", province: "BC", complex: "Riverbend" },
+  { title: "Riverbend Business Park — Building 2", address: "Riverbend Business Park, Burnaby", lat: 49.1852, lng: -122.9736, city: "Burnaby", province: "BC", complex: "Riverbend" },
+  { title: "Riverbend Business Park — Building 3", address: "Riverbend Business Park, Burnaby", lat: 49.1849, lng: -122.973,  city: "Burnaby", province: "BC", complex: "Riverbend" },
+  { title: "Riverbend Business Park — Building 4", address: "Riverbend Business Park, Burnaby", lat: 49.1858, lng: -122.973,  city: "Burnaby", province: "BC", complex: "Riverbend" },
+  { title: "Riverbend Business Park — Building 5", address: "Riverbend Business Park, Burnaby", lat: 49.1846, lng: -122.9742, city: "Burnaby", province: "BC", complex: "Riverbend" },
+  { title: "Riverbend Business Park — Building 6", address: "Riverbend Business Park, Burnaby", lat: 49.1862, lng: -122.9748, city: "Burnaby", province: "BC", complex: "Riverbend" },
 ];
 
 // Oxford Properties — WaterPark Place, Toronto Waterfront
 const WATERPRK_BUILDINGS: Building[] = [
-  { title: "WaterPark Place — 20 Bay Street",      address: "20 Bay St, Toronto",        lat: 43.6416, lng: -79.3779, city: "Toronto", province: "ON" },
-  { title: "WaterPark Place — 10 Bay Street",      address: "10 Bay St, Toronto",        lat: 43.6412, lng: -79.3776, city: "Toronto", province: "ON" },
-  { title: "RBC WaterPark Place — 88 Queens Quay", address: "88 Queens Quay W, Toronto", lat: 43.6409, lng: -79.3782, city: "Toronto", province: "ON" },
+  { title: "WaterPark Place — 20 Bay Street",      address: "20 Bay St, Toronto",        lat: 43.6416, lng: -79.3779, city: "Toronto", province: "ON", complex: "WaterPark Place" },
+  { title: "WaterPark Place — 10 Bay Street",      address: "10 Bay St, Toronto",        lat: 43.6412, lng: -79.3776, city: "Toronto", province: "ON", complex: "WaterPark Place" },
+  { title: "RBC WaterPark Place — 88 Queens Quay", address: "88 Queens Quay W, Toronto", lat: 43.6409, lng: -79.3782, city: "Toronto", province: "ON", complex: "WaterPark Place" },
 ];
 
 const ALL_BUILDINGS: Building[] = [
@@ -149,23 +150,27 @@ const MAP_CENTER = { lat: 50.0, lng: -100.0 };
 const INITIAL_ZOOM = 4;
 
 // Derive a short context label from the markers in a cluster.
-// Single city → city name. Multiple cities, one province → province abbreviation.
-// Multiple provinces → no label (count alone is enough context).
+// Single complex → complex name. Single city → city name.
+// Multiple cities, one province → province abbreviation.
+// Multiple provinces → no label.
 function clusterLabel(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   markers: any[],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  markerMeta: Map<any, { city: string; province: string }>,
+  markerMeta: Map<any, { city: string; province: string; complex: string }>,
 ): string {
+  const complexes = new Set<string>();
   const cities = new Set<string>();
   const provinces = new Set<string>();
   for (const m of markers) {
     const meta = markerMeta.get(m);
     if (meta) {
+      complexes.add(meta.complex);
       cities.add(meta.city);
       provinces.add(meta.province);
     }
   }
+  if (complexes.size === 1) return [...complexes][0];
   if (cities.size === 1) return [...cities][0];
   if (provinces.size === 1) return [...provinces][0];
   return "";
@@ -243,7 +248,7 @@ export function GoogleMapsClusterDemo() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: any[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const markerMeta = new Map<any, { city: string; province: string }>();
+        const markerMeta = new Map<any, { city: string; province: string; complex: string }>();
 
         for (const building of ALL_BUILDINGS) {
           const marker = new window.google.maps.Marker({
@@ -252,7 +257,7 @@ export function GoogleMapsClusterDemo() {
             title: building.title,
           });
 
-          markerMeta.set(marker, { city: building.city, province: building.province });
+          markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
 
           marker.addListener("click", () => {
             infoWindow.setContent(
