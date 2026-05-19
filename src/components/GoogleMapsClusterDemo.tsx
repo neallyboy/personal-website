@@ -477,7 +477,7 @@ function clusterSvg(count: number, label: string): { svg: string; width: number;
 
   const pill = hasLabel
     ? [
-        `<rect x="1" y="52" width="${svgW - 2}" height="15" rx="7.5" fill="#1a73e8"/>`,
+        `<rect x="1" y="52" width="${svgW - 2}" height="15" rx="7.5" fill="#EA4335"/>`,
         `<text x="${cx}" y="63" fill="white" font-size="9" font-family="Arial" font-weight="bold" text-anchor="middle">${label}</text>`,
       ].join("")
     : "";
@@ -485,10 +485,10 @@ function clusterSvg(count: number, label: string): { svg: string; width: number;
   return {
     svg: [
       `<svg width="${svgW}" height="${totalH}" viewBox="0 0 ${svgW} ${totalH}" xmlns="http://www.w3.org/2000/svg">`,
-      `<circle cx="${cx}" cy="25" r="25" fill="#1a73e8" fill-opacity="0.25"/>`,
-      `<circle cx="${cx}" cy="25" r="20" fill="#1a73e8"/>`,
+      `<circle cx="${cx}" cy="25" r="25" fill="#EA4335" fill-opacity="0.25"/>`,
+      `<circle cx="${cx}" cy="25" r="20" fill="#EA4335"/>`,
       `<circle cx="${cx}" cy="25" r="16" fill="white"/>`,
-      `<text x="${cx}" y="30" fill="#1a73e8" font-size="13" font-family="Arial" font-weight="bold" text-anchor="middle">${count}</text>`,
+      `<text x="${cx}" y="30" fill="#EA4335" font-size="13" font-family="Arial" font-weight="bold" text-anchor="middle">${count}</text>`,
       pill,
       `</svg>`,
     ].join(""),
@@ -550,8 +550,8 @@ export function GoogleMapsClusterDemo() {
 
         for (const building of ALL_BUILDINGS) {
           const pin = new window.google.maps.marker.PinElement({
-            background: "#1a73e8",
-            borderColor: "#1558b0",
+            background: "#EA4335",
+            borderColor: "#C5221F",
             glyphColor: "white",
             scale: 0.8,
           });
