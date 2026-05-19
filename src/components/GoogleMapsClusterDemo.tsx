@@ -542,48 +542,58 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
           mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? "DEMO_MAP_ID",
         });
 
+        const infoWindow = new window.google.maps.InfoWindow();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: any[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markerMeta = new Map<any, { city: string; province: string; complex: string }>();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const markerInfoWindows = new Map<any, any>();
 
         for (const building of ALL_BUILDINGS) {
-          const pin = new window.google.maps.marker.PinElement({
-            background: "#EA4335",
-            borderColor: "#C5221F",
-            glyphColor: "white",
-            scale: 0.8,
-          });
+          const pinEl = document.createElement("div");
+          pinEl.style.cssText = "cursor:pointer;transition:transform 0.15s ease;";
+          pinEl.innerHTML = `<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">
+  <filter id="bpin-shadow" x="-30%" y="-20%" width="160%" height="150%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#00000055"/>
+  </filter>
+  <path d="M15 0C6.716 0 0 6.716 0 15c0 9.665 13.41 25.133 14.38 26.225a.82.82 0 001.24 0C16.59 40.133 30 24.665 30 15 30 6.716 23.284 0 15 0z" fill="#EA4335" filter="url(#bpin-shadow)"/>
+  <circle cx="15" cy="15" r="11" fill="white"/>
+  <rect x="7" y="8" width="16" height="14" rx="1" fill="#EA4335"/>
+  <rect x="9"  y="10" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="13.5" y="10" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="18" y="10" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="9"  y="14" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="13.5" y="14" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="18" y="14" width="3" height="2.5" rx="0.4" fill="white"/>
+  <rect x="12.5" y="18" width="5" height="4" rx="0.4" fill="white"/>
+</svg>`;
+          pinEl.addEventListener("mouseenter", () => { pinEl.style.transform = "scale(1.2)"; });
+          pinEl.addEventListener("mouseleave", () => { pinEl.style.transform = "scale(1)"; });
+
           const marker = new window.google.maps.marker.AdvancedMarkerElement({
             position: { lat: building.lat, lng: building.lng },
             map,
             title: building.title,
-            content: pin,
+            content: pinEl,
           });
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
 
-          const infoWindowContent =
-            `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
-            `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
-            `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;color:#000;font-weight:bold">${building.title}</strong>` +
-            `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
-            `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
-            `</div>`;
-
-          const iw = new window.google.maps.InfoWindow({ content: infoWindowContent });
-          markerInfoWindows.set(marker, iw);
-
           marker.addListener("gmp-click", () => {
-            iw.open({ anchor: marker, map });
+            infoWindow.setContent(
+              `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
+                `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
+                `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;color:#000;font-weight:bold">${building.title}</strong>` +
+                `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
+                `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
+                `</div>`,
+            );
+            infoWindow.open({ anchor: marker, map });
           });
 
           markers.push(marker);
         }
 
-        const clusterer = new MarkerClusterer({
+        new MarkerClusterer({
           map,
           markers,
           algorithm: new GridAlgorithm({ gridSize: 60 }),
@@ -605,37 +615,6 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
               });
             },
           },
-        });
-
-        // Auto-open InfoWindows for standalone pins; close them when re-clustered.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.google.maps.event.addListener(clusterer, "clusteringend", (c: any) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const clusteredSet = new Set<any>();
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          for (const cluster of (c.clusters ?? []) as any[]) {
-            if ((cluster.markers?.length ?? 0) > 1) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              for (const m of cluster.markers as any[]) {
-                clusteredSet.add(m);
-              }
-            }
-          }
-
-          const bounds = map.getBounds();
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          markerInfoWindows.forEach((iw: any, marker: any) => {
-            if (clusteredSet.has(marker)) {
-              iw.close();
-            } else {
-              const pos = marker.position;
-              if (bounds && pos && bounds.contains(pos)) {
-                iw.open({ anchor: marker, map });
-              } else {
-                iw.close();
-              }
-            }
-          });
         });
 
         if (!cancelled) setStatus("ready");
