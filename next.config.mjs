@@ -10,7 +10,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://consent.cookiebot.com https://consentcdn.cookiebot.com https://maps.googleapis.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://consent.cookiebot.com https://consentcdn.cookiebot.com https://maps.googleapis.com https://cdn.userway.org",
       "style-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://consentcdn.cookiebot.com https://fonts.googleapis.com",
       "img-src 'self' data: blob: https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://c.bing.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://fonts.gstatic.com https://maps.gstatic.com https://*.googleapis.com https://dam.oxfordproperties.com https://resource.oxfordproperties.com",
       "font-src 'self' data: https://fonts.gstatic.com",
