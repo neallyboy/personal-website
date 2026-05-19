@@ -474,6 +474,41 @@ const about: About = {
           "FAQ and SpeakableSpecification schema markup enabling answer-engine features in voice and AI assistants.",
         logo: "/images/tech-icons/aeo.svg",
       },
+      {
+        name: "Cloudflare",
+        description:
+          "Acts as the GTM script gateway, proxying analytics and tag manager requests through a first-party domain to improve performance and reliability.",
+        logo: "/images/tech-icons/cloudflare.svg",
+        href: "https://cloudflare.com",
+      },
+      {
+        name: "Microsoft Clarity",
+        description:
+          "Session recordings and heatmaps injected via GTM, giving behavioural insight into how visitors actually use the site.",
+        logo: "/images/tech-icons/clarity.svg",
+        href: "https://clarity.microsoft.com",
+      },
+      {
+        name: "Once UI",
+        description:
+          "The component and design-token system the entire interface is built on — layout, typography, and theming all come from this library.",
+        logo: "/images/tech-icons/once-ui.svg",
+        href: "https://once-ui.com",
+      },
+      {
+        name: "Storybook",
+        description:
+          "Component development environment with accessibility, docs, and visual regression addons for isolated UI testing.",
+        logo: "/images/tech-icons/storybook.svg",
+        href: "https://storybook.js.org",
+      },
+      {
+        name: "MDX",
+        description:
+          "Blog posts authored in Markdown with embedded JSX components, compiled at build time for zero-runtime rendering.",
+        logo: "/images/tech-icons/mdx.svg",
+        href: "https://mdxjs.com",
+      },
     ],
   },
 };

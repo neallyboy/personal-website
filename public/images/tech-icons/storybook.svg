@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="16" fill="#FF4785"/>
+  <!-- Storybook book/S shape -->
+  <!-- Book pages -->
+  <rect x="28" y="18" width="44" height="64" rx="6" fill="white" opacity="0.95"/>
+  <rect x="32" y="18" width="4" height="64" rx="2" fill="#FF4785" opacity="0.3"/>
+  <!-- S letter -->
+  <path d="M46 38 Q38 38 38 44 Q38 50 50 50 Q62 50 62 57 Q62 64 54 64 Q46 64 44 60" fill="none" stroke="#FF4785" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- Dot (Storybook logo accent dot) -->
+  <circle cx="66" cy="28" r="5" fill="#FF4785"/>
+</svg>
