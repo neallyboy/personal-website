@@ -562,7 +562,7 @@ export function GoogleMapsClusterDemo() {
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
 
-          marker.addListener("click", () => {
+          marker.addListener("gmp-click", () => {
             infoWindow.setContent(
               `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
                 `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
