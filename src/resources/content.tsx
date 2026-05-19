@@ -332,7 +332,7 @@ const about: About = {
   },
   technical: {
     display: true,
-    title: "Technical Skills",
+    title: "What Does Neal Miran Specialize In?",
     skills: [
       {
         title: "Full Stack Engineer & CMS",

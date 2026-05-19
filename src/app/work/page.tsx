@@ -2,7 +2,7 @@ import { Projects } from "@/components/work/Projects";
 import WorkTableOfContents from "@/components/work/WorkTableOfContents";
 import { about, baseURL, person, work } from "@/resources";
 import { getPosts } from "@/utils/utils";
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -39,6 +39,14 @@ export default function Work() {
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
         {work.title}
       </Heading>
+      <Text
+        variant="body-default-l"
+        onBackground="neutral-weak"
+        marginBottom="xl"
+        align="center"
+      >
+        Neal Miran is a DevOps &amp; SRE Team Lead at Oxford Properties Group, building platform engineering, infrastructure automation, and cloud architecture solutions across enterprise real estate systems.
+      </Text>
       <Projects />
     </Column>
   );

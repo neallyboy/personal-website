@@ -154,27 +154,27 @@ export const auditData: AuditCriterion[] = [
     category: "OG",
     criteria: "og:image Presence",
     testingFor: "An Open Graph image is set so link previews render correctly on social platforms.",
-    currentValue: '"/images/og/home.png" — static file set in home.image',
+    currentValue: 'Absolute URL — generateMetadata uses https://nealmiran.com/api/og/generate?title=... dynamic endpoint',
     shouldHave: "Absolute URL to an image, 1200×630 px",
     howToFix:
       "Meta.generate already sets og:image. Ensure home.image points to a correctly sized file or use the /api/og/generate dynamic endpoint.",
     example: 'image: "/api/og/generate?title=Neal+Miran+%7C+Portfolio"',
     status: "critical",
-    passState: "partial",
+    passState: "pass",
   },
   {
     id: "og-image-dimensions",
     category: "OG",
     criteria: "og:image Dimensions",
     testingFor: "OG image is exactly 1200×630 px to render without cropping on all platforms.",
-    currentValue: "Static file /images/og/home.png — dimensions unverified",
+    currentValue: "Dynamic /api/og/generate route — ImageResponse configured at 1200×630",
     shouldHave: "1200 × 630 pixels, < 8 MB, JPEG or PNG",
     howToFix:
       "Check the file dimensions. Consider switching to the dynamic /api/og/generate route which can be configured to output the correct size.",
     example:
       "// In /api/og/generate/route.tsx\nnew ImageResponse(<Layout />, { width: 1200, height: 630 })",
     status: "high",
-    passState: "unknown",
+    passState: "pass",
   },
   {
     id: "og-title",
@@ -221,13 +221,13 @@ export const auditData: AuditCriterion[] = [
     category: "OG",
     criteria: "og:type",
     testingFor: 'og:type is set to "website" for the homepage and "article" for blog posts.',
-    currentValue: '"website" — set by Meta.generate()',
+    currentValue: '"website" for homepage; "article" for blog posts — type: "article" passed in blog/[slug]/page.tsx generateMetadata',
     shouldHave: '"website" for index pages, "article" for blog posts',
     howToFix:
       "Blog post pages should pass type: 'article' to Meta.generate. Verify /blog/[slug]/page.tsx.",
     example: "Meta.generate({ type: 'article', ... })",
     status: "medium",
-    passState: "partial",
+    passState: "pass",
   },
   {
     id: "og-site-name",
@@ -326,13 +326,13 @@ export const auditData: AuditCriterion[] = [
     criteria: "Content Freshness",
     testingFor:
       "AI engines and crawlers weight recently updated content higher; publish/modify dates help signal freshness.",
-    currentValue: "Blog posts have publishedAt dates; work projects have publishedAt dates",
+    currentValue: "Blog posts have publishedAt + dateModified in frontmatter; both passed to BlogPosting Schema datePublished and dateModified",
     shouldHave: "datePublished + dateModified in Article/WebPage schema",
     howToFix:
       "Add dateModified to blog post MDX frontmatter and pass it to the Schema component.",
     example: 'publishedAt: "2025-04-01"\nmodifiedAt: "2025-05-01"',
     status: "medium",
-    passState: "partial",
+    passState: "pass",
   },
 
   // ─── AEO ───────────────────────────────────────────────────────────────────
@@ -372,7 +372,7 @@ export const auditData: AuditCriterion[] = [
     criteria: "Direct Answer Format",
     testingFor:
       "Key content pages include at least one concise paragraph (≤ 60 words) that directly answers a probable user query.",
-    currentValue: "Some content is direct; homepage headline is concise",
+    currentValue: "Direct-answer intro paragraph present on /work; /about intro opens with role and employer",
     shouldHave:
       "Each page's opening paragraph answers the implicit 'who is this person/what do they do?' query in ≤ 60 words",
     howToFix:
@@ -380,7 +380,7 @@ export const auditData: AuditCriterion[] = [
     example:
       '"Neal Miran is a DevOps & SRE Team Lead at Oxford Properties Group, specializing in platform engineering, infrastructure automation, and cloud architecture across enterprise real estate systems."',
     status: "high",
-    passState: "partial",
+    passState: "pass",
   },
   {
     id: "aeo-question-headings",
@@ -388,13 +388,13 @@ export const auditData: AuditCriterion[] = [
     criteria: "Question-Based Headings",
     testingFor:
       "Section headings framed as questions signal answerable content to AI engines and improve featured snippet eligibility.",
-    currentValue: "Headings are descriptive but not question-format",
+    currentValue: '"What Does Neal Miran Specialize In?" — technical section heading on /about now question-format',
     shouldHave: 'At least some H2/H3 headings phrased as questions (e.g. "What does Neal Miran do?")',
     howToFix:
       "On /about, /blog posts, and /work case studies, reframe 1–2 headings as natural questions relevant to the content.",
     example: '"## What technologies does Neal Miran specialize in?"',
     status: "medium",
-    passState: "fail",
+    passState: "pass",
   },
   {
     id: "aeo-howto-schema",
@@ -402,14 +402,14 @@ export const auditData: AuditCriterion[] = [
     criteria: "HowTo Schema",
     testingFor:
       "Technical blog posts or case studies use HowTo schema to surface step-by-step answers in AI search.",
-    currentValue: "Not implemented — no HowTo schema found",
+    currentValue: "HowTo JSON-LD rendered in blog/[slug]/page.tsx when howToSteps frontmatter is present; chess post has 5 steps",
     shouldHave: "HowTo schema on any post that describes a process or procedure",
     howToFix:
       "For technical posts with clear steps, add a HowTo JSON-LD block to the blog post MDX or the [slug]/page.tsx.",
     example:
       '{ "@type": "HowTo", "name": "How to automate design handovers with a Figma-to-code pipeline", "step": [{ "@type": "HowToStep", "text": "Export Figma tokens..." }] }',
     status: "medium",
-    passState: "fail",
+    passState: "pass",
   },
   {
     id: "aeo-speakable",
@@ -417,13 +417,13 @@ export const auditData: AuditCriterion[] = [
     criteria: "Speakable Schema",
     testingFor:
       "Speakable schema marks sections suitable for text-to-speech, enabling voice search answers.",
-    currentValue: "Not implemented",
+    currentValue: 'SpeakableSpecification JSON-LD on /about pointing to cssSelector [".bio-summary"]; intro column has className "bio-summary"',
     shouldHave: "SpeakableSpecification on the /about page summary section",
     howToFix:
       "Add a Speakable JSON-LD block pointing to the CSS selector of the bio paragraph on /about.",
     example:
       '{ "@type": "SpeakableSpecification", "cssSelector": [".bio-summary"] }',
     status: "low",
-    passState: "fail",
+    passState: "pass",
   },
 ];

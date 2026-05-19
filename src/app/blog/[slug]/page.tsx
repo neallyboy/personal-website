@@ -48,8 +48,10 @@ export async function generateMetadata({
     title: post.metadata.title,
     description: post.metadata.summary,
     baseURL: baseURL,
+    type: "article",
     image:
-      post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
+      post.metadata.image ||
+      `${baseURL}/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`,
     path: `${blog.path}/${post.slug}`,
   });
 }
@@ -95,7 +97,7 @@ export default async function BlogPostPage({
             title={post.metadata.title}
             description={post.metadata.summary}
             datePublished={post.metadata.publishedAt}
-            dateModified={post.metadata.publishedAt}
+            dateModified={post.metadata.dateModified || post.metadata.publishedAt}
             image={
               post.metadata.image ||
               `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
@@ -106,6 +108,25 @@ export default async function BlogPostPage({
               image: `${baseURL}${person.avatar}`,
             }}
           />
+          {post.metadata.howToSteps && post.metadata.howToSteps.length > 0 && (
+            <script
+              type="application/ld+json"
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "HowTo",
+                  name: post.metadata.title,
+                  description: post.metadata.summary,
+                  step: post.metadata.howToSteps.map((text, i) => ({
+                    "@type": "HowToStep",
+                    position: i + 1,
+                    text,
+                  })),
+                }),
+              }}
+            />
+          )}
           <Column maxWidth="s" gap="16" horizontal="center" align="center">
             <SmartLink href="/blog">
               <Text variant="label-strong-m">Blog</Text>

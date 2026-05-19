@@ -74,6 +74,17 @@ export default function About() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "SpeakableSpecification",
+            cssSelector: [".bio-summary"],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
               {
@@ -245,6 +256,7 @@ export default function About() {
               fillWidth
               gap="m"
               marginBottom="xl"
+              className="bio-summary"
             >
               {about.intro.description}
             </Column>
