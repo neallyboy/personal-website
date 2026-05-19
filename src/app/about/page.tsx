@@ -53,6 +53,11 @@ export default function About() {
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
     },
+    {
+      title: about.websiteSetup.title,
+      display: about.websiteSetup.display,
+      items: [],
+    },
   ];
   return (
     <Column maxWidth="m">
@@ -484,6 +489,50 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
+            </>
+          )}
+
+          {about.websiteSetup.display && (
+            <>
+              <Heading
+                as="h2"
+                id={about.websiteSetup.title}
+                variant="display-strong-s"
+                marginBottom="m"
+                marginTop="40"
+              >
+                {about.websiteSetup.title}
+              </Heading>
+              <Row fillWidth gap="16" wrap marginBottom="40">
+                {about.websiteSetup.tools.map((tool) => (
+                  <Column
+                    key={tool.name}
+                    gap="8"
+                    padding="20"
+                    border="neutral-medium"
+                    radius="m"
+                    background="neutral-weak"
+                    style={{ flex: "1 1 180px", minWidth: "180px" }}
+                  >
+                    <img
+                      src={tool.logo}
+                      alt={`${tool.name} logo`}
+                      width={36}
+                      height={36}
+                      loading="lazy"
+                      style={{ borderRadius: "6px", flexShrink: 0 }}
+                    />
+                    <Text variant="heading-strong-s">{tool.name}</Text>
+                    <Text
+                      variant="body-default-xs"
+                      onBackground="neutral-weak"
+                      style={{ lineHeight: "160%" }}
+                    >
+                      {tool.description}
+                    </Text>
+                  </Column>
+                ))}
+              </Row>
             </>
           )}
         </Column>

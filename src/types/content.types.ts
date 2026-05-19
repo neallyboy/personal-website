@@ -213,6 +213,24 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
+  /** Website setup / infrastructure section */
+  websiteSetup: {
+    /** Whether to display the website setup section */
+    display: boolean;
+    /** Title for the section */
+    title: string;
+    /** List of tools and services used */
+    tools: Array<{
+      /** Tool name */
+      name: string;
+      /** Short description of what the tool does on this site */
+      description: string;
+      /** Path to the tool's logo image */
+      logo: string;
+      /** Optional link to the tool's website */
+      href?: string;
+    }>;
+  };
 }
 
 /**

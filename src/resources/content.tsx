@@ -390,6 +390,54 @@ const about: About = {
       },
     ],
   },
+  websiteSetup: {
+    display: true,
+    title: "How This Site Is Built",
+    tools: [
+      {
+        name: "Next.js",
+        description:
+          "React framework powering the site with server components, static generation, and the App Router.",
+        logo: "/images/tech-icons/nextjs.svg",
+        href: "https://nextjs.org",
+      },
+      {
+        name: "Netlify",
+        description:
+          "Continuous deployment and global CDN hosting — every push to main triggers an automatic build and deploy.",
+        logo: "/images/tech-icons/netlify.svg",
+        href: "https://netlify.com",
+      },
+      {
+        name: "Google Tag Manager",
+        description:
+          "Tag management system that injects and manages all third-party scripts without touching the codebase.",
+        logo: "/images/tech-icons/gtm.svg",
+        href: "https://tagmanager.google.com",
+      },
+      {
+        name: "Google Analytics 4",
+        description:
+          "Behavioural analytics delivered via GTM, tracking page views and interactions with full consent gating.",
+        logo: "/images/tech-icons/ga4.svg",
+        href: "https://analytics.google.com",
+      },
+      {
+        name: "Cookiebot",
+        description:
+          "Cookie consent management platform ensuring GDPR and CCPA compliance before any tracking scripts fire.",
+        logo: "/images/tech-icons/cookiebot.svg",
+        href: "https://www.cookiebot.com",
+      },
+      {
+        name: "UserWay",
+        description:
+          "AI-powered accessibility widget enabling WCAG 2.1 AA compliance features for all visitors.",
+        logo: "/images/tech-icons/userway.svg",
+        href: "https://userway.org",
+      },
+    ],
+  },
 };
 
 const blog: Blog = {
