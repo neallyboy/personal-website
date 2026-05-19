@@ -549,15 +549,17 @@ export function GoogleMapsClusterDemo() {
         const markerMeta = new Map<any, { city: string; province: string; complex: string }>();
 
         for (const building of ALL_BUILDINGS) {
-          const pin = document.createElement("div");
-          pin.style.cssText =
-            "width:12px;height:12px;background:#1a73e8;border-radius:50%;" +
-            "border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.4);cursor:pointer";
+          const pin = new window.google.maps.marker.PinElement({
+            background: "#1a73e8",
+            borderColor: "#1558b0",
+            glyphColor: "white",
+            scale: 0.8,
+          });
           const marker = new window.google.maps.marker.AdvancedMarkerElement({
             position: { lat: building.lat, lng: building.lng },
             map,
             title: building.title,
-            content: pin,
+            content: pin.element,
           });
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
