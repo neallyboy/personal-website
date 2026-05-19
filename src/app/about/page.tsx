@@ -39,7 +39,9 @@ export default function About() {
     {
       title: about.work.title,
       display: about.work.display,
-      items: about.work.experiences.filter((e) => !e.hidden).map((experience) => experience.company),
+      items: about.work.experiences
+        .filter((e) => !e.hidden)
+        .map((experience) => experience.company),
     },
     {
       title: about.studies.title,
@@ -61,7 +63,9 @@ export default function About() {
         description={about.description}
         path={about.path}
         image={`/api/og/generate?title=${encodeURIComponent(about.title)}`}
-        sameAs={social.filter((s) => s.essential && s.link.startsWith("http")).map((s) => s.link)}
+        sameAs={social
+          .filter((s) => s.essential && s.link.startsWith("http"))
+          .map((s) => s.link)}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
@@ -71,6 +75,7 @@ export default function About() {
       <script
         type="application/ld+json"
         suppressHydrationWarning
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD scripts require raw JSON text.
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
@@ -82,6 +87,7 @@ export default function About() {
       <script
         type="application/ld+json"
         suppressHydrationWarning
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD scripts require raw JSON text.
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
@@ -143,7 +149,11 @@ export default function About() {
             flex={3}
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" />
+            <Avatar
+              src={person.avatar}
+              size="xl"
+              aria-label={`${person.name} profile photo`}
+            />
             <Row gap="8" vertical="center">
               <Icon onBackground="accent-weak" name="globe" />
               {person.location}
@@ -275,109 +285,112 @@ export default function About() {
               <Column fillWidth marginBottom="40">
                 <Timeline
                   size="xs"
-                  items={about.work.experiences.filter((e) => !e.hidden).map((experience, index) => ({
-                    label: (
-                      <Row
-                        key={`label-${experience.company}-${experience.timeframe}`}
-                        fillWidth
-                        horizontal="between"
-                        vertical="center"
-                      >
-                        <Row gap="12" vertical="center">
-                          {experience.logo && (
-                            <Avatar
-                              src={experience.logo}
-                              size="s"
-                              style={{
-                                borderRadius: "var(--radius-s)",
-                                flexShrink: 0,
-                              }}
-                            />
-                          )}
-                          <Text
-                            id={experience.company}
-                            variant="heading-strong-l"
-                          >
-                            {experience.company}
-                          </Text>
-                        </Row>
-                        <Text
-                          variant="heading-default-xs"
-                          onBackground="neutral-weak"
+                  items={about.work.experiences
+                    .filter((e) => !e.hidden)
+                    .map((experience, index) => ({
+                      label: (
+                        <Row
+                          key={`label-${experience.company}-${experience.timeframe}`}
+                          fillWidth
+                          horizontal="between"
+                          vertical="center"
                         >
-                          {experience.timeframe}
-                        </Text>
-                      </Row>
-                    ),
-                    description: (
-                      <Text
-                        key={`desc-${experience.company}-${experience.timeframe}`}
-                        variant="body-default-s"
-                        onBackground="brand-weak"
-                      >
-                        {experience.role}
-                      </Text>
-                    ),
-                    state: index === 0 ? "active" : "default",
-                    children: (
-                      <Accordion
-                        key={`children-${experience.company}-${experience.timeframe}`}
-                        title={
+                          <Row gap="12" vertical="center">
+                            {experience.logo && (
+                              <Avatar
+                                src={experience.logo}
+                                size="s"
+                                aria-label={`${experience.company} logo`}
+                                style={{
+                                  borderRadius: "var(--radius-s)",
+                                  flexShrink: 0,
+                                }}
+                              />
+                            )}
+                            <Text
+                              id={experience.company}
+                              variant="heading-strong-l"
+                            >
+                              {experience.company}
+                            </Text>
+                          </Row>
                           <Text
-                            variant="body-default-m"
+                            variant="heading-default-xs"
                             onBackground="neutral-weak"
                           >
-                            Key Achievements
+                            {experience.timeframe}
                           </Text>
-                        }
-                        open={index < 2}
-                        size="s"
-                        icon="plus"
-                        iconRotation={45}
-                      >
-                        <Column fillWidth gap="m" paddingTop="8">
-                          <Column as="ul" gap="16">
-                            {experience.achievements.map(
-                              (
-                                achievement: React.ReactNode,
-                                achIndex: number,
-                              ) => (
-                                <Text
-                                  as="li"
-                                  variant="body-default-m"
-                                  key={`${experience.company}-${achIndex}`}
-                                >
-                                  {achievement}
-                                </Text>
-                              ),
-                            )}
-                          </Column>
-                          {experience.images &&
-                            experience.images.length > 0 && (
-                              <Row fillWidth paddingTop="m" gap="12" wrap>
-                                {experience.images.map((image) => (
-                                  <Row
-                                    key={image.src}
-                                    border="neutral-medium"
-                                    radius="m"
-                                    minWidth={image.width}
-                                    height={image.height}
+                        </Row>
+                      ),
+                      description: (
+                        <Text
+                          key={`desc-${experience.company}-${experience.timeframe}`}
+                          variant="body-default-s"
+                          onBackground="brand-weak"
+                        >
+                          {experience.role}
+                        </Text>
+                      ),
+                      state: index === 0 ? "active" : "default",
+                      children: (
+                        <Accordion
+                          key={`children-${experience.company}-${experience.timeframe}`}
+                          title={
+                            <Text
+                              variant="body-default-m"
+                              onBackground="neutral-weak"
+                            >
+                              Key Achievements
+                            </Text>
+                          }
+                          open={index < 2}
+                          size="s"
+                          icon="plus"
+                          iconRotation={45}
+                        >
+                          <Column fillWidth gap="m" paddingTop="8">
+                            <Column as="ul" gap="16">
+                              {experience.achievements.map(
+                                (
+                                  achievement: React.ReactNode,
+                                  achIndex: number,
+                                ) => (
+                                  <Text
+                                    as="li"
+                                    variant="body-default-m"
+                                    key={`${experience.company}-${achIndex}`}
                                   >
-                                    <Media
-                                      enlarge
+                                    {achievement}
+                                  </Text>
+                                ),
+                              )}
+                            </Column>
+                            {experience.images &&
+                              experience.images.length > 0 && (
+                                <Row fillWidth paddingTop="m" gap="12" wrap>
+                                  {experience.images.map((image) => (
+                                    <Row
+                                      key={image.src}
+                                      border="neutral-medium"
                                       radius="m"
-                                      sizes={image.width.toString()}
-                                      alt={image.alt}
-                                      src={image.src}
-                                    />
-                                  </Row>
-                                ))}
-                              </Row>
-                            )}
-                        </Column>
-                      </Accordion>
-                    ),
-                  }))}
+                                      minWidth={image.width}
+                                      height={image.height}
+                                    >
+                                      <Media
+                                        enlarge
+                                        radius="m"
+                                        sizes={image.width.toString()}
+                                        alt={image.alt}
+                                        src={image.src}
+                                      />
+                                    </Row>
+                                  ))}
+                                </Row>
+                              )}
+                          </Column>
+                        </Accordion>
+                      ),
+                    }))}
                 />
               </Column>
             </>

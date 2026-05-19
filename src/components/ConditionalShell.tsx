@@ -17,7 +17,15 @@ export function ConditionalShell({ children }: { children: React.ReactNode }) {
     <>
       <Flex fillWidth minHeight="16" s={{ hide: true }} />
       <Header />
-      <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
+      <Flex
+        as="main"
+        id="main-content"
+        zIndex={0}
+        fillWidth
+        padding="l"
+        horizontal="center"
+        flex={1}
+      >
         <Flex horizontal="center" fillWidth minHeight="0">
           {children}
         </Flex>

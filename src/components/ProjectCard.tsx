@@ -18,7 +18,7 @@ interface ProjectCardProps {
   title: string;
   content: string;
   description: string;
-  avatars: { src: string }[];
+  avatars: { src: string; value?: string }[];
   link: string;
 }
 
@@ -33,6 +33,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   avatars,
   link,
 }) => {
+  const a11yAvatars = avatars.map((avatar, index) => ({
+    ...avatar,
+    "aria-label": avatar.value
+      ? `${avatar.value} avatar`
+      : `Team member ${index + 1} avatar`,
+  }));
+
   return (
     <Column id={id} fillWidth gap="m" style={{ scrollMarginTop: "80px" }}>
       <Carousel
@@ -60,9 +67,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
         {(avatars?.length > 0 || description?.trim() || content?.trim()) && (
           <Column flex={7} gap="16">
-            {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
+            {avatars?.length > 0 && (
+              <AvatarGroup avatars={a11yAvatars} size="m" reverse />
+            )}
             {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-weak">
+              <Text
+                wrap="balance"
+                variant="body-default-s"
+                onBackground="neutral-weak"
+              >
                 {description}
               </Text>
             )}

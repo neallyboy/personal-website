@@ -3,12 +3,17 @@ import "@/resources/custom.css";
 import classNames from "classnames";
 import Script from "next/script";
 
+import { ConditionalShell, Providers, RouteGuard } from "@/components";
 import {
-  ConditionalShell,
-  Providers,
-  RouteGuard,
-} from "@/components";
-import { baseURL, dataStyle, effects, fonts, home, person, social, style } from "@/resources";
+  baseURL,
+  dataStyle,
+  effects,
+  fonts,
+  home,
+  person,
+  social,
+  style,
+} from "@/resources";
 import {
   Background,
   Column,
@@ -43,6 +48,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const enableTagManager =
+    process.env.NODE_ENV === "production" ||
+    process.env.NEXT_PUBLIC_ENABLE_GTM_DEV === "true";
+
   return (
     <Flex
       suppressHydrationWarning
@@ -126,7 +135,7 @@ export default async function RootLayout({
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:2000});`,
           }}
         />
-        {process.env.NODE_ENV === "production" && (
+        {enableTagManager && (
           <Script
             id="gtm"
             strategy="afterInteractive"
@@ -181,7 +190,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           padding="0"
           horizontal="center"
         >
-          {process.env.NODE_ENV === "production" && (
+          {enableTagManager && (
             <noscript>
               <iframe
                 src="https://nealmiran.com/metrics/ns.html?id=GTM-KT3HS3JK"

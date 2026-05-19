@@ -97,7 +97,9 @@ export default async function BlogPostPage({
             title={post.metadata.title}
             description={post.metadata.summary}
             datePublished={post.metadata.publishedAt}
-            dateModified={post.metadata.dateModified || post.metadata.publishedAt}
+            dateModified={
+              post.metadata.dateModified || post.metadata.publishedAt
+            }
             image={
               post.metadata.image ||
               `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
@@ -112,6 +114,7 @@ export default async function BlogPostPage({
             <script
               type="application/ld+json"
               suppressHydrationWarning
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD scripts require raw JSON text.
               dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
                   "@context": "https://schema.org",
@@ -153,7 +156,11 @@ export default async function BlogPostPage({
           </Column>
           <Row marginBottom="32" horizontal="center">
             <Row gap="16" vertical="center">
-              <Avatar size="s" src={person.avatar} />
+              <Avatar
+                size="s"
+                src={person.avatar}
+                aria-label={`${person.name} profile photo`}
+              />
               <Text variant="label-default-m" onBackground="brand-weak">
                 {person.name}
               </Text>

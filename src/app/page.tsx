@@ -35,7 +35,9 @@ export default function Home() {
         title={home.title}
         description={home.description}
         image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
-        sameAs={social.filter((s) => s.essential && s.link.startsWith("http")).map((s) => s.link)}
+        sameAs={social
+          .filter((s) => s.essential && s.link.startsWith("http"))
+          .map((s) => s.link)}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
@@ -95,6 +97,7 @@ export default function Home() {
                     marginRight="8"
                     style={{ marginLeft: "-0.75rem" }}
                     src={person.avatar}
+                    aria-label={`${person.name} profile photo`}
                     size="m"
                   />
                 )}

@@ -23,40 +23,43 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = memo(({
-  timeZone,
-  locale = "en-US",
-}) => {
-  const [currentTime, setCurrentTime] = useState("");
+const TimeDisplay: React.FC<TimeDisplayProps> = memo(
+  ({ timeZone, locale = "en-US" }) => {
+    const [currentTime, setCurrentTime] = useState("");
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const dateOptions: Intl.DateTimeFormatOptions = {
-        timeZone,
-        weekday: "short",
-        month: "short",
-        day: "numeric",
+    useEffect(() => {
+      const updateTime = () => {
+        const now = new Date();
+        const dateOptions: Intl.DateTimeFormatOptions = {
+          timeZone,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+        };
+        const timeOptions: Intl.DateTimeFormatOptions = {
+          timeZone,
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        };
+        const datePart = new Intl.DateTimeFormat(locale, dateOptions).format(
+          now,
+        );
+        const timePart = new Intl.DateTimeFormat(locale, timeOptions).format(
+          now,
+        );
+        setCurrentTime(`${datePart} ${timePart}`);
       };
-      const timeOptions: Intl.DateTimeFormatOptions = {
-        timeZone,
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      };
-      const datePart = new Intl.DateTimeFormat(locale, dateOptions).format(now);
-      const timePart = new Intl.DateTimeFormat(locale, timeOptions).format(now);
-      setCurrentTime(`${datePart} ${timePart}`);
-    };
 
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
+      updateTime();
+      const intervalId = setInterval(updateTime, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [timeZone, locale]);
+      return () => clearInterval(intervalId);
+    }, [timeZone, locale]);
 
-  return <>{currentTime}</>;
-});
+    return <>{currentTime}</>;
+  },
+);
 
 TimeDisplay.displayName = "TimeDisplay";
 
@@ -110,7 +113,7 @@ export const Header = () => {
         >
           {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
         </Row>
-        <Row fillWidth horizontal="center">
+        <Row as="nav" aria-label="Primary" fillWidth horizontal="center">
           <Row
             background="page"
             border="neutral-alpha-weak"
