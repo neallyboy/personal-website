@@ -182,16 +182,16 @@ const mailchimp: MailchimpConfig = {
 // default schema data
 const schema: SchemaConfig = {
   logo: "",
-  type: "Organization",
-  name: "Once UI",
+  type: "Person",
+  name: "Neal Miran",
   description: home.description,
-  email: "lorant@once-ui.com",
+  email: "contact@nealmiran.com",
 };
 
 // social links
 const sameAs: SameAsConfig = {
-  threads: "https://www.threads.com/@once_ui",
-  linkedin: "https://www.linkedin.com/company/once-ui/",
+  threads: "https://www.threads.com/@nealmiran",
+  linkedin: "https://www.linkedin.com/in/nealmiran/",
   discord: "https://discord.com/invite/5EyAQ4eNdS",
 };
 

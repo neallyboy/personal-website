@@ -9,7 +9,7 @@ import {
   Providers,
   RouteGuard,
 } from "@/components";
-import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
+import { baseURL, dataStyle, effects, fonts, home, person, social, style } from "@/resources";
 import {
   Background,
   Column,
@@ -20,14 +20,19 @@ import {
 } from "@once-ui-system/core";
 
 export async function generateMetadata() {
+  const base = Meta.generate({
+    title: home.title,
+    description: home.description,
+    baseURL: baseURL,
+    path: home.path,
+    image: home.image,
+  });
   return {
-    ...Meta.generate({
-      title: home.title,
-      description: home.description,
-      baseURL: baseURL,
-      path: home.path,
-      image: home.image,
-    }),
+    ...base,
+    openGraph: {
+      ...base.openGraph,
+      siteName: person.name,
+    },
     icons: {
       icon: [{ url: "/icon.webp", type: "image/webp" }],
     },
@@ -135,6 +140,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }}
           />
         )}
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: person.name,
+              jobTitle: "Team Lead, DevOps & SRE",
+              url: baseURL,
+              email: person.email,
+              worksFor: {
+                "@type": "Organization",
+                name: "Oxford Properties Group",
+              },
+              knowsAbout: [
+                "Kubernetes",
+                "Terraform",
+                "AWS",
+                "DevOps",
+                "SRE",
+                "Platform Engineering",
+                "Cloud Architecture",
+                "Infrastructure Automation",
+              ],
+              sameAs: social
+                .filter((s) => s.essential && s.link.startsWith("http"))
+                .map((s) => s.link),
+            }),
+          }}
+        />
       </head>
       <Providers>
         <Column

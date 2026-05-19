@@ -6,6 +6,7 @@ export default function robots() {
       {
         userAgent: "*",
         disallow: [
+          "/internal/",
           "/work/internal",
           "/work/oxford-corporate-website-reskin-internal",
         ],

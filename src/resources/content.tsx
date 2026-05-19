@@ -67,8 +67,8 @@ const home: Home = {
   path: "/",
   image: "/images/og/home.png",
   label: "Home",
-  title: `${person.name} | Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
+  title: `${person.name} | DevOps & SRE Lead | Platform Engineering`,
+  description: `Explore Neal Miran's portfolio — DevOps & SRE Lead at Oxford Properties Group. Platform engineering, infrastructure automation, and cloud architecture.`,
   headline: <>Engineering platforms that scale, ship, and last</>,
   featured: {
     display: true,

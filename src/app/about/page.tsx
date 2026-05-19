@@ -61,10 +61,47 @@ export default function About() {
         description={about.description}
         path={about.path}
         image={`/api/og/generate?title=${encodeURIComponent(about.title)}`}
+        sameAs={social.filter((s) => s.essential && s.link.startsWith("http")).map((s) => s.link)}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
           image: `${baseURL}${person.avatar}`,
+        }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is Neal Miran's role?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Neal Miran is a Team Lead, DevOps & SRE at Oxford Properties Group, specializing in platform engineering, infrastructure automation, and cloud architecture across enterprise real estate systems.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What technologies does Neal Miran specialize in?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Neal Miran specializes in Kubernetes, Terraform, AWS, DevOps, SRE, platform engineering, and cloud architecture.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Where does Neal Miran work?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Neal Miran works at Oxford Properties Group, a leading global real estate company, where he leads DevOps and SRE initiatives.",
+                },
+              },
+            ],
+          }),
         }}
       />
       {about.tableOfContent.display && (

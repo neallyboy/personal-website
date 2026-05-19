@@ -1,7 +1,7 @@
 import { Posts } from "@/components/blog/Posts";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
-import { about, baseURL, blog, home, person } from "@/resources";
+import { about, baseURL, blog, home, person, social } from "@/resources";
 import {
   Avatar,
   Badge,
@@ -35,6 +35,7 @@ export default function Home() {
         title={home.title}
         description={home.description}
         image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
+        sameAs={social.filter((s) => s.essential && s.link.startsWith("http")).map((s) => s.link)}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
