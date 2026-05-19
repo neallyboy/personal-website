@@ -14,7 +14,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://consentcdn.cookiebot.com https://fonts.googleapis.com",
       "img-src 'self' data: blob: https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://c.bing.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://fonts.gstatic.com https://maps.gstatic.com https://*.googleapis.com https://dam.oxfordproperties.com https://resource.oxfordproperties.com",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://*.clarity.ms https://dc.services.visualstudio.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://maps.googleapis.com https://maps.gstatic.com https://www.gstatic.com",
+      "connect-src 'self' data: https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://*.clarity.ms https://dc.services.visualstudio.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://maps.googleapis.com https://maps.gstatic.com https://www.gstatic.com",
       "frame-src https://nealmiran.com https://www.googletagmanager.com https://consent.cookiebot.com https://consentcdn.cookiebot.com",
       "worker-src blob:",
       "object-src 'none'",
