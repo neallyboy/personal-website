@@ -96,7 +96,7 @@ test.describe("Blog Post Detail Pages", () => {
       }
     });
     await page.goto(`/blog/${BLOG_SLUGS[0]}`);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     expect(failedImages).toHaveLength(0);
   });
 

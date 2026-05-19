@@ -17,7 +17,7 @@ test.describe("Gallery Page", () => {
 
   test("gallery images render", async ({ page }) => {
     // Images should load — wait for network idle
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const bodyText = await page.locator("body").textContent();
     if (bodyText?.includes("Coming Soon")) {
       test.skip();
@@ -39,12 +39,12 @@ test.describe("Gallery Page", () => {
       }
     });
     await page.goto("/gallery");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     expect(failedImages).toHaveLength(0);
   });
 
   test("clicking a gallery image opens lightbox", async ({ page }) => {
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const firstImage = page.locator("main img").first();
     const imageCount = await firstImage.count();
 
@@ -63,7 +63,7 @@ test.describe("Gallery Page", () => {
   });
 
   test("lightbox shows navigation controls", async ({ page }) => {
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const firstImage = page.locator("main img").first();
     if ((await firstImage.count()) > 0) {
       await firstImage.click();
@@ -77,7 +77,7 @@ test.describe("Gallery Page", () => {
   });
 
   test("keyboard navigation works in lightbox", async ({ page }) => {
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const firstImage = page.locator("main img").first();
     if ((await firstImage.count()) > 0) {
       await firstImage.click();

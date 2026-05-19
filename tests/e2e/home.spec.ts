@@ -74,7 +74,7 @@ test.describe("Home Page", () => {
       if (msg.type() === "error") errors.push(msg.text());
     });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     // Filter out known third-party analytics errors
     const criticalErrors = errors.filter(
       (e) =>

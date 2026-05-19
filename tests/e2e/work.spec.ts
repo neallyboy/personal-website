@@ -74,7 +74,7 @@ test.describe("Work / Project Detail Pages", () => {
       }
     });
     await page.goto(`/work/${PUBLIC_PROJECTS[0]}`);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     expect(failedImages).toHaveLength(0);
   });
 

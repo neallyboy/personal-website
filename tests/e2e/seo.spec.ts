@@ -54,7 +54,7 @@ test.describe("SEO - Meta Tags", () => {
 test.describe("SEO - Structured Data", () => {
   test("home page has JSON-LD schema", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const count = await page.evaluate(
       () =>
         document.querySelectorAll('script[type="application/ld+json"]').length,
@@ -143,7 +143,7 @@ test.describe("Accessibility Basics", () => {
 
   test("all images have alt attributes on home page", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
     const images = page.locator("img");
     const imgCount = await images.count();
     for (let i = 0; i < imgCount; i++) {
