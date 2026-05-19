@@ -509,7 +509,7 @@ function loadMapsScript(apiKey: string): Promise<void> {
     }
     window.initGoogleMapsDemo = resolve;
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initGoogleMapsDemo`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&callback=initGoogleMapsDemo`;
     script.async = true;
     script.onerror = reject;
     document.head.appendChild(script);
@@ -539,6 +539,7 @@ export function GoogleMapsClusterDemo() {
           mapTypeControl: false,
           streetViewControl: false,
           fullscreenControl: true,
+          mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? "DEMO_MAP_ID",
         });
 
         const infoWindow = new window.google.maps.InfoWindow();
@@ -548,10 +549,15 @@ export function GoogleMapsClusterDemo() {
         const markerMeta = new Map<any, { city: string; province: string; complex: string }>();
 
         for (const building of ALL_BUILDINGS) {
-          const marker = new window.google.maps.Marker({
+          const pin = document.createElement("div");
+          pin.style.cssText =
+            "width:12px;height:12px;background:#1a73e8;border-radius:50%;" +
+            "border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.4);cursor:pointer";
+          const marker = new window.google.maps.marker.AdvancedMarkerElement({
             position: { lat: building.lat, lng: building.lng },
             map,
             title: building.title,
+            content: pin,
           });
 
           markerMeta.set(marker, { city: building.city, province: building.province, complex: building.complex });
@@ -581,13 +587,14 @@ export function GoogleMapsClusterDemo() {
               const label = clusterLabel(clusterMarkers, markerMeta);
               const { svg, width: iconW, height: iconH } = clusterSvg(count, label);
 
-              return new window.google.maps.Marker({
+              const svgContainer = document.createElement("div");
+              svgContainer.innerHTML = svg;
+              const svgEl = svgContainer.firstElementChild as HTMLElement;
+              // shift element down so the circle center (y=25) sits at the cluster position
+              svgEl.style.marginBottom = `${25 - iconH}px`;
+              return new window.google.maps.marker.AdvancedMarkerElement({
                 position,
-                icon: {
-                  url: `data:image/svg+xml,${encodeURIComponent(svg)}`,
-                  scaledSize: new window.google.maps.Size(iconW, iconH),
-                  anchor: new window.google.maps.Point(iconW / 2, 25),
-                },
+                content: svgEl,
                 zIndex: 1000 + count,
               });
             },
