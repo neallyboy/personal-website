@@ -175,7 +175,7 @@ function clusterSvg(count: number, label: string): string {
   const hasLabel = label.length > 0;
   const totalH = hasLabel ? 68 : 50;
   // Truncate long city names to fit the pill
-  const displayLabel = label.length > 13 ? `${label.slice(0, 12)}...` : label;
+  const displayLabel = label.length > 13 ? `${label.slice(0, 12)}…` : label;
 
   const pill = hasLabel
     ? [
@@ -281,7 +281,7 @@ export function GoogleMapsClusterDemo() {
               return new window.google.maps.Marker({
                 position,
                 icon: {
-                  url: `data:image/svg+xml;base64,${window.btoa(clusterSvg(count, label))}`,
+                  url: `data:image/svg+xml,${encodeURIComponent(clusterSvg(count, label))}`,
                   scaledSize: new window.google.maps.Size(50, iconH),
                   // Keep the circle centred on the geo point; label extends below
                   anchor: new window.google.maps.Point(25, 25),
