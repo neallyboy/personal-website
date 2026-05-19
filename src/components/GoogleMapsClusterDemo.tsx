@@ -175,7 +175,7 @@ function clusterSvg(count: number, label: string): string {
   const hasLabel = label.length > 0;
   const totalH = hasLabel ? 68 : 50;
   // Truncate long city names to fit the pill
-  const displayLabel = label.length > 13 ? `${label.slice(0, 12)}…` : label;
+  const displayLabel = label.length > 13 ? `${label.slice(0, 12)}...` : label;
 
   const pill = hasLabel
     ? [
