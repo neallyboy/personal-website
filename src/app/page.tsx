@@ -97,7 +97,7 @@ export default function Home() {
                     marginRight="8"
                     style={{ marginLeft: "-0.75rem" }}
                     src={person.avatar}
-                    aria-label={`${person.name} profile photo`}
+                    aria-hidden="true"
                     size="m"
                   />
                 )}

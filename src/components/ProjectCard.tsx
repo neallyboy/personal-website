@@ -85,6 +85,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   suffixIcon="arrowRight"
                   style={{ margin: "0", width: "fit-content" }}
                   href={href}
+                  aria-label={`Read case study: ${title}`}
                 >
                   <Text variant="body-default-s">Read case study</Text>
                 </SmartLink>
@@ -94,6 +95,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   suffixIcon="arrowUpRightFromSquare"
                   style={{ margin: "0", width: "fit-content" }}
                   href={link}
+                  aria-label={`View project: ${title} (opens in new tab)`}
                 >
                   <Text variant="body-default-s">View project</Text>
                 </SmartLink>

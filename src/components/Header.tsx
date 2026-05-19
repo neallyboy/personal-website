@@ -145,6 +145,7 @@ export const Header = () => {
                       prefixIcon="person"
                       href="/about"
                       label={about.label}
+                      aria-label={about.label}
                       selected={pathname === "/about"}
                     />
                   </Row>
@@ -165,6 +166,7 @@ export const Header = () => {
                       prefixIcon="grid"
                       href="/work"
                       label={work.label}
+                      aria-label={work.label}
                       selected={pathname.startsWith("/work")}
                     />
                   </Row>
@@ -185,6 +187,7 @@ export const Header = () => {
                       prefixIcon="book"
                       href="/blog"
                       label={blog.label}
+                      aria-label={blog.label}
                       selected={pathname.startsWith("/blog")}
                     />
                   </Row>
@@ -205,6 +208,7 @@ export const Header = () => {
                       prefixIcon="gallery"
                       href="/gallery"
                       label={gallery.label}
+                      aria-label={gallery.label}
                       selected={pathname.startsWith("/gallery")}
                     />
                   </Row>
@@ -225,6 +229,7 @@ export const Header = () => {
                       prefixIcon="gameController"
                       href="/games"
                       label={games.label}
+                      aria-label={games.label}
                       selected={pathname.startsWith("/games")}
                     />
                   </Row>

@@ -37,7 +37,10 @@ export const Footer = () => {
           <Text onBackground="neutral-weak">
             {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}
             / Build your portfolio with{" "}
-            <SmartLink href="https://once-ui.com/products/magic-portfolio">
+            <SmartLink
+              href="https://once-ui.com/products/magic-portfolio"
+              aria-label="Once UI (opens in new tab)"
+            >
               Once UI
             </SmartLink>
           </Text>
@@ -49,6 +52,7 @@ export const Footer = () => {
               href={item.link}
               icon={item.icon}
               tooltip={item.name}
+              aria-label={`${item.name} (opens in new tab)`}
               size="s"
               variant="ghost"
             />
