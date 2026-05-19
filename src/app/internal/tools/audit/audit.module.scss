@@ -110,7 +110,7 @@
 // Table header
 .tableHead {
   display: grid;
-  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px;
+  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px 80px;
   gap: 0;
   padding: 10px 20px;
   background: var(--neutral-background-weak);
@@ -133,7 +133,7 @@
 // Table rows
 .row {
   display: grid;
-  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px;
+  grid-template-columns: 2fr 1.6fr 1.6fr 2fr 90px 80px;
   gap: 0;
   border-bottom: 1px solid var(--neutral-alpha-weak);
   transition: background 0.1s;
@@ -242,7 +242,7 @@
   line-height: 1.4;
 }
 
-.statusCell {
+.priorityCell {
   composes: cell;
   display: flex;
   align-items: flex-start;
@@ -253,14 +253,14 @@
   }
 }
 
-.statusStack {
+.statusCell {
+  composes: cell;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
+  align-items: flex-start;
+  justify-content: flex-end;
 
   @media (max-width: $s) {
-    align-items: flex-start;
+    justify-content: flex-start;
   }
 }
 

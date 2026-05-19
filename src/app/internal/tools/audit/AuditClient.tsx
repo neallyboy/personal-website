@@ -98,21 +98,24 @@ function AuditRow({ item }: { item: AuditCriterion }) {
         <code className={styles.example}>{item.example}</code>
       </div>
 
+      {/* Priority */}
+      <div className={styles.priorityCell}>
+        <span className={styles.mobileLabel}>Priority</span>
+        <StatusTag status={item.status} />
+      </div>
+
       {/* Status */}
       <div className={styles.statusCell}>
         <span className={styles.mobileLabel}>Status</span>
-        <div className={styles.statusStack}>
-          <StatusTag status={item.status} />
-          <span
-            className={styles.passStateBadge}
-            style={{
-              backgroundColor: PASS_STATE_COLOR[item.passState],
-              color: PASS_STATE_TEXT_COLOR[item.passState],
-            }}
-          >
-            {PASS_STATE_LABEL[item.passState]}
-          </span>
-        </div>
+        <span
+          className={styles.passStateBadge}
+          style={{
+            backgroundColor: PASS_STATE_COLOR[item.passState],
+            color: PASS_STATE_TEXT_COLOR[item.passState],
+          }}
+        >
+          {PASS_STATE_LABEL[item.passState]}
+        </span>
       </div>
     </div>
   );
@@ -146,6 +149,9 @@ function AuditSection({ category, items }: { category: Category; items: AuditCri
         <span className={styles.tableHeadCell}>Current Value</span>
         <span className={styles.tableHeadCell}>Should Have</span>
         <span className={styles.tableHeadCell}>How to Fix</span>
+        <span className={styles.tableHeadCell} style={{ textAlign: "right" }}>
+          Priority
+        </span>
         <span className={styles.tableHeadCell} style={{ textAlign: "right" }}>
           Status
         </span>
