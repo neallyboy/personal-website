@@ -56,7 +56,16 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
               className={styles.hover}
               gap="8"
               vertical="center"
+              role="button"
+              tabIndex={0}
+              aria-label={`Jump to ${section.title}`}
               onClick={() => scrollTo(section.title, 80)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  scrollTo(section.title, 80);
+                }
+              }}
             >
               <Flex height="1" minWidth="16" background="neutral-strong" />
               <Text>{section.title}</Text>
@@ -71,7 +80,16 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
                   gap="12"
                   paddingLeft="24"
                   vertical="center"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Jump to ${item}`}
                   onClick={() => scrollTo(item, 80)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      scrollTo(item, 80);
+                    }
+                  }}
                 >
                   <Flex height="1" minWidth="8" background="neutral-strong" />
                   <Text>{item}</Text>

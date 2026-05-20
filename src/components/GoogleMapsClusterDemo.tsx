@@ -551,7 +551,9 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
         for (const building of ALL_BUILDINGS) {
           const pinEl = document.createElement("div");
           pinEl.style.cssText = "cursor:pointer;transition:transform 0.15s ease;";
-          pinEl.innerHTML = `<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">
+          pinEl.setAttribute("role", "img");
+          pinEl.setAttribute("aria-label", building.title);
+          pinEl.innerHTML = `<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <filter id="bpin-shadow" x="-30%" y="-20%" width="160%" height="150%">
     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#00000055"/>
   </filter>
@@ -581,7 +583,7 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
           marker.addListener("gmp-click", () => {
             infoWindow.setContent(
               `<div style="width:220px;font-family:sans-serif;padding:2px 0">` +
-                `<img src="${building.imageUrl}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
+                `<img src="${building.imageUrl}" alt="${building.title}" width="220" height="120" style="object-fit:cover;display:block;border-radius:4px;margin-bottom:8px" />` +
                 `<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;color:#000;font-weight:bold">${building.title}</strong>` +
                 `<span style="font-size:11px;color:#666;display:block;margin-bottom:6px">${building.address}</span>` +
                 `<a href="${building.propertyUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#1a73e8;display:block">View property &rarr;</a>` +
@@ -698,7 +700,12 @@ export function GoogleMapsClusterDemo({ mapHeight = 460 }: { mapHeight?: number 
             Loading map…
           </div>
         )}
-        <div ref={mapDivRef} style={{ width: "100%", height: `${mapHeight}px` }} />
+        <div
+            ref={mapDivRef}
+            role="application"
+            aria-label="Interactive map of Oxford Properties buildings across Canada"
+            style={{ width: "100%", height: `${mapHeight}px` }}
+          />
       </div>
       <figcaption
         style={{

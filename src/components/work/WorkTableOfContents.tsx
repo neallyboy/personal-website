@@ -39,7 +39,16 @@ const WorkTableOfContents: React.FC<WorkTableOfContentsProps> = ({ projects }) =
           className={styles.hover}
           gap="8"
           vertical="center"
+          role="button"
+          tabIndex={0}
+          aria-label={`Jump to ${project.navTitle ?? project.title}`}
           onClick={() => scrollTo(project.slug, 80)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              scrollTo(project.slug, 80);
+            }
+          }}
         >
           <Flex height="1" minWidth="16" background="neutral-strong" />
           <Text>{project.navTitle ?? project.title}</Text>

@@ -160,7 +160,7 @@ export default function About() {
               aria-label={`${person.name} profile photo`}
             />
             <Row gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
+              <Icon onBackground="accent-weak" name="globe" aria-hidden="true" />
               {person.location}
             </Row>
             {person.languages && person.languages.length > 0 && (
@@ -201,10 +201,12 @@ export default function About() {
                   paddingLeft="12"
                   name="calendar"
                   onBackground="brand-weak"
+                  aria-hidden="true"
                 />
                 <Row paddingX="8">Schedule a call</Row>
                 <IconButton
                   href={about.calendar.link}
+                  aria-label="Schedule a call"
                   data-border="rounded"
                   variant="secondary"
                   icon="chevronRight"
@@ -255,6 +257,7 @@ export default function About() {
                               key={`${item.name}-icon`}
                               href={item.link}
                               icon={item.icon}
+                              aria-label={item.name}
                               variant="secondary"
                             />
                           </Row>
