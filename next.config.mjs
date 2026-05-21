@@ -16,7 +16,7 @@ const securityHeaders = [
       "font-src 'self' data: https://fonts.gstatic.com https://*.userway.org",
       "connect-src 'self' data: https://nealmiran.com https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://*.clarity.ms https://dc.services.visualstudio.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://maps.googleapis.com https://maps.gstatic.com https://www.gstatic.com https://*.userway.org",
       "frame-src https://nealmiran.com https://www.googletagmanager.com https://consent.cookiebot.com https://consentcdn.cookiebot.com https://*.userway.org",
-      "worker-src blob:",
+      "worker-src blob: 'self'",
       "object-src 'none'",
       "base-uri 'self'",
     ].join("; "),
