@@ -40,5 +40,5 @@ export default auth((request: NextRequest & { auth: unknown }) => {
 });
 
 export const config = {
-  matcher: ["/work/:path*", "/internal/:path*"],
+  matcher: ["/work/:path*", "/internal/:path*", "/blog/:path*"],
 };
